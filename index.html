@@ -1,0 +1,87 @@
+﻿<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Cache-Control" content="no-store" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta name="description" content="Portfolio tecnico de Laboratorio Megazzonia: simuladores, dashboards, demos 3D y aplicaciones Android con evidencia navegable." />
+    <meta property="og:title" content="Laboratorio Megazzonia | Portfolio tecnico" />
+    <meta property="og:description" content="Casos tecnicos, demos interactivas y proyectos insignia organizados en un portfolio navegable." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="portfolio/assets/screenshots/cases/home-con-destacados.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Laboratorio Megazzonia | Portfolio tecnico" />
+    <meta name="twitter:description" content="Simuladores, dashboards, demos 3D y aplicaciones Android con evidencia visual." />
+    <meta name="twitter:image" content="portfolio/assets/screenshots/cases/home-con-destacados.png" />
+    <title>Laboratorio Megazzonia | Portfolio tecnico</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Tahoma, "Segoe UI", sans-serif;
+        background: #f2f5f2;
+        color: #172024;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        display: grid;
+        place-items: center;
+      }
+
+      main {
+        width: min(560px, calc(100vw - 32px));
+        padding: 24px;
+        border: 1px solid rgba(24, 31, 35, 0.2);
+        background: #ffffff;
+      }
+
+      h1 {
+        margin: 0 0 8px;
+      }
+
+      p {
+        margin: 0 0 16px;
+        color: #52616b;
+      }
+
+      a {
+        color: #244f72;
+        font-weight: 700;
+      }
+
+      code {
+        display: inline-block;
+        padding: 3px 6px;
+        background: #eef2ef;
+        border: 1px solid rgba(24, 31, 35, 0.14);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Laboratorio Megazzonia</h1>
+      <p id="statusText">Preparando apertura del portafolio.</p>
+      <p id="fileHelp" hidden>
+        Este proyecto necesita abrirse por <code>http://</code>, no por <code>file://</code>.
+        Ejecuta <code>abrir-laboratorio.bat</code> o <code>cmd /c npm.cmd run dev</code> desde esta carpeta.
+      </p>
+      <a id="portfolioLink" href="./LABORATORIO%20MEGAZZONIA%20estructura%20blog/android/app/src/main/assets/index.html?portfolio=20260513a#home">Abrir portafolio</a>
+    </main>
+    <script>
+      const target = "./LABORATORIO%20MEGAZZONIA%20estructura%20blog/android/app/src/main/assets/index.html?portfolio=20260513a#home";
+      if (window.location.protocol === "file:") {
+        document.getElementById("statusText").textContent = "No abras este archivo directo: el navegador bloquea los modulos JavaScript por CORS.";
+        document.getElementById("fileHelp").hidden = false;
+        document.getElementById("portfolioLink").href = "http://127.0.0.1:8090/";
+      } else {
+        window.location.replace(target);
+      }
+    </script>
+  </body>
+</html>
+
+
+
+

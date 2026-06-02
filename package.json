@@ -1,0 +1,15 @@
+{
+  "name": "laboratorio-megazzonia",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "python -m http.server 8090 --bind 127.0.0.1",
+    "open": "start http://127.0.0.1:8090/?v=megazzonia-20260507a",
+    "dev:8080": "python -m http.server 8080 --bind 127.0.0.1",
+    "export:portfolio": "node scripts/export-blog-portfolio.mjs",
+    "export:hosting": "node scripts/export-blog-portfolio.mjs --profile=hosting",
+    "qa:portfolio": "node scripts/qa-blog-portfolio.mjs",
+    "dev:export": "cd blog-portafolio-export && python -m http.server 8091 --bind 127.0.0.1",
+    "dev:hosting": "cd blog-portafolio-hosting && python -m http.server 8092 --bind 127.0.0.1"
+  }
+}
