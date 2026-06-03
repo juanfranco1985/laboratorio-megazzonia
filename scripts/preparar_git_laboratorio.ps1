@@ -25,6 +25,7 @@ $Projects = @(
     [pscustomobject]@{ Path = 'Juegos Procedurales'; Repo = 'megazzonia-juegos-procedurales' },
     [pscustomobject]@{ Path = 'LABORATORIO MEGAZZONIA estructura blog'; Repo = 'megazzonia-estructura-blog' },
     [pscustomobject]@{ Path = 'Laboratorio virtual de mecanica de fluidos'; Repo = 'megazzonia-laboratorio-virtual-mecanica-fluidos' },
+    [pscustomobject]@{ Path = 'megazzonia-social-ops'; Repo = 'megazzonia-social-ops' },
     [pscustomobject]@{ Path = 'Motorcraft CODEX 2'; Repo = 'megazzonia-motorcraft-codex-2' },
     [pscustomobject]@{ Path = 'portfolio'; Repo = 'megazzonia-portfolio' },
     [pscustomobject]@{ Path = "Proyecto Cuaderno digital inteligente para m$([char]0x00FA)sicos"; Repo = 'megazzonia-cuaderno-digital-inteligente-musicos' },
@@ -246,9 +247,9 @@ $repoDoc.Add('')
 $repoDoc.Add('| Carpeta local | Repo GitHub previsto |')
 $repoDoc.Add('| --- | --- |')
 foreach ($project in $Projects) {
-    $repoDoc.Add("| `$($project.Path)` | `https://github.com/$Owner/$($project.Repo)` |")
+    $repoDoc.Add("| $($project.Path) | https://github.com/$Owner/$($project.Repo) |")
 }
-$repoDoc.Add("| `.` | `https://github.com/$Owner/$RootRepo` |")
+$repoDoc.Add("| . | https://github.com/$Owner/$RootRepo |")
 $repoDoc.Add('')
 $repoDoc.Add('Cuando `gh` este instalado y autenticado:')
 $repoDoc.Add('')

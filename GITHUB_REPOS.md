@@ -6,34 +6,35 @@ Los repos remotos previstos son privados por defecto cuando se creen con GitHub 
 
 | Carpeta local | Repo GitHub previsto |
 | --- | --- |
-| $(@{Path=10 - SOLAR YEAR HISTORICAL DATABASE & ANALYSIS TOOL; Repo=megazzonia-solar-year-historical-database-analysis-tool}.Path) | https://github.com/juanfranco1985/megazzonia-solar-year-historical-database-analysis-tool |
-| $(@{Path=5 - Solar Agriculture Planning System; Repo=megazzonia-solar-agriculture-planning-system}.Path) | https://github.com/juanfranco1985/megazzonia-solar-agriculture-planning-system |
-| $(@{Path=7 - Astronomical Solar Calendar Engine (Dynamic + Predictive); Repo=megazzonia-astronomical-solar-calendar-engine}.Path) | https://github.com/juanfranco1985/megazzonia-astronomical-solar-calendar-engine |
-| $(@{Path=9 - Solar Climate Dashboard; Repo=megazzonia-solar-climate-dashboard}.Path) | https://github.com/juanfranco1985/megazzonia-solar-climate-dashboard |
-| $(@{Path=ai-product-research; Repo=megazzonia-ai-product-research}.Path) | https://github.com/juanfranco1985/megazzonia-ai-product-research |
-| $(@{Path=Amazon Deals; Repo=megazzonia-amazon-deals}.Path) | https://github.com/juanfranco1985/megazzonia-amazon-deals |
-| $(@{Path=blog-portafolio-export; Repo=megazzonia-blog-portafolio-export}.Path) | https://github.com/juanfranco1985/megazzonia-blog-portafolio-export |
-| $(@{Path=blog-portafolio-hosting; Repo=megazzonia-blog-portafolio-hosting}.Path) | https://github.com/juanfranco1985/megazzonia-blog-portafolio-hosting |
-| $(@{Path=Champions Pong - copia - copia; Repo=megazzonia-champions-pong-copia-copia}.Path) | https://github.com/juanfranco1985/megazzonia-champions-pong-copia-copia |
-| $(@{Path=Cronicas del ultimo piloto; Repo=megazzonia-cronicas-del-ultimo-piloto}.Path) | https://github.com/juanfranco1985/megazzonia-cronicas-del-ultimo-piloto |
-| $(@{Path=Drone Factory; Repo=megazzonia-drone-factory}.Path) | https://github.com/juanfranco1985/megazzonia-drone-factory |
-| $(@{Path=Endless Runner; Repo=megazzonia-endless-runner}.Path) | https://github.com/juanfranco1985/megazzonia-endless-runner |
-| $(@{Path=FlightSimulatorClaude2; Repo=megazzonia-flight-simulator-claude2}.Path) | https://github.com/juanfranco1985/megazzonia-flight-simulator-claude2 |
-| $(@{Path=Gato & Humano Ascenso al Rascacielos Celestial; Repo=megazzonia-gato-humano-ascenso-rascacielos-celestial}.Path) | https://github.com/juanfranco1985/megazzonia-gato-humano-ascenso-rascacielos-celestial |
-| $(@{Path=Juego Juan; Repo=megazzonia-juego-juan}.Path) | https://github.com/juanfranco1985/megazzonia-juego-juan |
-| $(@{Path=Juegos Procedurales; Repo=megazzonia-juegos-procedurales}.Path) | https://github.com/juanfranco1985/megazzonia-juegos-procedurales |
-| $(@{Path=LABORATORIO MEGAZZONIA estructura blog; Repo=megazzonia-estructura-blog}.Path) | https://github.com/juanfranco1985/megazzonia-estructura-blog |
-| $(@{Path=Laboratorio virtual de mecanica de fluidos; Repo=megazzonia-laboratorio-virtual-mecanica-fluidos}.Path) | https://github.com/juanfranco1985/megazzonia-laboratorio-virtual-mecanica-fluidos |
-| $(@{Path=Motorcraft CODEX 2; Repo=megazzonia-motorcraft-codex-2}.Path) | https://github.com/juanfranco1985/megazzonia-motorcraft-codex-2 |
-| $(@{Path=portfolio; Repo=megazzonia-portfolio}.Path) | https://github.com/juanfranco1985/megazzonia-portfolio |
-| $(@{Path=Proyecto Cuaderno digital inteligente para músicos; Repo=megazzonia-cuaderno-digital-inteligente-musicos}.Path) | https://github.com/juanfranco1985/megazzonia-cuaderno-digital-inteligente-musicos |
-| $(@{Path=Proyecto NPT- sistema solar; Repo=megazzonia-npt-sistema-solar}.Path) | https://github.com/juanfranco1985/megazzonia-npt-sistema-solar |
-| $(@{Path=Real Turn Pong; Repo=megazzonia-real-turn-pong}.Path) | https://github.com/juanfranco1985/megazzonia-real-turn-pong |
-| $(@{Path=RoiAnalyticsAndroid_v3; Repo=megazzonia-roi-analytics-android-v3}.Path) | https://github.com/juanfranco1985/megazzonia-roi-analytics-android-v3 |
-| $(@{Path=Simulador de consumo electrico; Repo=megazzonia-simulador-consumo-electrico}.Path) | https://github.com/juanfranco1985/megazzonia-simulador-consumo-electrico |
-| $(@{Path=Simulador de transferencia de calor en disipadores; Repo=megazzonia-simulador-transferencia-calor-disipadores}.Path) | https://github.com/juanfranco1985/megazzonia-simulador-transferencia-calor-disipadores |
-| $(@{Path=Software de Analisis estructural - copia; Repo=megazzonia-software-analisis-estructural}.Path) | https://github.com/juanfranco1985/megazzonia-software-analisis-estructural |
-| $(@{Path=Tanque CHATGPT; Repo=megazzonia-tanque-chatgpt}.Path) | https://github.com/juanfranco1985/megazzonia-tanque-chatgpt |
+| 10 - SOLAR YEAR HISTORICAL DATABASE & ANALYSIS TOOL | https://github.com/juanfranco1985/megazzonia-solar-year-historical-database-analysis-tool |
+| 5 - Solar Agriculture Planning System | https://github.com/juanfranco1985/megazzonia-solar-agriculture-planning-system |
+| 7 - Astronomical Solar Calendar Engine (Dynamic + Predictive) | https://github.com/juanfranco1985/megazzonia-astronomical-solar-calendar-engine |
+| 9 - Solar Climate Dashboard | https://github.com/juanfranco1985/megazzonia-solar-climate-dashboard |
+| ai-product-research | https://github.com/juanfranco1985/megazzonia-ai-product-research |
+| Amazon Deals | https://github.com/juanfranco1985/megazzonia-amazon-deals |
+| blog-portafolio-export | https://github.com/juanfranco1985/megazzonia-blog-portafolio-export |
+| blog-portafolio-hosting | https://github.com/juanfranco1985/megazzonia-blog-portafolio-hosting |
+| Champions Pong - copia - copia | https://github.com/juanfranco1985/megazzonia-champions-pong-copia-copia |
+| Cronicas del ultimo piloto | https://github.com/juanfranco1985/megazzonia-cronicas-del-ultimo-piloto |
+| Drone Factory | https://github.com/juanfranco1985/megazzonia-drone-factory |
+| Endless Runner | https://github.com/juanfranco1985/megazzonia-endless-runner |
+| FlightSimulatorClaude2 | https://github.com/juanfranco1985/megazzonia-flight-simulator-claude2 |
+| Gato & Humano Ascenso al Rascacielos Celestial | https://github.com/juanfranco1985/megazzonia-gato-humano-ascenso-rascacielos-celestial |
+| Juego Juan | https://github.com/juanfranco1985/megazzonia-juego-juan |
+| Juegos Procedurales | https://github.com/juanfranco1985/megazzonia-juegos-procedurales |
+| LABORATORIO MEGAZZONIA estructura blog | https://github.com/juanfranco1985/megazzonia-estructura-blog |
+| Laboratorio virtual de mecanica de fluidos | https://github.com/juanfranco1985/megazzonia-laboratorio-virtual-mecanica-fluidos |
+| megazzonia-social-ops | https://github.com/juanfranco1985/megazzonia-social-ops |
+| Motorcraft CODEX 2 | https://github.com/juanfranco1985/megazzonia-motorcraft-codex-2 |
+| portfolio | https://github.com/juanfranco1985/megazzonia-portfolio |
+| Proyecto Cuaderno digital inteligente para músicos | https://github.com/juanfranco1985/megazzonia-cuaderno-digital-inteligente-musicos |
+| Proyecto NPT- sistema solar | https://github.com/juanfranco1985/megazzonia-npt-sistema-solar |
+| Real Turn Pong | https://github.com/juanfranco1985/megazzonia-real-turn-pong |
+| RoiAnalyticsAndroid_v3 | https://github.com/juanfranco1985/megazzonia-roi-analytics-android-v3 |
+| Simulador de consumo electrico | https://github.com/juanfranco1985/megazzonia-simulador-consumo-electrico |
+| Simulador de transferencia de calor en disipadores | https://github.com/juanfranco1985/megazzonia-simulador-transferencia-calor-disipadores |
+| Software de Analisis estructural - copia | https://github.com/juanfranco1985/megazzonia-software-analisis-estructural |
+| Tanque CHATGPT | https://github.com/juanfranco1985/megazzonia-tanque-chatgpt |
 | . | https://github.com/juanfranco1985/laboratorio-megazzonia |
 
 Cuando `gh` este instalado y autenticado:
@@ -75,6 +76,8 @@ gh repo create juanfranco1985/megazzonia-estructura-blog --private
 git -C "LABORATORIO MEGAZZONIA estructura blog" push -u origin main
 gh repo create juanfranco1985/megazzonia-laboratorio-virtual-mecanica-fluidos --private
 git -C "Laboratorio virtual de mecanica de fluidos" push -u origin main
+gh repo create juanfranco1985/megazzonia-social-ops --private
+git -C "megazzonia-social-ops" push -u origin main
 gh repo create juanfranco1985/megazzonia-motorcraft-codex-2 --private
 git -C "Motorcraft CODEX 2" push -u origin main
 gh repo create juanfranco1985/megazzonia-portfolio --private

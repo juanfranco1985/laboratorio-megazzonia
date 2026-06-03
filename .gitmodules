@@ -71,6 +71,10 @@
 	path = Laboratorio virtual de mecanica de fluidos
 	url = https://github.com/juanfranco1985/megazzonia-laboratorio-virtual-mecanica-fluidos.git
 
+[submodule "megazzonia-social-ops"]
+	path = megazzonia-social-ops
+	url = https://github.com/juanfranco1985/megazzonia-social-ops.git
+
 [submodule "Motorcraft CODEX 2"]
 	path = Motorcraft CODEX 2
 	url = https://github.com/juanfranco1985/megazzonia-motorcraft-codex-2.git
