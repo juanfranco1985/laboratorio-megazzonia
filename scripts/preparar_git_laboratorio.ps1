@@ -34,6 +34,7 @@ $Projects = @(
     [pscustomobject]@{ Path = 'RoiAnalyticsAndroid_v3'; Repo = 'megazzonia-roi-analytics-android-v3' },
     [pscustomobject]@{ Path = 'Simulador de consumo electrico'; Repo = 'megazzonia-simulador-consumo-electrico' },
     [pscustomobject]@{ Path = 'Simulador de transferencia de calor en disipadores'; Repo = 'megazzonia-simulador-transferencia-calor-disipadores' },
+    [pscustomobject]@{ Path = 'Sistema de juegos procedurales 2'; Repo = 'megazzonia-sistema-juegos-procedurales-2' },
     [pscustomobject]@{ Path = 'Software de Analisis estructural - copia'; Repo = 'megazzonia-software-analisis-estructural' },
     [pscustomobject]@{ Path = 'Tanque CHATGPT'; Repo = 'megazzonia-tanque-chatgpt' }
 )

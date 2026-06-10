@@ -33,6 +33,7 @@ Los repos remotos previstos son privados por defecto cuando se creen con GitHub 
 | RoiAnalyticsAndroid_v3 | https://github.com/juanfranco1985/megazzonia-roi-analytics-android-v3 |
 | Simulador de consumo electrico | https://github.com/juanfranco1985/megazzonia-simulador-consumo-electrico |
 | Simulador de transferencia de calor en disipadores | https://github.com/juanfranco1985/megazzonia-simulador-transferencia-calor-disipadores |
+| Sistema de juegos procedurales 2 | https://github.com/juanfranco1985/megazzonia-sistema-juegos-procedurales-2 |
 | Software de Analisis estructural - copia | https://github.com/juanfranco1985/megazzonia-software-analisis-estructural |
 | Tanque CHATGPT | https://github.com/juanfranco1985/megazzonia-tanque-chatgpt |
 | . | https://github.com/juanfranco1985/laboratorio-megazzonia |
@@ -94,6 +95,8 @@ gh repo create juanfranco1985/megazzonia-simulador-consumo-electrico --private
 git -C "Simulador de consumo electrico" push -u origin main
 gh repo create juanfranco1985/megazzonia-simulador-transferencia-calor-disipadores --private
 git -C "Simulador de transferencia de calor en disipadores" push -u origin main
+gh repo create juanfranco1985/megazzonia-sistema-juegos-procedurales-2 --private
+git -C "Sistema de juegos procedurales 2" push -u origin main
 gh repo create juanfranco1985/megazzonia-software-analisis-estructural --private
 git -C "Software de Analisis estructural - copia" push -u origin main
 gh repo create juanfranco1985/megazzonia-tanque-chatgpt --private

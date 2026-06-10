@@ -63,6 +63,10 @@
 	path = Juegos Procedurales
 	url = https://github.com/juanfranco1985/megazzonia-juegos-procedurales.git
 
+[submodule "Sistema de juegos procedurales 2"]
+	path = Sistema de juegos procedurales 2
+	url = https://github.com/juanfranco1985/megazzonia-sistema-juegos-procedurales-2.git
+
 [submodule "LABORATORIO MEGAZZONIA estructura blog"]
 	path = LABORATORIO MEGAZZONIA estructura blog
 	url = https://github.com/juanfranco1985/megazzonia-estructura-blog.git

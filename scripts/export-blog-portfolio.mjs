@@ -228,6 +228,9 @@ async function main() {
   await copyEntry("Juegos Procedurales/Sudoku", "Juegos Procedurales/Sudoku", {
     skipNames: ["android"]
   });
+  await copyEntry("Sistema de juegos procedurales 2", "Sistema de juegos procedurales 2", {
+    skipNames: ["android", "tests"]
+  });
   await copyEntry("Simulador de consumo electrico");
 
   if (isHostingProfile) {
