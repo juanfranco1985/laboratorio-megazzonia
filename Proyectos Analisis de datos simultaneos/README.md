@@ -9,9 +9,10 @@ Abre `web/index.html` directamente en el navegador. La app no requiere instalaci
 Incluye:
 
 - Inicio ejecutivo con KPIs, distribucion por dominio y stack mas repetido.
-- Catalogo con busqueda y filtro por dominio.
+- Catalogo con busqueda, filtro por dominio y filtro por estado.
 - Favoritos persistentes en el navegador o dispositivo.
 - Modo oscuro persistente.
+- Enlaces profundos para compartir una vista concreta de un proyecto.
 - Comparador de hasta cuatro proyectos por alcance, stack, metricas, datasets y riesgos.
 - Roadmap profesional por proyecto con caso de uso real, arquitectura, equipo minimo y checklist.
 - Editor local para crear, duplicar y guardar proyectos personalizados.
@@ -42,3 +43,17 @@ Para compilar, abre `android/` con Android Studio o ejecuta Gradle si tienes And
 ## Contenido
 
 Los datos fuente profesionales estan en `shared/projects.js`. La app web y Android consumen esa misma estructura.
+
+## URL publica
+
+La version web publicada en GitHub Pages esta disponible en:
+
+```text
+https://juanfranco1985.github.io/laboratorio-megazzonia/proyectos-analisis-datos/
+```
+
+Ejemplo de enlace profundo:
+
+```text
+https://juanfranco1985.github.io/laboratorio-megazzonia/proyectos-analisis-datos/web/?project=fraude-rnn&tab=blueprint
+```

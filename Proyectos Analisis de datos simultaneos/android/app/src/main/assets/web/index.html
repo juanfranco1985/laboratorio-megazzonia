@@ -26,6 +26,7 @@
           <button class="ghost-button" id="importJson" type="button">Importar</button>
           <button class="ghost-button" id="themeToggle" type="button">Modo oscuro</button>
           <button class="ghost-button" id="printView" type="button">Imprimir</button>
+          <button class="ghost-button" id="copyLink" type="button">Copiar enlace</button>
           <button class="ghost-button" id="exportAll" type="button">Exportar todo</button>
           <button class="ghost-button" id="exportCurrent" type="button">Exportar ficha</button>
           <button class="primary-button" id="copyPrompt" type="button">Copiar prompt</button>
@@ -43,6 +44,12 @@
             <label class="select-box">
               <span>Dominio</span>
               <select id="domainFilter">
+                <option value="all">Todos</option>
+              </select>
+            </label>
+            <label class="select-box">
+              <span>Estado</span>
+              <select id="statusFilter">
                 <option value="all">Todos</option>
               </select>
             </label>

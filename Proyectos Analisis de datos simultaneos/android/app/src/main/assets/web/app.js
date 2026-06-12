@@ -12,6 +12,7 @@ const state = {
   tab: "home",
   query: "",
   domain: "all",
+  status: "all",
   favoritesOnly: false,
   favorites: new Set(),
   compareIds: new Set(),
@@ -37,12 +38,14 @@ const projectList = document.querySelector("#projectList");
 const projectDetail = document.querySelector("#projectDetail");
 const searchInput = document.querySelector("#searchInput");
 const domainFilter = document.querySelector("#domainFilter");
+const statusFilter = document.querySelector("#statusFilter");
 const favoritesOnly = document.querySelector("#favoritesOnly");
 const copyPromptButton = document.querySelector("#copyPrompt");
 const exportButton = document.querySelector("#exportCurrent");
 const exportAllButton = document.querySelector("#exportAll");
 const themeToggleButton = document.querySelector("#themeToggle");
 const printButton = document.querySelector("#printView");
+const copyLinkButton = document.querySelector("#copyLink");
 const newProjectButton = document.querySelector("#newProject");
 const duplicateProjectButton = document.querySelector("#duplicateProject");
 const exportJsonButton = document.querySelector("#exportJson");
@@ -213,6 +216,10 @@ function statusLabel(status) {
   return STATUS_OPTIONS.find((option) => option.value === status)?.label || "Idea";
 }
 
+function isValidTab(tab) {
+  return ["home", "blueprint", "roadmap", "editor", "compare", "prompt", "mobile"].includes(tab);
+}
+
 function cloneProjectForCustom(project, suffix = "copia") {
   const copy = JSON.parse(JSON.stringify(project));
   const number = nextProjectNumber();
@@ -309,6 +316,8 @@ function filteredProjects() {
   return projects.filter((project) => {
     const matchesDomain = state.domain === "all" || project.domain === state.domain;
     if (!matchesDomain) return false;
+    const matchesStatus = state.status === "all" || project.status === state.status;
+    if (!matchesStatus) return false;
     if (state.favoritesOnly && !state.favorites.has(project.id)) return false;
     if (!query) return true;
 
@@ -333,6 +342,77 @@ function filteredProjects() {
 
 function buildFolderTree(project) {
   return project.folderTree.map((path) => `project/${path}`).join("\n");
+}
+
+function currentUrl() {
+  const url = new URL(window.location.href);
+  url.search = "";
+
+  if (state.tab !== "home" && activeProject()) {
+    url.searchParams.set("project", activeProject().id);
+  }
+
+  if (state.tab !== "home") {
+    url.searchParams.set("tab", state.tab);
+  }
+
+  if (state.query.trim()) {
+    url.searchParams.set("q", state.query.trim());
+  }
+
+  if (state.domain !== "all") {
+    url.searchParams.set("domain", state.domain);
+  }
+
+  if (state.status !== "all") {
+    url.searchParams.set("status", state.status);
+  }
+
+  if (state.favoritesOnly) {
+    url.searchParams.set("favorites", "1");
+  }
+
+  return url.toString();
+}
+
+function syncUrl() {
+  if (!window.history || location.protocol === "file:") return;
+  window.history.replaceState(null, "", currentUrl());
+}
+
+function applyUrlState() {
+  const params = new URLSearchParams(window.location.search);
+  const projectId = params.get("project");
+  const tab = params.get("tab");
+  const query = params.get("q");
+  const domain = params.get("domain");
+  const status = params.get("status");
+
+  if (query) {
+    state.query = query;
+    searchInput.value = query;
+  }
+
+  if (domain && unique(projects.map((project) => project.domain)).includes(domain)) {
+    state.domain = domain;
+  }
+
+  if (status && STATUS_OPTIONS.some((option) => option.value === status)) {
+    state.status = status;
+  }
+
+  if (params.get("favorites") === "1") {
+    state.favoritesOnly = true;
+    favoritesOnly.checked = true;
+  }
+
+  if (projectId && projects.some((project) => project.id === projectId)) {
+    state.activeId = projectId;
+  }
+
+  if (tab && isValidTab(tab)) {
+    state.tab = tab;
+  }
 }
 
 function profileFor(project) {
@@ -478,6 +558,15 @@ function renderDomainFilter() {
     domains.map((domain) => `<option value="${escapeHtml(domain)}">${escapeHtml(domain)}</option>`).join("");
   domainFilter.value = domains.includes(current) ? current : "all";
   state.domain = domainFilter.value;
+}
+
+function renderStatusFilter() {
+  const current = state.status;
+  statusFilter.innerHTML =
+    '<option value="all">Todos</option>' +
+    STATUS_OPTIONS.map((option) => `<option value="${escapeHtml(option.value)}">${escapeHtml(option.label)}</option>`).join("");
+  statusFilter.value = STATUS_OPTIONS.some((option) => option.value === current) ? current : "all";
+  state.status = statusFilter.value;
 }
 
 function renderStats() {
@@ -1341,6 +1430,7 @@ function render() {
   renderCards();
   renderTabs();
   renderDetail();
+  syncUrl();
 }
 
 async function copyText(text) {
@@ -1434,6 +1524,7 @@ function upsertCustomProject(project) {
   saveCustomProjects();
   refreshProjects();
   renderDomainFilter();
+  renderStatusFilter();
   state.activeId = normalized.id;
   localStorage.setItem(STORAGE_KEYS.activeProject, state.activeId);
 }
@@ -1473,6 +1564,7 @@ function deleteCustomProject(projectId) {
   saveCompareIds();
   refreshProjects();
   renderDomainFilter();
+  renderStatusFilter();
   state.activeId = projects[0]?.id;
   localStorage.setItem(STORAGE_KEYS.activeProject, state.activeId);
   render();
@@ -1505,6 +1597,7 @@ function importProjectsFromPayload(payload) {
   saveCustomProjects();
   refreshProjects();
   renderDomainFilter();
+  renderStatusFilter();
   state.activeId = imported[0].id;
   state.tab = "editor";
   localStorage.setItem(STORAGE_KEYS.activeProject, state.activeId);
@@ -1530,16 +1623,25 @@ projectList.addEventListener("click", (event) => {
 
 searchInput.addEventListener("input", (event) => {
   state.query = event.target.value;
+  syncUrl();
   renderCards();
 });
 
 domainFilter.addEventListener("change", (event) => {
   state.domain = event.target.value;
+  syncUrl();
+  renderCards();
+});
+
+statusFilter.addEventListener("change", (event) => {
+  state.status = event.target.value;
+  syncUrl();
   renderCards();
 });
 
 favoritesOnly.addEventListener("change", (event) => {
   state.favoritesOnly = event.target.checked;
+  syncUrl();
   renderCards();
 });
 
@@ -1635,6 +1737,12 @@ themeToggleButton.addEventListener("click", () => {
   setTheme(state.theme === "dark" ? "light" : "dark");
 });
 
+copyLinkButton.addEventListener("click", async () => {
+  syncUrl();
+  await copyText(currentUrl());
+  showToast("Enlace copiado.");
+});
+
 printButton.addEventListener("click", () => {
   window.print();
 });
@@ -1721,9 +1829,13 @@ function boot() {
   setTheme(savedTheme || (prefersDark ? "dark" : "light"));
 
   renderDomainFilter();
+  renderStatusFilter();
   renderStats();
   const savedId = localStorage.getItem(STORAGE_KEYS.activeProject);
   state.activeId = projects.some((project) => project.id === savedId) ? savedId : projects[0]?.id;
+  applyUrlState();
+  renderDomainFilter();
+  renderStatusFilter();
   render();
 
   if ("serviceWorker" in navigator && location.protocol !== "file:") {
