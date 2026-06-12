@@ -1,0 +1,17 @@
+{
+  "name": "Laboratorio de Proyectos Analiticos",
+  "short_name": "Proyectos AI",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f7f8fb",
+  "theme_color": "#121826",
+  "description": "Catalogo profesional de proyectos avanzados de analisis de datos, prompts tecnicos y fichas para web y Android.",
+  "icons": [
+    {
+      "src": "assets/analytics-map.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

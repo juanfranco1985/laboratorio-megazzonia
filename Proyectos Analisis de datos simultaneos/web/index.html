@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#121826">
+    <title>Laboratorio de Proyectos Analiticos</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="assets/analytics-map.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand-lockup">
+          <img src="assets/analytics-map.svg" alt="" width="44" height="44">
+          <div>
+            <p class="eyebrow">Portfolio profesional</p>
+            <h1>Laboratorio de Proyectos Analiticos</h1>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <button class="ghost-button" id="newProject" type="button">Nuevo</button>
+          <button class="ghost-button" id="duplicateProject" type="button">Duplicar</button>
+          <button class="ghost-button" id="exportJson" type="button">JSON</button>
+          <button class="ghost-button" id="importJson" type="button">Importar</button>
+          <button class="ghost-button" id="themeToggle" type="button">Modo oscuro</button>
+          <button class="ghost-button" id="printView" type="button">Imprimir</button>
+          <button class="ghost-button" id="exportAll" type="button">Exportar todo</button>
+          <button class="ghost-button" id="exportCurrent" type="button">Exportar ficha</button>
+          <button class="primary-button" id="copyPrompt" type="button">Copiar prompt</button>
+          <input id="importJsonInput" type="file" accept="application/json,.json" hidden>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <aside class="catalog-panel" aria-label="Catalogo de proyectos">
+          <section class="filters" aria-label="Filtros">
+            <label class="search-box">
+              <span>Buscar</span>
+              <input id="searchInput" type="search" placeholder="Dominio, tecnica o entregable">
+            </label>
+            <label class="select-box">
+              <span>Dominio</span>
+              <select id="domainFilter">
+                <option value="all">Todos</option>
+              </select>
+            </label>
+            <label class="favorite-filter">
+              <input id="favoritesOnly" type="checkbox">
+              <span>Solo favoritos</span>
+            </label>
+          </section>
+
+          <section class="summary-grid" aria-label="Resumen del portfolio">
+            <article>
+              <strong id="totalProjects">10</strong>
+              <span>proyectos</span>
+            </article>
+            <article>
+              <strong id="domainCount">0</strong>
+              <span>dominios</span>
+            </article>
+            <article>
+              <strong id="metricCount">0</strong>
+              <span>metricas</span>
+            </article>
+            <article>
+              <strong id="favoriteCount">0</strong>
+              <span>favoritos</span>
+            </article>
+          </section>
+
+          <section class="project-list" id="projectList" aria-label="Proyectos disponibles"></section>
+        </aside>
+
+        <section class="detail-panel" aria-live="polite">
+          <nav class="tabs" aria-label="Vistas del proyecto">
+            <button class="tab is-active" type="button" data-tab="home">Inicio ejecutivo</button>
+            <button class="tab" type="button" data-tab="blueprint">Ficha tecnica</button>
+            <button class="tab" type="button" data-tab="roadmap">Roadmap</button>
+            <button class="tab" type="button" data-tab="editor">Editor</button>
+            <button class="tab" type="button" data-tab="compare">Comparador</button>
+            <button class="tab" type="button" data-tab="prompt">Prompt profesional</button>
+            <button class="tab" type="button" data-tab="mobile">Android</button>
+          </nav>
+
+          <article class="project-detail" id="projectDetail"></article>
+        </section>
+      </main>
+
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    </div>
+
+    <script src="../shared/projects.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

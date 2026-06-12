@@ -1,0 +1,57 @@
+1. 🧬 Detección Avanzada de Fraude Financiero con Deep Learning
+
+Prompt: "Genera un prompt de proyecto de análisis de datos de **alta complejidad** titulado **'Detección de Fraude Financiero Transaccional en Tiempo Real con Redes Neuronales Recurrentes (RNN)'**. El proyecto debe simular el procesamiento de un stream de transacciones. Necesito el **esquemático de carpetas completo**, un **resumen del problema** (desequilibrio de clases extremo, ruido), los **pasos clave del análisis** (incluyendo el uso de *Autoencoders* para reducción de dimensionalidad y RNN/LSTM para detección), y una lista de los **entregables** esperados (modelo serializado, dashboard de métricas, notebook de explicación)."
+
+---
+
+2. 🌍 Análisis Predictivo de Series Temporales Múltiples
+
+Prompt: "Crea un prompt para un proyecto de **análisis predictivo multivariado** enfocado en **'Predicción de Consumo Energético Urbano a Gran Escala con Modelos Jerárquicos'**. El proyecto debe manejar series temporales de múltiples fuentes (clima, precios, días festivos) y agregación jerárquica (hogar → distrito → ciudad). Incluye el **esquemático de carpetas** (`src/models/`, `data/raw/`, `data/processed/`), la descripción del **desafío** (manejo de estacionalidad múltiple y correlación cruzada), las **técnicas** (modelos *ARIMA* con variables exógenas (SARIMAX) o *Prophet*, *machine learning* jerárquico), y los **artefactos** (código de ingesta de datos simulados y un script de evaluación de modelos)."
+
+---
+
+3. 💬 Clasificación y Sumarización de Textos Legales
+
+Prompt: "Define un prompt de proyecto de **Procesamiento de Lenguaje Natural (PLN)** de alta dificultad llamado **'Clasificación y Sumarización Automática de Documentos Legales (Términos y Condiciones)'**. El objetivo es clasificar cláusulas específicas y generar resúmenes abstractivos de documentos extensos. Solicita el **esquemático de carpetas**, el **problema** (manejo de jerga especializada, alta longitud de texto), las **metodologías** (uso de *Transformers* pre-entrenados como **BERT/RoBERTa** para clasificación y **BART/T5** para sumarización), y el **código base inicial** para *tokenización* y división de datos."
+
+---
+
+4. 📈 Optimización de Cartera de Inversión con Simulación Montecarlo
+
+Prompt: "Genera un prompt para un proyecto de **ciencia de datos financieros** titulado **'Optimización Estocástica de Cartera de Inversión con Simulación Montecarlo Avanzada'**. El proyecto debe ir más allá del modelo de Markowitz, incorporando **restricciones de riesgo** no lineales y **simulación** para la distribución de *retornos*. Pide el **esquemático de carpetas** (`src/optimization/`, `notebooks/simulations/`), la **descripción del problema** (maximizar retorno ajustado por riesgo), las **técnicas** (Optimización Cuadrática, **Simulación Montecarlo** para *Value at Risk* (VaR)), y el requisito de un **informe técnico** detallando los supuestos y las **sensibilidades** de la cartera."
+
+---
+
+5. 🖼️ Segmentación de Imágenes Médicas con Visión por Computadora
+
+Prompt: "Escribe un prompt para un proyecto de **Visión por Computadora** de alta complejidad: **'Segmentación Semántica de Tumores en Imágenes de Resonancia Magnética (MRI) con U-Net'**. El proyecto debe centrarse en la precisión de la segmentación en un dominio crítico. Incluye el **esquemático de carpetas**, el **desafío** (datos limitados, variabilidad de la intensidad de la imagen, necesidad de métricas como *Dice Coeficient* y *Jaccard Index*), las **herramientas** (librerías **PyTorch/TensorFlow**, arquitectura **U-Net**), y la necesidad de *scripts* para **aumento de datos** y **preprocesamiento DICOM**."
+
+---
+
+6. 🛒 Sistemas de Recomendación Híbridos y Explicables
+
+Prompt: "Genera un prompt de proyecto de **Sistemas de Recomendación** llamado **'Desarrollo de un Motor de Recomendación Híbrido y Explicable (XAI)'**. El motor debe combinar **filtrado colaborativo** basado en matriz de factorización con **filtrado basado en contenido** utilizando *embeddings* de ítems. Necesito el **esquemático de carpetas** (`src/recommenders/`, `data/ratings/`), el **objetivo** (superar los problemas de 'arranque en frío' y aumentar la **transparencia** de las recomendaciones), las **técnicas** (SVD/ALS para la parte colaborativa, *embeddings* de texto/imagen para la parte de contenido, métodos de **XAI** como LIME o SHAP para justificación) y el **código de *pipeline*** para entrenar y evaluar ambos componentes."
+
+---
+
+7. 🏭 Mantenimiento Predictivo con Machine Learning
+
+Prompt: "Crea un prompt para un proyecto de **Mantenimiento Predictivo** avanzado: **'Predicción del Tiempo Restante de Vida Útil (RUL) de Activos Industriales Críticos'**. El proyecto utilizará datos de sensores multivariados con **anomalías**. Pide el **esquemático de carpetas**, el **problema** (manejar datos con valores perdidos, ruido y la naturaleza continua de la variable objetivo RUL), las **metodologías** (**Regresión** avanzada, modelos de **Supervivencia** como *Cox Proportional Hazards*, *Gradient Boosting*), y los **entregables** (modelo entrenado, métricas de rendimiento como **RMSE** y **$\alpha-\lambda$ accuracy**)."
+
+---
+
+8. 🗣️ Análisis de Sentimiento Detallado con Aspect-Based Sentiment Analysis (ABSA)
+
+Prompt: "Define un prompt para un proyecto de **PLN** ultra específico: **'Análisis de Sentimiento Basado en Aspectos (ABSA) para Reseñas de Productos'**. El objetivo es identificar las entidades (*aspectos*) dentro de una oración y el sentimiento asociado a cada una. Solicita el **esquemático de carpetas**, el **desafío** (manejar múltiples sentimientos en una sola reseña, *tokenización* avanzada), las **técnicas** (uso de **modelos BERT específicos** o **redes de atención** para vincular aspecto y opinión), y un **ejemplo de salida** donde el modelo identifique *aspecto: 'batería', sentimiento: 'positivo'* y *aspecto: 'cámara', sentimiento: 'negativo'* en la misma frase."
+
+---
+
+9. 🧪 Descubrimiento de Patrones Genómicos con Clustering Avanzado
+
+Prompt: "Escribe un prompt para un proyecto de **Bioinformática/Datos Genómicos**: **'Identificación de Subtipos de Enfermedades con *Clustering* de Alta Dimensionalidad'**. El proyecto se enfoca en agrupar muestras basadas en miles de características genéticas. Incluye el **esquemático de carpetas** (`data/expression/`, `src/visualization/`), el **problema** (la 'maldición de la dimensionalidad', ruido y redundancia), las **técnicas** (reducción de dimensionalidad con **PCA/t-SNE/UMAP**, *clustering* con **DBSCAN/HDBSCAN** para grupos de forma arbitraria), y la exigencia de **visualizaciones interactivas** que muestren los clústeres en el espacio de baja dimensionalidad."
+
+---
+
+10. 📊 Ingeniería de Características y Modelado para Competencias Kaggle
+
+Prompt: "Genera un prompt centrado en **Ingeniería de Características** y **Optimización de Hiperparámetros**: **'Desarrollo de un *Pipeline* de *Feature Engineering* Competitivo y Automatizado'**. El proyecto debe ser adaptable a cualquier competencia tabular de Kaggle. Pide el **esquemático de carpetas** (`src/features/`, `src/tuning/`), el **foco** (creación de más de 30 características nuevas (temporales, *one-hot*, interacciones), **optimización de modelos** (*LightGBM* o *CatBoost*) con **búsqueda bayesiana** o **Optuna**), y el requisito de un **script modular** para el *pipeline* de preprocesamiento que pueda ser reutilizado fácilmente, maximizando el **rendimiento (*score*)**."
