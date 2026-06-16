@@ -14,13 +14,17 @@
     <meta name="twitter:title" content="Laboratorio Megazzonia | Portfolio tecnico" />
     <meta name="twitter:description" content="Simuladores, dashboards, demos 3D y aplicaciones Android con evidencia visual." />
     <meta name="twitter:image" content="portfolio/assets/screenshots/cases/home-con-destacados.png" />
+    <meta name="theme-color" content="#07110f" />
     <title>Laboratorio Megazzonia | Portfolio tecnico</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Plus+Jakarta+Sans:wght@300;400;500;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
       :root {
-        color-scheme: light;
-        font-family: Tahoma, "Segoe UI", sans-serif;
-        background: #f2f5f2;
-        color: #172024;
+        color-scheme: dark;
+        font-family: "Plus Jakarta Sans", "Segoe UI", sans-serif;
+        background: #07110f;
+        color: #ffffff;
       }
 
       body {
@@ -28,34 +32,49 @@
         margin: 0;
         display: grid;
         place-items: center;
+        padding: 16px;
+        background:
+          radial-gradient(circle at 50% 44%, #16231f 0%, #07110f 56%, #030706 100%);
       }
 
       main {
         width: min(560px, calc(100vw - 32px));
-        padding: 24px;
-        border: 1px solid rgba(24, 31, 35, 0.2);
-        background: #ffffff;
+        padding: 28px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.055);
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.40), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+        backdrop-filter: blur(22px);
       }
 
       h1 {
         margin: 0 0 8px;
+        font-family: "Orbitron", sans-serif;
       }
 
       p {
         margin: 0 0 16px;
-        color: #52616b;
+        color: #aec5bd;
       }
 
       a {
-        color: #244f72;
+        display: inline-flex;
+        padding: 10px 13px;
+        border: 1px solid rgba(0, 255, 170, 0.36);
+        border-radius: 10px;
+        background: rgba(0, 255, 170, 0.12);
+        color: #00ffaa;
         font-weight: 700;
+        text-decoration: none;
       }
 
       code {
         display: inline-block;
         padding: 3px 6px;
-        background: #eef2ef;
-        border: 1px solid rgba(24, 31, 35, 0.14);
+        background: rgba(0, 0, 0, 0.34);
+        border: 1px solid rgba(0, 255, 170, 0.18);
+        color: #d9fff1;
+        font-family: "Share Tech Mono", monospace;
       }
     </style>
   </head>
