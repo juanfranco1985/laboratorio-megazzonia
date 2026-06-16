@@ -44,6 +44,18 @@ Para compilar, abre `android/` con Android Studio o ejecuta Gradle si tienes And
 
 Los datos fuente profesionales estan en `shared/projects.js`. La app web y Android consumen esa misma estructura.
 
+## Pipelines reales
+
+La carpeta `pipelines/` contiene implementaciones ejecutables de los proyectos del catalogo.
+
+El primer pipeline disponible es `pipelines/fraude_rnn/`, que genera datos transaccionales sinteticos, entrena un detector de fraude, calibra umbral de alerta y exporta metricas reproducibles.
+
+```powershell
+python "Proyectos Analisis de datos simultaneos\pipelines\fraude_rnn\fraud_pipeline.py"
+```
+
+La corrida incluida genera 5.000 transacciones sinteticas y deja una linea base de prueba con F1 43.88%, recall 64.20% y ROC-AUC 83.28%.
+
 ## URL publica
 
 La version web publicada en GitHub Pages esta disponible en:
