@@ -9,6 +9,7 @@
       level: "Alta complejidad",
       horizon: "10 a 12 semanas",
       accent: "#0f766e",
+      status: "validado",
       objective:
         "Construir una arquitectura analitica capaz de simular, procesar y puntuar transacciones en streaming para detectar fraude con baja latencia y alta precision operacional.",
       summary:
@@ -40,6 +41,7 @@
         "Calibrar umbrales con precision-recall, coste esperado, focal loss y validacion temporal."
       ],
       deliverables: [
+        "Pipeline reproducible en `pipelines/fraude_rnn/` con datos sinteticos, entrenamiento, calibracion y reporte.",
         "Modelo serializado y versionado para inferencia batch y online.",
         "Dashboard con PR-AUC, recall en fraude, tasa de alertas, latencia y matriz de costes.",
         "Notebook explicativo con arquitectura, supuestos, interpretabilidad y analisis de errores.",
