@@ -1825,8 +1825,7 @@ function boot() {
   }
 
   const savedTheme = localStorage.getItem(STORAGE_KEYS.theme);
-  const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-  setTheme(savedTheme || (prefersDark ? "dark" : "light"));
+  setTheme(savedTheme || "dark");
 
   renderDomainFilter();
   renderStatusFilter();
