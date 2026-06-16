@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3D Motor Winding Lab | Laboratorio Megazzonia</title>
+    <meta name="description" content="Laboratorio 3D de bobinado trifasico con validacion, campo magnetico rotante, modo demo y exportacion." />
+    <meta property="og:title" content="3D Motor Winding Lab | Laboratorio Megazzonia" />
+    <meta property="og:description" content="Simulador tecnico 3D para bobinado trifasico, validacion y visualizacion de campo magnetico." />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="../../assets/screenshots/demos/motorcraft-codex-2.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="3D Motor Winding Lab | Laboratorio Megazzonia" />
+    <meta name="twitter:description" content="Bobinado trifasico, validacion tecnica y escena 3D interactiva." />
+    <meta name="twitter:image" content="../../assets/screenshots/demos/motorcraft-codex-2.png" />
+    <link rel="stylesheet" href="../../styles/case.css?v=motorcraft-20260430a" />
+  </head>
+  <body>
+    <main class="case-shell">
+      <nav class="case-topbar">
+        <a class="case-brand" href="../../../">Laboratorio Megazzonia</a>
+        <div class="case-topbar__links">
+          <a class="case-link" href="../../../index.html?portfolio=20260513a#projects">Volver al portfolio</a>
+          <a class="case-link" href="../../../Motorcraft%20CODEX%202/README.md">README tecnico</a>
+        </div>
+      </nav>
+
+      <section class="case-hero">
+        <div class="case-hero__copy">
+          <div class="case-kicker">Three.js + Vite + WebGL</div>
+          <h1>3D Motor Winding Lab</h1>
+          <p class="case-lead">
+            Laboratorio tecnico para construir bobinados trifasicos, validar reglas base, visualizar el campo magnetico
+            rotante y exportar resultados. La demo muestra capacidad de integrar 3D, UI de ingenieria y flujos de
+            aprendizaje en una pieza de portafolio.
+          </p>
+          <div class="case-actions">
+            <a class="case-button" href="../../../Motorcraft%20CODEX%202/dist/index.html?demo=1&field=1">Abrir demo</a>
+            <a class="case-link" href="../../../Motorcraft%20CODEX%202/README.md">Leer ficha tecnica</a>
+          </div>
+          <div class="case-proof-strip">
+            <span>WebGL 3D</span>
+            <span>Validador tecnico</span>
+            <span>Campo rotante</span>
+            <span>Export PNG/PDF</span>
+            <span>Build portable</span>
+          </div>
+        </div>
+
+        <div class="case-preview">
+          <iframe
+            title="3D Motor Winding Lab demo"
+            src="../../../Motorcraft%20CODEX%202/dist/index.html?demo=1&field=1"
+          ></iframe>
+        </div>
+      </section>
+
+      <section class="case-card case-wide case-evidence">
+        <div class="case-evidence__head">
+          <div>
+            <div class="case-kicker">Proyecto insignia</div>
+            <h2>Por que se destaca</h2>
+          </div>
+          <span class="case-pill">Insignia</span>
+        </div>
+        <div class="case-evidence__grid">
+          <div>
+            <strong>Madurez</strong>
+            <p>Build Vite portable con escena WebGL, modo demo, validador y exportacion de evidencia.</p>
+          </div>
+          <div>
+            <strong>Evidencia</strong>
+            <p>Demo embebida con parametros por URL y captura real integrada al catalogo.</p>
+          </div>
+          <div>
+            <strong>Valor portfolio</strong>
+            <p>Muestra integracion entre 3D, UI tecnica, reglas de ingenieria y documentacion reproducible.</p>
+          </div>
+          <div>
+            <strong>Siguiente mejora</strong>
+            <p>Agregar casos guiados por tipo de motor y mensajes didacticos para usuarios no especialistas.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="case-grid case-grid--three">
+        <article class="case-card">
+          <h2>Problema</h2>
+          <p>
+            Un simulador tecnico necesita ser comprensible en segundos sin perder densidad: controles claros, feedback
+            de validacion y una escena 3D que comunique el concepto antes de exigir configuracion manual.
+          </p>
+        </article>
+        <article class="case-card">
+          <h2>Decision tecnica</h2>
+          <p>
+            Separar escena, modelos, logica electrica, validador, exportacion y UI. Vite empaqueta dependencias y deja
+            un `dist/` portable para integrarlo al laboratorio por HTTP.
+          </p>
+        </article>
+        <article class="case-card">
+          <h2>Resultado</h2>
+          <p>
+            La demo abre con bobinado prearmado, campo rotante y controles listos para experimentar. Tambien permite
+            guardar/cargar JSON y exportar evidencias visuales.
+          </p>
+        </article>
+      </section>
+
+      <section class="case-section">
+        <div class="case-section__head">
+          <div>
+            <div class="case-kicker">Arquitectura</div>
+            <h2>Lo que demuestra el proyecto</h2>
+          </div>
+          <span class="case-pill">Simulador tecnico</span>
+        </div>
+        <div class="case-architecture">
+          <div>
+            <span>01</span>
+            <strong>Escena 3D modular</strong>
+            <p>Renderer, camara, controles, labels, iluminacion, stator, slots y bobinas se mantienen desacoplados.</p>
+          </div>
+          <div>
+            <span>02</span>
+            <strong>Modelo electrico</strong>
+            <p>Configuracion de slots, polos, conexion, paso de bobina, frecuencia y fases A/B/C.</p>
+          </div>
+          <div>
+            <span>03</span>
+            <strong>Validacion</strong>
+            <p>Chequeos de SPP, paso de bobina, congestion de ranuras y resumen tecnico visible para el usuario.</p>
+          </div>
+          <div>
+            <span>04</span>
+            <strong>Flujo portfolio</strong>
+            <p>Modo demo por URL, panel de acciones rapidas, README limpio y ficha embebida en el laboratorio.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="case-grid case-grid--two">
+        <article class="case-card">
+          <h2>Mejoras destacadas</h2>
+          <ul>
+            <li>Dependencias locales via Vite, sin import map CDN.</li>
+            <li>Modo `?demo=1&field=1` para mostrar una escena lista.</li>
+            <li>Botones rapidos para cargar bobinado demo y alternar campo.</li>
+            <li>Tema oscuro verde/marron coherente con el laboratorio.</li>
+            <li>README tecnico nuevo y ficha de caso integrada.</li>
+          </ul>
+        </article>
+        <article class="case-card">
+          <h2>Como se reproduce</h2>
+          <div class="case-command-list">
+            <code>cd "Motorcraft CODEX 2"</code>
+            <code>npm install</code>
+            <code>npm run dev</code>
+            <code>npm run build</code>
+          </div>
+        </article>
+      </section>
+
+      <section class="case-card case-wide">
+        <h2>Stack</h2>
+        <div class="case-stack">
+          <span>Three.js</span>
+          <span>Vite</span>
+          <span>JavaScript modular</span>
+          <span>WebGL</span>
+          <span>CSS2DRenderer</span>
+          <span>html2canvas</span>
+          <span>jsPDF</span>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

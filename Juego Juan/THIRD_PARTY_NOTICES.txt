@@ -1,0 +1,14 @@
+Third-party notices
+
+This project includes adapted Formula 1 circuit layout SVG data from:
+
+- Repository: julesr0y/f1-circuits-svg
+- URL: https://github.com/julesr0y/f1-circuits-svg
+- License: Creative Commons Attribution 4.0 International (CC-BY-4.0)
+
+Imported layouts currently used:
+
+- Current 2026 season layouts generated into the project from the source repository
+- Includes Monza, Suzuka, Interlagos and the rest of the loaded 2026 track set
+
+Source files were adapted for runtime sampling inside this game.

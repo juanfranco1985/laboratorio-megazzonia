@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flight Simulator 3D | Laboratorio Megazzonia</title>
+    <meta name="description" content="Simulador de vuelo 3D con Three.js, terreno procedural, clima, contratos, HUD, minimapa y perfil persistente." />
+    <meta property="og:title" content="Flight Simulator 3D | Laboratorio Megazzonia" />
+    <meta property="og:description" content="Demo 3D interactiva con mundo procedural, contratos de vuelo, HUD y build web portable." />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="../../assets/screenshots/demos/flight-simulator-3d.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Flight Simulator 3D | Laboratorio Megazzonia" />
+    <meta name="twitter:description" content="Three.js, terreno procedural, contratos y HUD en una demo de vuelo portable." />
+    <meta name="twitter:image" content="../../assets/screenshots/demos/flight-simulator-3d.png" />
+    <link rel="stylesheet" href="../../styles/case.css?v=flight-simulator-20260430a" />
+  </head>
+  <body>
+    <main class="case-shell">
+      <nav class="case-topbar">
+        <a class="case-brand" href="../../../">Laboratorio Megazzonia</a>
+        <div class="case-topbar__links">
+          <a class="case-link" href="../../../index.html?portfolio=20260513a#projects">Volver al portfolio</a>
+          <a class="case-link" href="../../../FlightSimulatorClaude2/README.md">README tecnico</a>
+        </div>
+      </nav>
+
+      <section class="case-hero">
+        <div class="case-hero__copy">
+          <div class="case-kicker">React + Vite + Three.js</div>
+          <h1>Flight Simulator 3D</h1>
+          <p class="case-lead">
+            Simulador de vuelo con mundo procedural, terreno por chunks, clima, camaras, HUD, aerodromos generados
+            y contratos de mensajeria. Funciona como pieza showcase visual dentro del Laboratorio Megazzonia.
+          </p>
+          <div class="case-actions">
+            <a class="case-button" href="../../../FlightSimulatorClaude2/dist/index.html">Abrir demo</a>
+            <a class="case-link" href="../../../FlightSimulatorClaude2/README.md">Leer ficha tecnica</a>
+          </div>
+          <div class="case-proof-strip">
+            <span>Three.js</span>
+            <span>Terreno procedural</span>
+            <span>Contratos</span>
+            <span>HUD + minimapa</span>
+            <span>Build portable</span>
+          </div>
+        </div>
+
+        <div class="case-preview">
+          <iframe title="Flight Simulator 3D demo" src="../../../FlightSimulatorClaude2/dist/index.html?capture=flight"></iframe>
+        </div>
+      </section>
+
+      <section class="case-card case-wide case-evidence">
+        <div class="case-evidence__head">
+          <div>
+            <div class="case-kicker">Proyecto insignia</div>
+            <h2>Por que se destaca</h2>
+          </div>
+          <span class="case-pill">Insignia</span>
+        </div>
+        <div class="case-evidence__grid">
+          <div>
+            <strong>Madurez</strong>
+            <p>Build web portable con mundo procedural, HUD, aerodromos, clima y loop de contratos.</p>
+          </div>
+          <div>
+            <strong>Evidencia</strong>
+            <p>Demo embebida y captura de portfolio; el proyecto ya compila como build estatico.</p>
+          </div>
+          <div>
+            <strong>Valor portfolio</strong>
+            <p>Demuestra escena 3D interactiva, sistemas de juego y empaquetado React/Vite.</p>
+          </div>
+          <div>
+            <strong>Siguiente mejora</strong>
+            <p>Sumar una pagina tecnica breve sobre generacion procedural, contratos y decisiones de performance.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="case-grid case-grid--three">
+        <article class="case-card">
+          <h2>Problema</h2>
+          <p>
+            Mostrar dominio visual e interactivo mas alla de dashboards: una demo 3D debe cargar rapido, ser jugable,
+            tener objetivo claro y no quedarse en una escena decorativa.
+          </p>
+        </article>
+        <article class="case-card">
+          <h2>Decision tecnica</h2>
+          <p>
+            Separar motor, fisica, camara, terreno, clima, misiones, UI y perfil. Three.js queda como capa grafica,
+            mientras React administra menus, contratos y HUD.
+          </p>
+        </article>
+        <article class="case-card">
+          <h2>Resultado</h2>
+          <p>
+            Simulador navegable con mundo procedural, aerodromos, contratos, rutas, minimapa, guia de llegada,
+            perfil persistente y escenarios rapidos desde el menu.
+          </p>
+        </article>
+      </section>
+
+      <section class="case-section">
+        <div class="case-section__head">
+          <div>
+            <div class="case-kicker">Sistemas 3D</div>
+            <h2>Lo que demuestra el proyecto</h2>
+          </div>
+          <span class="case-pill">Showcase interactivo</span>
+        </div>
+        <div class="case-architecture">
+          <div>
+            <span>01</span>
+            <strong>Motor de vuelo</strong>
+            <p>Fisica arcade, controles de pitch/roll/yaw, throttle, frenado, camaras y estados de vuelo.</p>
+          </div>
+          <div>
+            <span>02</span>
+            <strong>Mundo procedural</strong>
+            <p>Terreno, chunks, vegetacion, ciudades, aerodromos, temas de mundo y variacion por seed.</p>
+          </div>
+          <div>
+            <span>03</span>
+            <strong>Clima y atmosfera</strong>
+            <p>Tiempo del dia, lluvia, nieve, nubes, trails, render distance y densidad visual configurable.</p>
+          </div>
+          <div>
+            <span>04</span>
+            <strong>Loop de juego</strong>
+            <p>Tablero de contratos, ruta origen-destino, recompensa, resultados, historial y perfil del piloto.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="case-grid case-grid--two">
+        <article class="case-card">
+          <h2>Mejoras destacadas</h2>
+          <ul>
+            <li>Presets de vuelo: Frontier VFR, Coastal IFR y Snow Dusk.</li>
+            <li>Tira de capacidades visible en el menu principal.</li>
+            <li>Vite configurado con `base: "./"` para `dist/` portable.</li>
+            <li>README tecnico nuevo.</li>
+            <li>Ficha con demo embebida y links directos desde el portfolio.</li>
+          </ul>
+        </article>
+        <article class="case-card">
+          <h2>Como se reproduce</h2>
+          <div class="case-command-list">
+            <code>cd "FlightSimulatorClaude2"</code>
+            <code>npm install</code>
+            <code>npm run dev</code>
+            <code>npm run build</code>
+          </div>
+        </article>
+      </section>
+
+      <section class="case-card case-wide">
+        <h2>Stack</h2>
+        <div class="case-stack">
+          <span>React</span>
+          <span>Vite</span>
+          <span>Three.js</span>
+          <span>JavaScript modular</span>
+          <span>Canvas/WebGL</span>
+          <span>LocalStorage</span>
+          <span>lucide-react</span>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

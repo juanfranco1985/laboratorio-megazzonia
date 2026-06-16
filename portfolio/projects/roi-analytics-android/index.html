@@ -1,0 +1,231 @@
+﻿<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ROI Analytics Android | Laboratorio Megazzonia</title>
+    <meta name="description" content="App Android en Kotlin y Jetpack Compose para analisis de campanas, backend FastAPI, fallback local y exportacion PDF." />
+    <meta property="og:title" content="ROI Analytics Android | Laboratorio Megazzonia" />
+    <meta property="og:description" content="Caso Android con Compose, Retrofit, Hilt, contrato FastAPI, analisis de campanas y exportacion PDF." />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="../../assets/screenshots/cases/roi-analytics-android.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ROI Analytics Android | Laboratorio Megazzonia" />
+    <meta name="twitter:description" content="Analisis de campanas en Android con backend opcional, fallback local y PDF." />
+    <meta name="twitter:image" content="../../assets/screenshots/cases/roi-analytics-android.png" />
+    <link rel="stylesheet" href="../../styles/case.css?v=roi-20260429" />
+  </head>
+  <body>
+    <main class="case-shell case-shell--mobile">
+      <nav class="case-topbar">
+        <a class="case-brand" href="../../../">Laboratorio Megazzonia</a>
+        <div class="case-topbar__links">
+          <a class="case-link" href="../../../RoiAnalyticsAndroid_v3/README.md">README tecnico</a>
+          <a class="case-link" href="../../../index.html?portfolio=20260513a#projects">Volver al portfolio</a>
+        </div>
+      </nav>
+
+      <section class="case-hero">
+        <div class="case-hero__copy">
+          <div class="case-kicker">Android + analytics + backend contract</div>
+          <h1>ROI Analytics Android</h1>
+          <p class="case-lead">
+            Aplicacion Android en Kotlin y Jetpack Compose para analizar campanas publicitarias multicanal. Consume un
+            contrato FastAPI cuando esta disponible y mantiene una experiencia demostrable con fallback local, filtros,
+            KPIs, predicciones y exportacion PDF.
+          </p>
+          <div class="case-actions">
+            <span class="case-link">Build Android verificado</span>
+            <a class="case-link" href="../../../RoiAnalyticsAndroid_v3/README.md">Leer ficha tecnica</a>
+          </div>
+          <div class="case-proof-strip">
+            <span>Build: assembleDebug OK</span>
+            <span>Stack: Compose + Hilt + Retrofit</span>
+            <span>Backend: 10.0.2.2:8000</span>
+          </div>
+        </div>
+
+        <div class="case-preview case-preview--phone">
+          <div class="case-device">
+            <div class="phone-status">
+              <span>ROI Analytics</span>
+              <b>3.60x</b>
+            </div>
+            <div class="phone-chip-row">
+              <span>Google Ads</span>
+              <span>B2B</span>
+              <span>2026</span>
+            </div>
+            <div class="phone-metric phone-metric--primary">
+              <span>Revenue</span>
+              <strong>$173.4K</strong>
+              <small>Local fallback ready</small>
+            </div>
+            <div class="phone-grid">
+              <div><span>Spend</span><b>$48.2K</b></div>
+              <div><span>Conv.</span><b>4,280</b></div>
+              <div><span>CAC</span><b>$11.26</b></div>
+              <div><span>PDF</span><b>Ready</b></div>
+            </div>
+            <div class="phone-bars">
+              <span style="--bar: 92%"></span>
+              <span style="--bar: 74%"></span>
+              <span style="--bar: 64%"></span>
+              <span style="--bar: 38%"></span>
+            </div>
+            <div class="phone-nav">
+              <span>DB</span><span>PL</span><span>IN</span><span>KP</span><span>PR</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="case-card case-wide case-evidence">
+        <div class="case-evidence__head">
+          <div>
+            <div class="case-kicker">Proyecto insignia</div>
+            <h2>Por que se destaca</h2>
+          </div>
+          <span class="case-pill">Insignia mobile</span>
+        </div>
+        <div class="case-evidence__grid">
+          <div>
+            <strong>Madurez</strong>
+            <p>Build Android verificado con Compose, DI, red, fallback local y exportacion PDF.</p>
+          </div>
+          <div>
+            <strong>Evidencia</strong>
+            <p>APK debug generado localmente y ficha mobile preparada para lectura publica sin exponer binarios.</p>
+          </div>
+          <div>
+            <strong>Valor portfolio</strong>
+            <p>Muestra arquitectura Android moderna y contrato backend con degradacion controlada.</p>
+          </div>
+          <div>
+            <strong>Siguiente mejora</strong>
+            <p>Sumar capturas reales del emulador y graficos nativos para reemplazar el mock de telefono.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="case-grid case-grid--three">
+        <article class="case-card">
+          <h2>Problema</h2>
+          <p>
+            El desafio era convertir una prueba mobile de analytics en una app demostrable: cerrar el build,
+            ordenar las capas Android y sostener la experiencia aunque el backend no este disponible.
+          </p>
+        </article>
+        <article class="case-card">
+          <h2>Decision tecnica</h2>
+          <p>
+            Reconstruir una base compilable con Compose, Hilt, Retrofit, StateFlow y repositorio con fallback local para
+            que la app siga siendo demostrable aunque el backend no este levantado.
+          </p>
+        </article>
+        <article class="case-card">
+          <h2>Resultado</h2>
+          <p>
+            Build debug verificado, APK generado, dashboard navegable, filtros operativos, exportacion PDF y flujo de
+            compartir reporte con FileProvider.
+          </p>
+        </article>
+      </section>
+
+      <section class="case-section">
+        <div class="case-section__head">
+          <div>
+            <div class="case-kicker">Arquitectura</div>
+            <h2>Capas separadas para una demo robusta</h2>
+          </div>
+          <span class="case-pill">Mobile-first analytics</span>
+        </div>
+        <div class="case-architecture">
+          <div>
+            <span>01</span>
+            <strong>Compose UI</strong>
+            <p>Scaffold, TopAppBar, Bottom Navigation, filtros, pantallas de KPIs, insights, plataformas y predicciones.</p>
+          </div>
+          <div>
+            <span>02</span>
+            <strong>ViewModel + StateFlow</strong>
+            <p>Estado unico para destino activo, filtros, loading, mensajes, PDF exportado y snapshot analitico.</p>
+          </div>
+          <div>
+            <span>03</span>
+            <strong>Repository</strong>
+            <p>Orquesta Retrofit, fallback local, refresco de dataset y generacion de PDF si el backend no responde.</p>
+          </div>
+          <div>
+            <span>04</span>
+            <strong>FastAPI contract</strong>
+            <p>Endpoints para dashboard, refresh de dataset y descarga de reporte PDF desde servidor local.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="case-grid case-grid--two">
+        <article class="case-card">
+          <h2>Flujo de producto</h2>
+          <ul>
+            <li>Seleccion de plataforma, segmento y anio.</li>
+            <li>Dashboard con revenue, spend, ROI, conversiones y campanas.</li>
+            <li>Vistas separadas para plataformas, insights, KPIs y predicciones.</li>
+            <li>Refresco remoto con fallback local si falla la red.</li>
+            <li>Exportacion y share de reporte PDF.</li>
+          </ul>
+        </article>
+        <article class="case-card">
+          <h2>Evidencia tecnica</h2>
+          <div class="case-command-list">
+            <code>gradlew.bat assembleDebug</code>
+            <code>app/build/outputs/apk/debug/app-debug.apk</code>
+            <code>GET /analytics/dashboard</code>
+            <code>GET /analytics/report.pdf</code>
+          </div>
+        </article>
+      </section>
+
+      <section class="case-section">
+        <div class="case-section__head">
+          <div>
+            <div class="case-kicker">Madurez</div>
+            <h2>Estado actual y siguientes mejoras</h2>
+          </div>
+        </div>
+        <div class="case-roadmap">
+          <article>
+            <strong>Listo para mostrar</strong>
+            <p>Build Android importable, APK debug, arquitectura base, fallback local y PDF funcional.</p>
+          </article>
+          <article>
+            <strong>Mejora prioritaria</strong>
+            <p>Agregar capturas reales, modo tablet, formato monetario consistente y graficos nativos en Compose.</p>
+          </article>
+          <article>
+            <strong>Camino productivo</strong>
+            <p>Migrar a backend HTTPS, cache local con Room, persistencia offline y manejo fino de errores HTTP.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="case-card case-wide">
+        <h2>Stack</h2>
+        <div class="case-stack">
+          <span>Kotlin</span>
+          <span>Jetpack Compose</span>
+          <span>Material 3</span>
+          <span>Hilt</span>
+          <span>StateFlow</span>
+          <span>Retrofit</span>
+          <span>OkHttp</span>
+          <span>kotlinx.serialization</span>
+          <span>FastAPI contract</span>
+          <span>PDF</span>
+          <span>FileProvider</span>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
+

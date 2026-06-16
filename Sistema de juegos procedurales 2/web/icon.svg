@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Procedural Playworks">
+  <rect width="512" height="512" rx="96" fill="#111318"/>
+  <path d="M96 316 196 96h120L216 316Z" fill="#55d6be"/>
+  <path d="M296 96h120L316 316H196Z" fill="#f4b860"/>
+  <path d="M142 360h228l-44 76H106Z" fill="#ff5d73"/>
+  <path d="M112 112 400 400" stroke="#f3f6f8" stroke-width="34" stroke-linecap="round" opacity=".82"/>
+</svg>

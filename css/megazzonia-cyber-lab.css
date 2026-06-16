@@ -1,0 +1,576 @@
+:root {
+  --bg-0: #030706;
+  --bg-1: #07110f;
+  --bg-2: #16231f;
+  --panel: rgba(255, 255, 255, 0.055);
+  --panel-alt: rgba(255, 255, 255, 0.075);
+  --panel-deep: rgba(0, 0, 0, 0.24);
+  --chrome: rgba(255, 255, 255, 0.06);
+  --chrome-dark: rgba(0, 0, 0, 0.32);
+  --chrome-light: rgba(255, 255, 255, 0.10);
+  --text: #ffffff;
+  --muted: #aec5bd;
+  --accent: #00ffaa;
+  --accent-2: #27d7ff;
+  --warning: #ffaa00;
+  --danger: #ff4466;
+  --success: #00ffaa;
+  --shadow: rgba(0, 0, 0, 0.40);
+  --shadow-soft: rgba(0, 0, 0, 0.24);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --panel-radius: 16px;
+  --font-main: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-tech: "Orbitron", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Share Tech Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-highlight: rgba(255, 255, 255, 0.16);
+  --neon-soft: rgba(0, 255, 170, 0.18);
+  --neon-glow: rgba(0, 255, 170, 0.38);
+}
+
+*,
+*::before,
+*::after {
+  letter-spacing: 0 !important;
+}
+
+html,
+body {
+  background:
+    radial-gradient(circle at 50% 44%, #16231f 0%, #07110f 56%, #030706 100%) !important;
+}
+
+body {
+  color: var(--text);
+  font-family: var(--font-main);
+  text-rendering: optimizeLegibility;
+}
+
+body::before,
+body::after {
+  display: block;
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+body::before {
+  background:
+    linear-gradient(rgba(0, 255, 170, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 170, 0.035) 1px, transparent 1px);
+  background-size: 34px 34px;
+  opacity: 0.25;
+  mix-blend-mode: screen;
+}
+
+body::after {
+  background:
+    radial-gradient(circle at 80% 10%, rgba(0, 255, 170, 0.13), transparent 28%),
+    radial-gradient(circle at 15% 78%, rgba(39, 215, 255, 0.09), transparent 31%),
+    radial-gradient(circle at center, transparent 42%, rgba(0, 0, 0, 0.34) 100%);
+  opacity: 0.92;
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+#app,
+.app-shell {
+  background: transparent !important;
+}
+
+.app-shell {
+  max-width: 1760px;
+  margin: 0 auto;
+  animation: megazzonia-interface-entry 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.status-bar,
+.taskbar,
+.dock-panel__header,
+.dock-panel__footer,
+.context-panel,
+.window-frame,
+.panel-card,
+.stat-card,
+.hero-panel,
+.mail-detail,
+.thread-row,
+.file-row,
+.taskbar-button,
+.dock-launch,
+.toast,
+.modal-card,
+.empty-state,
+.list-item,
+.project-card,
+.portfolio-project,
+.portfolio-capability,
+.portfolio-lane-card,
+.portfolio-hero,
+.portfolio-hero__panel,
+.portfolio-roadmap-grid > div,
+.project-controls,
+.table-shell,
+.terminal-query-panel,
+.terminal-result-panel,
+.terminal-history-panel,
+.career-hero,
+.career-log__item,
+.home-brief-note,
+.mission-card,
+.report-card,
+.preview-section {
+  background: var(--panel) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--radius) !important;
+  color: var(--text);
+  box-shadow:
+    0 24px 70px var(--shadow),
+    inset 0 1px 0 var(--glass-highlight) !important;
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+}
+
+.status-bar,
+.dock-panel__header,
+.window-frame,
+.panel-card,
+.portfolio-hero,
+.modal-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.status-bar::before,
+.dock-panel__header::before,
+.window-frame::before,
+.panel-card::before,
+.portfolio-hero::before,
+.modal-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 18px;
+  height: 18px;
+  border-top: 2px solid var(--accent);
+  border-right: 2px solid var(--accent);
+  opacity: 0.52;
+  pointer-events: none;
+}
+
+.status-bar {
+  min-height: 74px;
+  padding: 14px var(--shell-padding);
+  background: rgba(255, 255, 255, 0.055) !important;
+  border-bottom: 1px solid var(--glass-border) !important;
+}
+
+.status-bar__logo {
+  width: 44px;
+  height: 36px;
+  color: var(--accent);
+  background: rgba(0, 255, 170, 0.09) !important;
+  border-color: rgba(0, 255, 170, 0.28) !important;
+  border-radius: 12px;
+  box-shadow: 0 0 22px var(--neon-soft);
+  font-family: var(--font-mono);
+}
+
+.status-bar__name,
+.window-frame__title,
+.dock-panel__header,
+.panel-card__title,
+.taskbar-button__short,
+.dock-launch__icon,
+.eyebrow,
+.stat-card__label,
+.portfolio-section__eyebrow,
+.portfolio-project__kind,
+.project-card__kind,
+.badge,
+.chip,
+.dock-mini-label {
+  font-family: var(--font-tech);
+}
+
+.status-bar__name {
+  color: var(--text);
+  font-weight: 800;
+}
+
+.status-bar__meta span,
+.status-bar__metrics span,
+.taskbar-status__item,
+.badge,
+.chip,
+.dock-mini-value {
+  background: rgba(0, 255, 170, 0.09) !important;
+  border: 1px solid rgba(0, 255, 170, 0.20) !important;
+  color: var(--accent) !important;
+}
+
+.shell-grid {
+  gap: 14px;
+  padding: 16px;
+}
+
+.dock-panel {
+  gap: 12px;
+}
+
+.dock-panel__header,
+.panel-card__title {
+  color: var(--accent) !important;
+  background: rgba(0, 0, 0, 0.14) !important;
+  border-bottom: 1px solid rgba(0, 255, 170, 0.16) !important;
+  text-transform: uppercase;
+}
+
+.dock-panel__header::after,
+.panel-card__title::after,
+.view-head .eyebrow::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  margin-left: 10px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+  opacity: 0.28;
+}
+
+.dock-panel__header,
+.panel-card__title,
+.view-head .eyebrow {
+  display: flex;
+  align-items: center;
+}
+
+.dock-launch,
+.taskbar-button,
+.nav-pill,
+.project-filter,
+.project-filter input,
+.project-filter select,
+.project-search input,
+.terminal-action,
+.btn,
+.button,
+.modal-card button,
+.file-row,
+.thread-row,
+.history-item {
+  border-radius: 10px !important;
+}
+
+.dock-launch,
+.taskbar-button,
+.nav-pill,
+.modal-card button,
+.terminal-action,
+.history-item {
+  background: rgba(255, 255, 255, 0.035) !important;
+  border: 1px solid var(--glass-border) !important;
+  color: var(--text) !important;
+}
+
+.dock-launch:hover,
+.dock-launch.is-active,
+.taskbar-button:hover,
+.taskbar-button.is-active,
+.nav-pill:hover,
+.nav-pill.is-active,
+.project-card:hover,
+.portfolio-project:hover,
+.file-row:hover,
+.file-row.is-active,
+.thread-row:hover,
+.thread-row.is-active,
+.history-item:hover,
+.history-item.is-latest {
+  border-color: var(--accent) !important;
+  background: rgba(0, 255, 170, 0.12) !important;
+  color: var(--accent) !important;
+  box-shadow: 0 0 24px var(--neon-soft), inset 3px 0 0 var(--accent) !important;
+  transform: translateY(-1px);
+}
+
+.dock-launch--danger,
+.btn-terminal-danger,
+.toast--error {
+  border-color: rgba(255, 68, 102, 0.48) !important;
+  color: var(--danger) !important;
+}
+
+.dock-launch__icon,
+.taskbar-button__short {
+  background: rgba(0, 255, 170, 0.12) !important;
+  border-color: rgba(0, 255, 170, 0.22) !important;
+  color: var(--accent) !important;
+  border-radius: 10px;
+}
+
+.window-frame {
+  background: rgba(255, 255, 255, 0.045) !important;
+}
+
+.window-frame__titlebar {
+  min-height: 46px;
+  background: rgba(0, 0, 0, 0.16) !important;
+  border-bottom: 1px solid var(--glass-border) !important;
+  color: var(--text);
+}
+
+.window-frame__title {
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.window-dot {
+  width: 9px;
+  height: 9px;
+  background: var(--glass-border);
+  border-color: transparent;
+}
+
+.window-dot:last-child {
+  background: var(--accent);
+  box-shadow: 0 0 12px var(--accent);
+}
+
+.window-frame__body {
+  background:
+    radial-gradient(circle at 90% 8%, rgba(0, 255, 170, 0.11), transparent 26%),
+    rgba(0, 0, 0, 0.10) !important;
+}
+
+.view-head h2,
+.portfolio-hero h1,
+.project-category__head h2,
+.portfolio-section__head h2,
+.project-card h3,
+.portfolio-project h3,
+.portfolio-capability h3,
+.panel-card h2,
+.panel-card h3,
+.career-hero__name,
+.terminal-panel-title,
+.file-detail__name,
+.mail-detail__subject,
+.empty-state__title,
+.stat-card__value {
+  color: var(--text) !important;
+  font-family: var(--font-tech);
+  font-weight: 800;
+}
+
+.portfolio-hero h1,
+.view-head h2 {
+  background: linear-gradient(135deg, var(--text) 0%, var(--muted) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+}
+
+.eyebrow,
+.portfolio-section__eyebrow,
+.stat-card__label,
+.project-card__kind,
+.portfolio-project__kind,
+.terminal-panel-subtitle,
+.file-detail__subtitle {
+  color: var(--accent) !important;
+  text-transform: uppercase;
+}
+
+.view-head p,
+.panel-card__body,
+.portfolio-hero p,
+.portfolio-project p,
+.portfolio-capability p,
+.portfolio-roadmap p,
+.portfolio-panel-note,
+.portfolio-panel-metric span,
+.project-card p,
+.thread-row__preview,
+.file-row__preview,
+.file-row__meta,
+.list-item__subtitle,
+.list-item__body,
+.empty-state__body,
+.career-log__copy,
+.terminal-panel-copy,
+.terminal-footnote,
+.dock-mini-label {
+  color: var(--muted) !important;
+}
+
+.portfolio-hero,
+.career-hero {
+  background:
+    radial-gradient(circle at 88% 16%, rgba(0, 255, 170, 0.15), transparent 24%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025)) !important;
+}
+
+.portfolio-hero__panel,
+.portfolio-panel-metric,
+.stat-card {
+  background: rgba(255, 255, 255, 0.075) !important;
+}
+
+.stat-card__value,
+.portfolio-panel-metric strong,
+.context-row strong,
+.key-value-list__row dd {
+  color: var(--text) !important;
+  font-family: var(--font-mono);
+  text-shadow: 0 0 20px var(--neon-soft);
+}
+
+.progress-bar,
+.progress-block__track,
+.portfolio-progress,
+.bar-track {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.progress-bar__fill,
+.progress-block__fill,
+.portfolio-progress__bar,
+.bar-fill {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2)) !important;
+  box-shadow: 0 0 18px var(--neon-soft);
+}
+
+input,
+select,
+textarea,
+.project-search input,
+.project-filter select,
+.terminal-editor textarea {
+  background: rgba(0, 0, 0, 0.20) !important;
+  border: 1px solid var(--glass-border) !important;
+  color: var(--text) !important;
+  border-radius: 10px !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: rgba(174, 197, 189, 0.70);
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus-visible,
+a:focus-visible {
+  border-color: var(--accent) !important;
+  outline: 3px solid var(--neon-soft) !important;
+  outline-offset: 2px;
+}
+
+.data-table,
+.data-table th,
+.data-table td,
+.preview-table,
+.preview-table th,
+.preview-table td {
+  border-color: var(--glass-border) !important;
+  color: var(--text);
+}
+
+.data-table th,
+.preview-table th {
+  background: rgba(0, 255, 170, 0.08) !important;
+  color: var(--accent) !important;
+  font-family: var(--font-tech);
+}
+
+.terminal-shell,
+.terminal-editor,
+.terminal-output,
+pre,
+code {
+  background: rgba(0, 0, 0, 0.34) !important;
+  color: #d9fff1 !important;
+  border-color: rgba(0, 255, 170, 0.18) !important;
+  font-family: var(--font-mono) !important;
+}
+
+.toast-host {
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+}
+
+.window-frame__body {
+  padding-bottom: 92px !important;
+  scroll-padding-bottom: 92px;
+}
+
+.toast__title {
+  color: var(--accent);
+  font-family: var(--font-tech);
+}
+
+.modal-backdrop {
+  background: rgba(0, 0, 0, 0.72) !important;
+  backdrop-filter: blur(10px);
+}
+
+a,
+.link-button {
+  color: var(--accent);
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 170, 0.28);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+@keyframes megazzonia-interface-entry {
+  from {
+    opacity: 0;
+    transform: scale(0.992) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@media (max-width: 920px) {
+  .status-bar {
+    min-height: auto;
+  }
+
+  .shell-grid {
+    padding: 12px;
+  }
+
+  .window-frame__body {
+    padding-bottom: 118px !important;
+    scroll-padding-bottom: 118px;
+  }
+}

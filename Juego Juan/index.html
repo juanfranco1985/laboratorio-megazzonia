@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formula Apex Garage</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="shell">
+    <section class="hud-panel">
+      <div class="hero-block">
+        <p class="eyebrow">Formula Apex Garage</p>
+        <h1>Mas circuitos, clima, energia y upgrades permanentes</h1>
+        <p class="intro">
+          Prepara el monoplaza, elige circuito y clima, invierte creditos y compite con
+          habilidades activas durante la carrera.
+        </p>
+      </div>
+
+      <div class="stats-grid">
+        <article class="stat-card">
+          <span class="label">Vueltas</span>
+          <strong id="lapValue">0 / 3</strong>
+        </article>
+        <article class="stat-card">
+          <span class="label">Posicion</span>
+          <strong id="placeValue">5 / 5</strong>
+        </article>
+        <article class="stat-card">
+          <span class="label">Velocidad</span>
+          <strong id="speedValue">0 km/h</strong>
+        </article>
+        <article class="stat-card">
+          <span class="label">Integridad</span>
+          <strong id="integrityValue">100 / 100</strong>
+        </article>
+        <article class="stat-card">
+          <span class="label">Creditos</span>
+          <strong id="creditsValue">0 cr</strong>
+        </article>
+        <article class="stat-card">
+          <span class="label">Mejor vuelta</span>
+          <strong id="bestLapValue">--:--.---</strong>
+        </article>
+      </div>
+
+      <div class="meters">
+        <div class="meter">
+          <span>Turbo</span>
+          <div class="bar-shell"><div id="boostBar" class="bar turbo"></div></div>
+        </div>
+        <div class="meter">
+          <span>Escudo</span>
+          <div class="bar-shell"><div id="shieldBar" class="bar shield"></div></div>
+        </div>
+        <div class="meter">
+          <span>Energia</span>
+          <div class="bar-shell"><div id="energyBar" class="bar energy"></div></div>
+        </div>
+      </div>
+
+      <section class="message-card">
+        <p class="section-tag">Telemetria</p>
+        <strong id="messageValue">Garaje listo. Ajusta la configuracion antes de largar.</strong>
+      </section>
+
+      <section class="session-card">
+        <div class="session-grid">
+          <button type="button" class="session-chip" data-garage-tab="driver">
+            <span class="session-label">Piloto</span>
+            <strong id="sessionDriverValue">Lando Norris</strong>
+            <span id="sessionDriverMeta" class="session-meta">McLaren | #4</span>
+          </button>
+          <button type="button" class="session-chip" data-garage-tab="track">
+            <span class="session-label">Circuito</span>
+            <strong id="sessionTrackValue">Monza</strong>
+            <span id="sessionTrackMeta" class="session-meta">5.793 km | Clear</span>
+          </button>
+          <button type="button" class="session-chip" data-garage-tab="setup">
+            <span class="session-label">Setup</span>
+            <strong id="sessionSetupValue">10x | 1.28x</strong>
+            <span id="sessionSetupMeta" class="session-meta">0.68 zoom | Ajustado</span>
+          </button>
+          <button type="button" class="session-chip" data-garage-tab="garage">
+            <span class="session-label">Garage</span>
+            <strong id="sessionGarageValue">0 / 0</strong>
+            <span id="sessionGarageMeta" class="session-meta">0 cr disponibles</span>
+          </button>
+          <button id="startRaceBtn" class="start-btn session-start" type="button">Comenzar carrera</button>
+        </div>
+      </section>
+
+      <nav id="garageTabs" class="garage-tabs" aria-label="Menu previo a la carrera">
+        <button type="button" class="garage-tab active" data-garage-tab="track">Circuito</button>
+        <button type="button" class="garage-tab" data-garage-tab="driver">Piloto</button>
+        <button type="button" class="garage-tab" data-garage-tab="setup">Setup</button>
+        <button type="button" class="garage-tab" data-garage-tab="garage">Upgrades</button>
+      </nav>
+
+      <section class="driver-card menu-panel" data-menu-panel="driver">
+        <div class="section-head">
+          <div>
+            <p class="section-tag">Piloto</p>
+            <h2>Seleccion de parrilla</h2>
+          </div>
+        </div>
+        <div id="driverGrid" class="driver-grid"></div>
+      </section>
+
+      <section class="selector-card menu-panel" data-menu-panel="track">
+        <div class="section-head">
+          <div>
+            <p class="section-tag">Circuito</p>
+            <h2 id="trackName">Monza</h2>
+          </div>
+          <div class="selector-tools">
+            <input id="trackSearchInput" class="track-search" type="search" placeholder="Buscar circuito o layout">
+          </div>
+        </div>
+        <div id="trackStats" class="track-stats"></div>
+        <div id="trackGrid" class="track-grid"></div>
+        <p id="trackDescription" class="selector-copy"></p>
+        <div id="weatherButtons" class="chip-row"></div>
+      </section>
+
+      <section class="tuning-card menu-panel" data-menu-panel="setup">
+        <div class="section-head">
+          <div>
+            <p class="section-tag">Escala</p>
+            <h2>Mundo y camara</h2>
+          </div>
+          <button id="resetScaleBtn" class="ghost-btn" type="button">Reset</button>
+        </div>
+        <div class="setup-choices">
+          <div class="setup-block">
+            <p class="section-tag">Modo</p>
+            <div id="gameModeButtons" class="chip-row setup-chip-row"></div>
+          </div>
+          <div class="setup-block">
+            <p class="section-tag">Sesion</p>
+            <div id="sessionTypeButtons" class="chip-row setup-chip-row"></div>
+          </div>
+          <div class="setup-block">
+            <p class="section-tag">Neumaticos</p>
+            <div id="compoundButtons" class="chip-row setup-chip-row"></div>
+          </div>
+          <div class="setup-block">
+            <p class="section-tag">Rivales</p>
+            <label class="tuning-row compact-row" for="opponentCountInput">
+              <strong id="opponentCountValue">21</strong>
+              <input id="opponentCountInput" type="range" min="0" max="21" step="1" value="21">
+            </label>
+          </div>
+        </div>
+        <div id="weekendSummary" class="weekend-summary"></div>
+        <div class="tuning-grid">
+          <label class="tuning-row" for="trackScaleInput">
+            <span>Tamano circuito</span>
+            <strong id="trackScaleValue">10x</strong>
+            <input id="trackScaleInput" type="range" min="4" max="20" step="1" value="10">
+          </label>
+          <label class="tuning-row" for="physicsScaleInput">
+            <span>Escala fisica</span>
+            <strong id="physicsScaleValue">8.0x</strong>
+            <input id="physicsScaleInput" type="range" min="4" max="16" step="0.5" value="8">
+          </label>
+          <label class="tuning-row" for="cameraZoomInput">
+            <span>Zoom camara</span>
+            <strong id="cameraZoomValue">0.13</strong>
+            <input id="cameraZoomInput" type="range" min="0.06" max="0.28" step="0.01" value="0.13">
+          </label>
+        </div>
+      </section>
+
+      <section class="upgrade-card menu-panel" data-menu-panel="garage">
+        <div class="section-head">
+          <div>
+            <p class="section-tag">Garage</p>
+            <h2>Mejoras permanentes</h2>
+          </div>
+          <strong class="credits-pill">Build persistente</strong>
+        </div>
+        <div id="upgradeGrid" class="upgrade-grid"></div>
+      </section>
+
+      <div class="legend">
+        <div><span class="swatch turbo"></span>Turbo</div>
+        <div><span class="swatch shield"></span>Escudo</div>
+        <div><span class="swatch repair"></span>Reparacion</div>
+        <div><span class="swatch energy"></span>Energia</div>
+      </div>
+
+      <ul class="controls">
+        <li><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> o flechas para conducir</li>
+        <li><kbd>Espacio</kbd> activa ERS, <kbd>Shift</kbd> despliega escudo</li>
+        <li><kbd>Q</kbd> activa iman, <kbd>E</kbd> ejecuta reparacion y <kbd>P</kbd> pide boxes</li>
+        <li>Invierte creditos entre carreras para mejorar motor, aero, bateria y blindaje</li>
+      </ul>
+
+      <p class="license-note">
+        Layouts vectoriales adaptados de julesr0y/f1-circuits-svg bajo CC-BY-4.0.
+      </p>
+    </section>
+
+    <section class="track-panel">
+      <canvas id="gameCanvas" width="1280" height="760" aria-label="Juego de Formula 1"></canvas>
+      <div id="overlay" class="overlay visible">
+        <div class="overlay-card">
+          <p class="eyebrow">Modo garage</p>
+          <h2 id="overlayTitle">Prepara la siguiente carrera</h2>
+          <p id="overlayText">
+            Cambia de circuito, selecciona clima y compra mejoras antes de largar.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="real-track-data.js"></script>
+  <script src="generated-track-catalog.js"></script>
+  <script src="data.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

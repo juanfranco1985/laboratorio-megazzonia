@@ -1,0 +1,77 @@
+:root {
+  --radius-xl: 14px;
+  --radius-lg: 10px;
+  --radius-md: 6px;
+  --radius-sm: 4px;
+  --shadow-lg: 0 18px 36px rgba(33, 24, 15, 0.08);
+  --shadow-md: 0 8px 18px rgba(33, 24, 15, 0.06);
+  --transition-base: 160ms ease;
+}
+
+body[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #1d1814;
+  --bg-gradient-end: #14110f;
+  --bg-elevated: rgba(32, 27, 22, 0.95);
+  --bg-solid: #26201b;
+  --surface: rgba(39, 33, 27, 0.95);
+  --surface-soft: rgba(53, 44, 37, 0.92);
+  --surface-strong: rgba(26, 22, 19, 0.98);
+  --border: rgba(236, 225, 203, 0.18);
+  --border-strong: rgba(236, 225, 203, 0.42);
+  --text: #f0e5d0;
+  --muted: #b7a88e;
+  --accent: #f0e5d0;
+  --accent-strong: #fff7eb;
+  --accent-soft: rgba(240, 229, 208, 0.09);
+  --accent-surface-weak: rgba(240, 229, 208, 0.07);
+  --accent-surface-medium: rgba(240, 229, 208, 0.18);
+  --accent-border-soft: rgba(240, 229, 208, 0.32);
+  --accent-outline: rgba(240, 229, 208, 0.52);
+  --secondary: #d2a65a;
+  --secondary-outline: rgba(210, 166, 90, 0.28);
+  --success: #b5be8c;
+  --success-surface: rgba(181, 190, 140, 0.12);
+  --success-surface-strong: rgba(181, 190, 140, 0.22);
+  --success-border: rgba(181, 190, 140, 0.32);
+  --danger: #cb8f7a;
+  --danger-soft: rgba(203, 143, 122, 0.13);
+  --danger-border: rgba(203, 143, 122, 0.28);
+  --hero-glow: rgba(240, 229, 208, 0.08);
+  --board-glow: rgba(240, 229, 208, 0.05);
+  --cell-bg: #201a16;
+}
+
+body[data-theme='light'] {
+  color-scheme: light;
+  --bg: #f4efe3;
+  --bg-gradient-end: #e9e1d1;
+  --bg-elevated: rgba(251, 246, 237, 0.96);
+  --bg-solid: #fbf7ef;
+  --surface: rgba(251, 246, 237, 0.94);
+  --surface-soft: rgba(243, 236, 223, 0.78);
+  --surface-strong: rgba(238, 229, 213, 0.96);
+  --border: rgba(24, 19, 15, 0.16);
+  --border-strong: rgba(24, 19, 15, 0.38);
+  --text: #18130f;
+  --muted: #60564c;
+  --accent: #18130f;
+  --accent-strong: #080604;
+  --accent-soft: rgba(24, 19, 15, 0.08);
+  --accent-surface-weak: rgba(24, 19, 15, 0.06);
+  --accent-surface-medium: rgba(24, 19, 15, 0.14);
+  --accent-border-soft: rgba(24, 19, 15, 0.24);
+  --accent-outline: rgba(24, 19, 15, 0.42);
+  --secondary: #8f3223;
+  --secondary-outline: rgba(143, 50, 35, 0.24);
+  --success: #5c6840;
+  --success-surface: rgba(92, 104, 64, 0.12);
+  --success-surface-strong: rgba(92, 104, 64, 0.22);
+  --success-border: rgba(92, 104, 64, 0.3);
+  --danger: #974039;
+  --danger-soft: rgba(151, 64, 57, 0.1);
+  --danger-border: rgba(151, 64, 57, 0.24);
+  --hero-glow: rgba(255, 255, 255, 0.32);
+  --board-glow: rgba(24, 19, 15, 0.04);
+  --cell-bg: #fffdf8;
+}

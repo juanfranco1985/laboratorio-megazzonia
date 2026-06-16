@@ -1,0 +1,150 @@
+﻿<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>South American Runner | Laboratorio Megazzonia</title>
+    <meta name="description" content="Runner por biomas sudamericanos con niveles, expedicion completa, progreso persistente, assets propios y controles tactiles." />
+    <meta property="og:title" content="South American Runner | Laboratorio Megazzonia" />
+    <meta property="og:description" content="Juego web de runner con biomas sudamericanos, progreso persistente, controles tactiles y assets propios." />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="../../assets/screenshots/demos/south-american-runner.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="South American Runner | Laboratorio Megazzonia" />
+    <meta name="twitter:description" content="Runner por biomas sudamericanos con niveles, progreso y controles tactiles." />
+    <meta name="twitter:image" content="../../assets/screenshots/demos/south-american-runner.png" />
+    <link rel="stylesheet" href="../../styles/case.css?v=runner-20260429b" />
+  </head>
+  <body>
+    <main class="case-shell">
+      <nav class="case-topbar">
+        <a class="case-brand" href="../../../">Laboratorio Megazzonia</a>
+        <div class="case-topbar__links">
+          <a class="case-link" href="../../../index.html?portfolio=20260513a#projects">Volver al portfolio</a>
+          <a class="case-link" href="../../../Endless%20Runner/docs/active-level-direction-guide.md">Direccion de niveles</a>
+        </div>
+      </nav>
+
+      <section class="case-hero">
+        <div class="case-hero__copy">
+          <div class="case-kicker">Canvas game + assets propios + progresion</div>
+          <h1>South American Runner</h1>
+          <p class="case-lead">
+            Runner web por biomas sudamericanos. La demo combina cinco niveles jugables, arte local por pais,
+            audio, clima, obstaculos ecologicos, coleccionables, medallas, guardado local y controles tactiles.
+          </p>
+          <div class="case-actions">
+            <span class="case-link">Demo completa local</span>
+            <a class="case-link" href="../../../Endless%20Runner/README.md">Leer ficha tecnica</a>
+          </div>
+          <div class="case-proof-strip">
+            <span>5 paises activos</span>
+            <span>Canvas 2D</span>
+            <span>Modo expedicion</span>
+            <span>Reset de progreso</span>
+            <span>Debug desactivado por defecto</span>
+          </div>
+        </div>
+        <div class="case-preview case-preview--static">
+          <img src="../../assets/screenshots/demos/south-american-runner.png" alt="Captura de South American Runner" />
+          <p class="case-static-note">La demo interactiva completa queda preservada en el paquete completo/local. Esta version para hosting muestra la ficha y captura para mantener una carga publica liviana.</p>
+        </div>
+      </section>
+
+      <section class="case-grid case-grid--three">
+        <article class="case-card">
+          <h2>Problema</h2>
+          <p>
+            Transformar una idea de runner en una experiencia reconocible para portfolio: debe verse jugable,
+            tener identidad regional, progresion clara y abrir directo sin build ni backend.
+          </p>
+        </article>
+        <article class="case-card">
+          <h2>Decision tecnica</h2>
+          <p>
+            Usar Canvas y JavaScript modular con assets locales. El proyecto evita dependencias pesadas y mantiene
+            una demo estatica que se puede servir desde el hub o abrir en cualquier servidor HTTP.
+          </p>
+        </article>
+        <article class="case-card">
+          <h2>Resultado</h2>
+          <p>
+            Juego navegable con selector de bioma, expedicion completa, progreso persistente, medallas por nivel,
+            musica por pais, controles tactiles y pantalla de reporte al finalizar.
+          </p>
+        </article>
+      </section>
+
+      <section class="case-section">
+        <div class="case-section__head">
+          <div>
+            <div class="case-kicker">Gameplay systems</div>
+            <h2>Lo que demuestra el proyecto</h2>
+          </div>
+          <span class="case-pill">Ficha hosting</span>
+        </div>
+        <div class="case-architecture">
+          <div>
+            <span>01</span>
+            <strong>Niveles por bioma</strong>
+            <p>Argentina, Bolivia, Brazil, Chile y Colombia tienen animal, atmosfera, obstaculos y arte propio.</p>
+          </div>
+          <div>
+            <span>02</span>
+            <strong>Movimiento y colision</strong>
+            <p>Tres carriles, salto, slide, rescate, power-up, ventanas de input y colisiones depurables.</p>
+          </div>
+          <div>
+            <span>03</span>
+            <strong>Progresion local</strong>
+            <p>Mejor distancia, medallas, reliquias y mastery quedan guardados en el navegador.</p>
+          </div>
+          <div>
+            <span>04</span>
+            <strong>Produccion visual</strong>
+            <p>Sprites, fondos, musica y guias de direccion convierten la demo en pieza presentable.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="case-grid case-grid--two">
+        <article class="case-card">
+          <h2>Mejoras destacadas</h2>
+          <ul>
+            <li>Modo debug desactivado por defecto para que la demo abra limpia.</li>
+            <li>Boton de expedicion completa para correr los cinco paises en una ruta.</li>
+            <li>Boton de reset para limpiar progreso local durante demostraciones.</li>
+            <li>Cartas de nivel con estado de medalla guardada.</li>
+          </ul>
+        </article>
+        <article class="case-card">
+          <h2>Controles</h2>
+          <ul>
+            <li>Teclado: flechas o WASD para moverse, saltar y deslizar.</li>
+            <li>Mobile: botones tactiles y gestos sobre el canvas.</li>
+            <li>Menu: seleccion por pais o expedicion completa.</li>
+            <li>Depuracion opcional: tecla C para mostrar colisiones.</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="case-card case-wide">
+        <h2>Stack</h2>
+        <div class="case-stack">
+          <span>HTML</span>
+          <span>CSS</span>
+          <span>JavaScript modular</span>
+          <span>Canvas 2D</span>
+          <span>Sprites locales</span>
+          <span>Audio local</span>
+          <span>LocalStorage</span>
+          <span>Touch controls</span>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
+
+
+
+

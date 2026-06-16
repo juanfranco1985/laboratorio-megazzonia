@@ -1,0 +1,10 @@
+{
+  "name": "Sopa Infinita",
+  "short_name": "Sopa Infinita",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f4efe3",
+  "theme_color": "#f4efe3",
+  "lang": "es",
+  "description": "Sopa de letras procedural mobile-first y offline-first."
+}

@@ -1,0 +1,189 @@
+{
+  "name": "Laboratorio Megazzonia blog-portafolio",
+  "version": "megazzonia-20260513a",
+  "profile": "hosting",
+  "generatedAt": "2026-06-10T17:35:34.869Z",
+  "root": "blog-portafolio-hosting",
+  "entry": "index.html",
+  "serveCommand": "python -m http.server 8092 --bind 127.0.0.1",
+  "notes": [
+    "El catalogo exportado usa WORKSPACE_ROOT_PREFIX='.' para resolver rutas internas.",
+    "El paquete excluye node_modules, tests, logs, zips y carpetas Android nativas secundarias.",
+    "Los proyectos con backend, Streamlit o Android quedan como README/caso, no como demo ejecutable.",
+    "El perfil hosting no copia demos pesadas; las tarjetas quedan como ficha/captura y la demo completa permanece en el paquete completo/local."
+  ],
+  "copiedEntries": [
+    {
+      "source": "LABORATORIO MEGAZZONIA estructura blog/android/app/src/main/assets/css",
+      "target": "css"
+    },
+    {
+      "source": "LABORATORIO MEGAZZONIA estructura blog/android/app/src/main/assets/data",
+      "target": "data"
+    },
+    {
+      "source": "LABORATORIO MEGAZZONIA estructura blog/android/app/src/main/assets/index.html",
+      "target": "index.html"
+    },
+    {
+      "source": "LABORATORIO MEGAZZONIA estructura blog/android/app/src/main/assets/js",
+      "target": "js"
+    },
+    {
+      "source": "LABORATORIO MEGAZZONIA estructura blog/android/app/src/main/assets/libs",
+      "target": "libs"
+    },
+    {
+      "source": "LABORATORIO MEGAZZONIA estructura blog/android/app/src/main/assets/simulator.html",
+      "target": "simulator.html"
+    },
+    {
+      "source": "portfolio",
+      "target": "portfolio"
+    },
+    {
+      "source": "LABORATORIO MEGAZZONIA estructura blog/README.md",
+      "target": "LABORATORIO MEGAZZONIA estructura blog/README.md"
+    },
+    {
+      "source": "LABORATORIO MEGAZZONIA estructura blog/docs",
+      "target": "LABORATORIO MEGAZZONIA estructura blog/docs"
+    },
+    {
+      "source": "LABORATORIO MEGAZZONIA estructura blog/docs",
+      "target": "docs"
+    },
+    {
+      "source": "Drone Factory",
+      "target": "Drone Factory"
+    },
+    {
+      "source": "Juego Juan",
+      "target": "Juego Juan"
+    },
+    {
+      "source": "Tanque CHATGPT",
+      "target": "Tanque CHATGPT"
+    },
+    {
+      "source": "Juegos Procedurales/Buscaminas Procedural",
+      "target": "Juegos Procedurales/Buscaminas Procedural"
+    },
+    {
+      "source": "Juegos Procedurales/Sopa de letras",
+      "target": "Juegos Procedurales/Sopa de letras"
+    },
+    {
+      "source": "Juegos Procedurales/Sudoku",
+      "target": "Juegos Procedurales/Sudoku"
+    },
+    {
+      "source": "Sistema de juegos procedurales 2",
+      "target": "Sistema de juegos procedurales 2"
+    },
+    {
+      "source": "Simulador de consumo electrico",
+      "target": "Simulador de consumo electrico"
+    },
+    {
+      "source": "Endless Runner/README.md",
+      "target": "Endless Runner/README.md"
+    },
+    {
+      "source": "Endless Runner/docs",
+      "target": "Endless Runner/docs"
+    },
+    {
+      "source": "Gato & Humano Ascenso al Rascacielos Celestial/README.md",
+      "target": "Gato & Humano Ascenso al Rascacielos Celestial/README.md"
+    },
+    {
+      "source": "FlightSimulatorClaude2/dist",
+      "target": "FlightSimulatorClaude2/dist"
+    },
+    {
+      "source": "FlightSimulatorClaude2/README.md",
+      "target": "FlightSimulatorClaude2/README.md"
+    },
+    {
+      "source": "Motorcraft CODEX 2/dist",
+      "target": "Motorcraft CODEX 2/dist"
+    },
+    {
+      "source": "Motorcraft CODEX 2/README.md",
+      "target": "Motorcraft CODEX 2/README.md"
+    },
+    {
+      "source": "Simulador de transferencia de calor en disipadores/dist",
+      "target": "Simulador de transferencia de calor en disipadores/dist"
+    },
+    {
+      "source": "Simulador de transferencia de calor en disipadores/README.md",
+      "target": "Simulador de transferencia de calor en disipadores/README.md"
+    },
+    {
+      "source": "Software de Analisis estructural - copia/dist",
+      "target": "Software de Analisis estructural - copia/dist"
+    },
+    {
+      "source": "Software de Analisis estructural - copia/README.md",
+      "target": "Software de Analisis estructural - copia/README.md"
+    },
+    {
+      "source": "Software de Analisis estructural - copia/imagen 1.png",
+      "target": "Software de Analisis estructural - copia/imagen 1.png"
+    },
+    {
+      "source": "Software de Analisis estructural - copia/imagen 2.png",
+      "target": "Software de Analisis estructural - copia/imagen 2.png"
+    },
+    {
+      "source": "Software de Analisis estructural - copia/imagen 3.png",
+      "target": "Software de Analisis estructural - copia/imagen 3.png"
+    },
+    {
+      "source": "10 - SOLAR YEAR HISTORICAL DATABASE & ANALYSIS TOOL/README.md",
+      "target": "10 - SOLAR YEAR HISTORICAL DATABASE & ANALYSIS TOOL/README.md"
+    },
+    {
+      "source": "5 - Solar Agriculture Planning System/README.md",
+      "target": "5 - Solar Agriculture Planning System/README.md"
+    },
+    {
+      "source": "9 - Solar Climate Dashboard/README.md",
+      "target": "9 - Solar Climate Dashboard/README.md"
+    },
+    {
+      "source": "9 - Solar Climate Dashboard/data/madrid_climate_sample.csv",
+      "target": "9 - Solar Climate Dashboard/data/madrid_climate_sample.csv"
+    },
+    {
+      "source": "9 - Solar Climate Dashboard/Imagen 1.jpg",
+      "target": "9 - Solar Climate Dashboard/Imagen 1.jpg"
+    },
+    {
+      "source": "9 - Solar Climate Dashboard/Imagen 2.jpg",
+      "target": "9 - Solar Climate Dashboard/Imagen 2.jpg"
+    },
+    {
+      "source": "9 - Solar Climate Dashboard/Imagen 3.jpg",
+      "target": "9 - Solar Climate Dashboard/Imagen 3.jpg"
+    },
+    {
+      "source": "9 - Solar Climate Dashboard/Imagen 4.jpg",
+      "target": "9 - Solar Climate Dashboard/Imagen 4.jpg"
+    },
+    {
+      "source": "ai-product-research/README.md",
+      "target": "ai-product-research/README.md"
+    },
+    {
+      "source": "Proyecto Cuaderno digital inteligente para músicos/README.md",
+      "target": "Proyecto Cuaderno digital inteligente para músicos/README.md"
+    },
+    {
+      "source": "RoiAnalyticsAndroid_v3/README.md",
+      "target": "RoiAnalyticsAndroid_v3/README.md"
+    }
+  ]
+}

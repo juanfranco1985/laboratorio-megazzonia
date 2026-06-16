@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Analisis Estructural | Laboratorio Megazzonia</title>
+    <meta name="description" content="Workbench React/Vite para vigas, cargas, apoyos, diagramas, factores de seguridad, persistencia y exportacion de reportes." />
+    <meta property="og:title" content="Analisis Estructural | Laboratorio Megazzonia" />
+    <meta property="og:description" content="Caso tecnico de vigas, cargas, apoyos, diagramas, factores de seguridad y reportes exportables." />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="../../assets/screenshots/demos/analisis-estructural.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Analisis Estructural | Laboratorio Megazzonia" />
+    <meta name="twitter:description" content="Workbench estructural con diagramas, seguridad y reportes." />
+    <meta name="twitter:image" content="../../assets/screenshots/demos/analisis-estructural.png" />
+    <link rel="stylesheet" href="../../styles/case.css?v=analisis-estructural-20260430a" />
+  </head>
+  <body>
+    <main class="case-shell">
+      <nav class="case-topbar">
+        <a class="case-brand" href="../../../">Laboratorio Megazzonia</a>
+        <div class="case-topbar__links">
+          <a class="case-link" href="../../../index.html?portfolio=20260513a#projects">Volver al portfolio</a>
+          <a class="case-link" href="../../../Software%20de%20Analisis%20estructural%20-%20copia/README.md">README tecnico</a>
+        </div>
+      </nav>
+
+      <section class="case-hero">
+        <div class="case-hero__copy">
+          <div class="case-kicker">React + Vite + structural engineering</div>
+          <h1>Analisis Estructural</h1>
+          <p class="case-lead">
+            Workbench web para analizar vigas, apoyos, cargas y estados de servicio. La demo genera diagramas de
+            cortante, momento, deflexion y esfuerzo, calcula factores de seguridad y exporta resultados para revision.
+          </p>
+          <div class="case-actions">
+            <a class="case-button" href="../../../Software%20de%20Analisis%20estructural%20-%20copia/dist/index.html">Abrir demo</a>
+            <a class="case-link" href="../../../Software%20de%20Analisis%20estructural%20-%20copia/README.md">Leer ficha tecnica</a>
+          </div>
+          <div class="case-proof-strip">
+            <span>React 18</span>
+            <span>Recharts</span>
+            <span>TypeScript parcial</span>
+            <span>Reportes</span>
+            <span>Build portable</span>
+          </div>
+        </div>
+
+        <div class="case-preview case-preview--gallery">
+          <img src="../../../Software%20de%20Analisis%20estructural%20-%20copia/imagen%201.png" alt="Panel principal de Analisis Estructural" />
+          <img src="../../../Software%20de%20Analisis%20estructural%20-%20copia/imagen%202.png" alt="Diagramas estructurales" />
+          <img src="../../../Software%20de%20Analisis%20estructural%20-%20copia/imagen%203.png" alt="Resumen de resultados" />
+          <iframe title="Analisis Estructural demo" src="../../../Software%20de%20Analisis%20estructural%20-%20copia/dist/index.html"></iframe>
+        </div>
+      </section>
+
+      <section class="case-card case-wide case-evidence">
+        <div class="case-evidence__head">
+          <div>
+            <div class="case-kicker">Proyecto insignia</div>
+            <h2>Por que se destaca</h2>
+          </div>
+          <span class="case-pill">Insignia</span>
+        </div>
+        <div class="case-evidence__grid">
+          <div>
+            <strong>Madurez</strong>
+            <p>Workbench tecnico con presets, diagramas, validaciones, persistencia y exportaciones.</p>
+          </div>
+          <div>
+            <strong>Evidencia</strong>
+            <p>Capturas reales, demo embebida y build Vite portable enlazado desde el portfolio.</p>
+          </div>
+          <div>
+            <strong>Valor portfolio</strong>
+            <p>Demuestra modelado aplicado, visualizacion de resultados y flujo de reporte tecnico.</p>
+          </div>
+          <div>
+            <strong>Siguiente mejora</strong>
+            <p>Revisar exactitud numerica con casos de referencia y agregar pruebas automatizadas de calculo.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="case-grid case-grid--three">
+        <article class="case-card">
+          <h2>Problema</h2>
+          <p>
+            Mostrar una herramienta tecnica que no sea solo formulario: debe permitir modelar una viga, probar cargas,
+            ejecutar calculos y leer resultados visuales rapidamente.
+          </p>
+        </article>
+        <article class="case-card">
+          <h2>Decision tecnica</h2>
+          <p>
+            Separar motor de calculo, constantes, exportacion y UI. La interfaz queda en React y los resultados se
+            grafican con Recharts para facilitar lectura y comparacion.
+          </p>
+        </article>
+        <article class="case-card">
+          <h2>Resultado</h2>
+          <p>
+            Demo con presets, validaciones, diagramas, reportes, CSV, persistencia local y URL compartible. El build
+            abre directo desde el Laboratorio.
+          </p>
+        </article>
+      </section>
+
+      <section class="case-section">
+        <div class="case-section__head">
+          <div>
+            <div class="case-kicker">Ingenieria aplicada</div>
+            <h2>Lo que demuestra el proyecto</h2>
+          </div>
+          <span class="case-pill">Herramienta tecnica interactiva</span>
+        </div>
+        <div class="case-architecture">
+          <div>
+            <span>01</span>
+            <strong>Modelo configurable</strong>
+            <p>Longitud, material, seccion, apoyos, peso propio, factor de carga y longitud efectiva.</p>
+          </div>
+          <div>
+            <span>02</span>
+            <strong>Sistema de cargas</strong>
+            <p>Cargas puntuales, distribuidas, triangulares y momentos con validacion de tramos.</p>
+          </div>
+          <div>
+            <span>03</span>
+            <strong>Resultados visuales</strong>
+            <p>Diagramas de corte, momento, deflexion y esfuerzo con referencias de limite.</p>
+          </div>
+          <div>
+            <span>04</span>
+            <strong>Salida profesional</strong>
+            <p>Exportacion JSON, TXT, PDF-style, CSV, persistencia local y estado compartible por enlace.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="case-grid case-grid--two">
+        <article class="case-card">
+          <h2>Mejoras destacadas</h2>
+          <ul>
+            <li>CSS propio para reemplazar la dependencia implicita de Tailwind.</li>
+            <li>Build Vite portable con `base: "./"`.</li>
+            <li>README tecnico reescrito y limpio para portfolio.</li>
+            <li>Ficha con capturas reales y demo embebida.</li>
+            <li>Reporte corregido para no imprimir reacciones inexistentes.</li>
+          </ul>
+        </article>
+        <article class="case-card">
+          <h2>Como se reproduce</h2>
+          <div class="case-command-list">
+            <code>cd "Software de Analisis estructural - copia"</code>
+            <code>npm install</code>
+            <code>npm run dev</code>
+            <code>npm run build</code>
+          </div>
+        </article>
+      </section>
+
+      <section class="case-card case-wide">
+        <h2>Stack</h2>
+        <div class="case-stack">
+          <span>React</span>
+          <span>Vite</span>
+          <span>TypeScript</span>
+          <span>Recharts</span>
+          <span>lucide-react</span>
+          <span>LocalStorage</span>
+          <span>CSV/JSON export</span>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
+

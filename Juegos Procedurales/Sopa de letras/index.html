@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#f4efe3" />
+    <title>Sopa Infinita</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="stylesheet" href="./styles/themes.css" />
+    <link rel="stylesheet" href="./styles/main.css" />
+    <link rel="stylesheet" href="./styles/responsive.css" />
+  </head>
+  <body data-theme="light">
+    <div class="ambient" aria-hidden="true">
+      <div class="ambient__orb ambient__orb--a"></div>
+      <div class="ambient__orb ambient__orb--b"></div>
+      <div class="ambient__orb ambient__orb--c"></div>
+    </div>
+
+    <div class="app-shell">
+      <main class="app-shell__content">
+        <section id="home-screen" class="screen screen--home">
+          <section class="hero-card panel panel--hero">
+            <p class="eyebrow">Procedural · Offline-first · Mobile-first</p>
+            <h1>Sopa Infinita</h1>
+            <p class="hero-card__lead">
+              Tableros nuevos en cada partida, categorias tematicas extensibles,
+              modo diario visible, modo zen, pista integrada y una base lista para
+              escalar luego a Android Studio sin rehacer la logica.
+            </p>
+            <div class="hero-card__actions">
+              <button id="home-new-game" class="button button--primary">Nueva partida</button>
+              <button id="home-daily-game" class="button button--secondary">Desafio diario</button>
+              <button id="home-continue-game" class="button button--ghost" hidden>Continuar</button>
+              <button id="home-theme-toggle" class="button button--ghost">Tema oscuro</button>
+            </div>
+          </section>
+
+          <div class="home-grid">
+            <section class="panel">
+              <div class="panel__header">
+                <div>
+                  <p class="eyebrow">Configuracion</p>
+                  <h2>Antes de generar</h2>
+                </div>
+                <span id="home-best-time-chip" class="chip">Sin record</span>
+              </div>
+
+              <label class="field">
+                <span>Categoria</span>
+                <select id="home-category"></select>
+              </label>
+
+              <div class="field">
+                <span>Modo</span>
+                <div id="home-play-mode" class="segmented-control segmented-control--wide"></div>
+              </div>
+
+              <div class="field">
+                <span>Ritmo</span>
+                <div id="home-timer-mode" class="segmented-control segmented-control--wide"></div>
+              </div>
+
+              <div class="field">
+                <span>Dificultad</span>
+                <div id="home-difficulty" class="segmented-control"></div>
+              </div>
+
+              <label class="field">
+                <span>Seed opcional</span>
+                <div class="inline-field">
+                  <input
+                    id="home-seed"
+                    type="text"
+                    inputmode="text"
+                    maxlength="40"
+                    placeholder="Auto"
+                  />
+                  <button id="home-daily-seed" type="button" class="button button--secondary">
+                    Hoy
+                  </button>
+                </div>
+              </label>
+
+              <p class="helper-text">
+                En clasica puedes fijar una seed manual. En diaria se usa la seed del dia
+                para la categoria y dificultad actuales.
+              </p>
+
+              <label class="field">
+                <span>Packs externos o remotos</span>
+                <div class="inline-field">
+                  <input
+                    id="home-pack-url"
+                    type="text"
+                    inputmode="url"
+                    placeholder="./packs/mi-pack.json o https://..."
+                  />
+                  <button id="home-pack-add" type="button" class="button button--secondary">
+                    Cargar
+                  </button>
+                </div>
+              </label>
+
+              <div class="stack-actions">
+                <button id="home-pack-clear" type="button" class="button button--ghost">
+                  Limpiar remotos
+                </button>
+              </div>
+
+              <div id="home-pack-sources" class="source-list"></div>
+            </section>
+
+            <section class="panel panel--solid">
+              <div class="panel__header">
+                <div>
+                  <p class="eyebrow">Estado del perfil</p>
+                  <h2>Resumen rapido</h2>
+                </div>
+              </div>
+
+              <div id="home-stats" class="stats-grid"></div>
+              <div id="home-category-preview" class="category-preview"></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="game-screen" class="screen screen--game" hidden>
+          <header class="topbar">
+            <button id="game-home" class="button button--ghost button--compact">Inicio</button>
+
+            <div class="topbar__title">
+              <p class="eyebrow">Partida activa</p>
+              <h2 id="game-title">Sopa Infinita</h2>
+              <p id="game-subtitle" class="topbar__subtitle"></p>
+            </div>
+
+            <button id="settings-toggle" class="button button--secondary button--compact">
+              Ajustes
+            </button>
+          </header>
+
+          <section class="status-strip">
+            <article class="chip chip--status">
+              <span id="timer-label" class="chip__label">Tiempo</span>
+              <strong id="timer-chip">00:00</strong>
+            </article>
+            <article class="chip chip--status">
+              <span class="chip__label">Restan</span>
+              <strong id="remaining-chip">0 restantes</strong>
+            </article>
+            <article class="chip chip--status">
+              <span class="chip__label">Modo</span>
+              <strong id="mode-chip">Clasica · Crono</strong>
+            </article>
+            <article class="chip chip--status">
+              <span class="chip__label">Pistas</span>
+              <strong id="hint-chip">0 pistas</strong>
+            </article>
+            <article class="chip chip--status">
+              <span class="chip__label">Categoria</span>
+              <strong id="category-chip">-</strong>
+            </article>
+            <article class="chip chip--status">
+              <span class="chip__label">Dificultad</span>
+              <strong id="difficulty-chip">-</strong>
+            </article>
+            <article class="chip chip--status chip--seed">
+              <span class="chip__label">Seed</span>
+              <strong id="seed-chip">-</strong>
+            </article>
+          </section>
+
+          <div class="game-layout">
+            <section class="panel board-panel">
+              <div class="panel__header">
+                <div>
+                  <p class="eyebrow">Tablero</p>
+                  <h2>Busca en linea recta</h2>
+                </div>
+              </div>
+
+              <div class="board-frame">
+                <div id="pause-overlay" class="board-overlay" hidden>
+                  <strong>Partida en pausa</strong>
+                  <span>Retoma desde la barra inferior.</span>
+                </div>
+                <div id="grid-container" class="grid-board" aria-live="polite"></div>
+              </div>
+
+              <div id="feedback-banner" class="feedback-banner" hidden></div>
+            </section>
+
+            <aside class="panel words-panel">
+              <div class="panel__header">
+                <div>
+                  <p class="eyebrow">Objetivos</p>
+                  <h2>Palabras a encontrar</h2>
+                </div>
+                <span id="word-counter" class="chip">0 restantes</span>
+              </div>
+
+              <ul id="word-list" class="word-list"></ul>
+            </aside>
+          </div>
+
+          <aside id="settings-panel" class="settings-panel" aria-hidden="true">
+            <div class="settings-panel__header">
+              <div>
+                <p class="eyebrow">Ajustes de proxima partida</p>
+                <h2>Configuracion</h2>
+              </div>
+              <button id="settings-close" class="button button--ghost button--compact">Cerrar</button>
+            </div>
+
+            <label class="field">
+              <span>Categoria</span>
+              <select id="panel-category"></select>
+            </label>
+
+            <div class="field">
+              <span>Modo</span>
+              <div id="panel-play-mode" class="segmented-control segmented-control--wide"></div>
+            </div>
+
+            <div class="field">
+              <span>Ritmo</span>
+              <div id="panel-timer-mode" class="segmented-control segmented-control--wide"></div>
+            </div>
+
+            <div class="field">
+              <span>Dificultad</span>
+              <div id="panel-difficulty" class="segmented-control"></div>
+            </div>
+
+            <label class="field">
+              <span>Seed opcional</span>
+              <div class="inline-field">
+                <input
+                  id="panel-seed"
+                  type="text"
+                  inputmode="text"
+                  maxlength="40"
+                  placeholder="Auto"
+                />
+                <button id="panel-daily-seed" type="button" class="button button--secondary">
+                  Hoy
+                </button>
+              </div>
+            </label>
+
+            <p class="helper-text">
+              Los cambios se aplican al generar una nueva partida o repetir la seed actual.
+            </p>
+
+            <div id="panel-stats" class="stats-grid stats-grid--compact"></div>
+          </aside>
+
+          <nav class="bottom-bar">
+            <button id="pause-button" class="button button--secondary">Pausar</button>
+            <button id="hint-button" class="button button--ghost">Pista (0)</button>
+            <button id="share-button" class="button button--ghost">Compartir</button>
+            <button id="restart-button" class="button button--ghost">Reiniciar</button>
+            <button id="new-button" class="button button--primary">Nueva</button>
+            <button id="theme-button" class="button button--ghost">Tema oscuro</button>
+          </nav>
+        </section>
+      </main>
+
+      <div id="modal-root" class="modal-root"></div>
+      <div id="toast-root" class="toast-root" aria-live="polite"></div>
+    </div>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>

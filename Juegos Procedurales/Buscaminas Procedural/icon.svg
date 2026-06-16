@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Buscaminas Procedural">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#183b66" />
+      <stop offset="100%" stop-color="#0a1629" />
+    </linearGradient>
+    <linearGradient id="panel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#ef4444" />
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="56" fill="url(#bg)" />
+  <rect x="44" y="44" width="168" height="168" rx="28" fill="#e2e8f0" opacity="0.95" />
+  <g fill="#0f172a">
+    <rect x="64" y="64" width="40" height="40" rx="12" />
+    <rect x="108" y="64" width="40" height="40" rx="12" opacity="0.75" />
+    <rect x="152" y="64" width="40" height="40" rx="12" />
+    <rect x="64" y="108" width="40" height="40" rx="12" opacity="0.75" />
+    <rect x="108" y="108" width="40" height="40" rx="12" fill="url(#panel)" />
+    <rect x="152" y="108" width="40" height="40" rx="12" opacity="0.75" />
+    <rect x="64" y="152" width="40" height="40" rx="12" />
+    <rect x="108" y="152" width="40" height="40" rx="12" opacity="0.75" />
+    <rect x="152" y="152" width="40" height="40" rx="12" />
+  </g>
+  <circle cx="128" cy="128" r="14" fill="#fff7ed" />
+  <path d="M128 83v90M83 128h90M95 95l66 66M161 95l-66 66" stroke="#fff7ed" stroke-linecap="round" stroke-width="8" />
+</svg>

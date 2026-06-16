@@ -1,0 +1,85 @@
+@media (min-width: 720px) {
+  .app-shell {
+    padding: 1.5rem 1.75rem;
+  }
+
+  .home-grid {
+    grid-template-columns: 1.12fr 0.88fr;
+  }
+
+  .status-strip {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .game-layout {
+    align-items: start;
+    grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.75fr);
+  }
+
+  .category-preview {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .source-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .settings-panel {
+    left: auto;
+    max-width: 28rem;
+    right: 1.5rem;
+    width: calc(100% - 3rem);
+  }
+}
+
+@media (min-width: 1040px) {
+  .app-shell::before {
+    inset: 1rem;
+  }
+
+  .hero-card {
+    padding: 1.6rem 1.8rem;
+  }
+
+  .hero-card__lead {
+    column-count: 2;
+    column-gap: 1.8rem;
+    max-width: none;
+  }
+
+  .topbar {
+    margin-bottom: 1.25rem;
+  }
+
+  .status-strip {
+    margin-bottom: 1.2rem;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+
+  .panel {
+    padding: 1.4rem 1.45rem;
+  }
+
+  .grid-cell {
+    font-size: clamp(0.84rem, 1.4vw, 1.15rem);
+  }
+
+  .word-list {
+    column-gap: 1.4rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-height: 36rem;
+  }
+
+  .words-panel {
+    align-self: stretch;
+  }
+
+  .bottom-bar {
+    margin-inline: auto;
+    max-width: 66rem;
+  }
+}

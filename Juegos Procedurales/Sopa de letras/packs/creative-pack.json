@@ -1,0 +1,70 @@
+{
+  "source": {
+    "id": "creative-pack",
+    "label": "Pack creativo"
+  },
+  "packs": [
+    {
+      "id": "mythology",
+      "label": "Mitologia",
+      "description": "Deidades, criaturas y simbolos de relatos antiguos.",
+      "words": [
+        "APOLO",
+        "ARES",
+        "ARTEMISA",
+        "ATENEA",
+        "CERBERO",
+        "CRONOS",
+        "DRAGON",
+        "ESFINGE",
+        "FENIX",
+        "HADES",
+        "HERMES",
+        "HIDRA",
+        "MEDUSA",
+        "MINOTAURO",
+        "NINFAS",
+        "ODIN",
+        "ORACULO",
+        "PEGASO",
+        "POSEIDON",
+        "SIRENA",
+        "THOR",
+        "TITAN",
+        "VALQUIRIA",
+        "ZEUS"
+      ]
+    },
+    {
+      "id": "cinema",
+      "label": "Cine",
+      "description": "Lenguaje audiovisual, produccion y sala oscura.",
+      "words": [
+        "ACTRIZ",
+        "BANDA",
+        "CAMARA",
+        "CORTOMETRAJE",
+        "DIRECTOR",
+        "DOBLAJE",
+        "DOCUMENTAL",
+        "ESCENA",
+        "ESTRENO",
+        "FICCION",
+        "FOCO",
+        "FRAME",
+        "GUION",
+        "ILUMINACION",
+        "MONTAJE",
+        "PANTALLA",
+        "PELICULA",
+        "PLANO",
+        "PRODUCCION",
+        "REPARTO",
+        "SONIDO",
+        "SUBTITULO",
+        "TAQUILLA",
+        "TRAILER"
+      ]
+    }
+  ]
+}

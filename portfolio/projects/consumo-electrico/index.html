@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simulador de Consumo Electrico | Laboratorio Megazzonia</title>
+    <meta name="description" content="Dashboard estatico para estimar kWh, costo mensual, equipos criticos, escenarios e historial exportable." />
+    <meta property="og:title" content="Simulador de Consumo Electrico | Laboratorio Megazzonia" />
+    <meta property="og:description" content="Calculadora tecnica de consumo electrico con escenarios, costos, equipos criticos e historial exportable." />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="../../assets/screenshots/demos/consumo-electrico.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Simulador de Consumo Electrico | Laboratorio Megazzonia" />
+    <meta name="twitter:description" content="Estimacion de kWh, costos mensuales, escenarios e historial exportable." />
+    <meta name="twitter:image" content="../../assets/screenshots/demos/consumo-electrico.png" />
+    <link rel="stylesheet" href="../../styles/case.css?v=consumo-electrico-20260430a" />
+  </head>
+  <body>
+    <main class="case-shell">
+      <nav class="case-topbar">
+        <a class="case-brand" href="../../../">Laboratorio Megazzonia</a>
+        <div class="case-topbar__links">
+          <a class="case-link" href="../../../index.html?portfolio=20260513a#projects">Volver al portfolio</a>
+          <a class="case-link" href="../../../Simulador%20de%20consumo%20electrico/README.md">README tecnico</a>
+        </div>
+      </nav>
+
+      <section class="case-hero">
+        <div class="case-hero__copy">
+          <div class="case-kicker">HTML + CSS + JavaScript + Canvas</div>
+          <h1>Simulador de Consumo Electrico</h1>
+          <p class="case-lead">
+            Dashboard energetico para estimar consumo mensual, costo, equipos criticos, mix por categoria e historico
+            exportable. La pieza muestra capacidad de convertir una calculadora simple en producto tecnico presentable.
+          </p>
+          <div class="case-actions">
+            <a class="case-button" href="../../../Simulador%20de%20consumo%20electrico/index.html">Abrir demo</a>
+            <a class="case-link" href="../../../Simulador%20de%20consumo%20electrico/README.md">Leer ficha tecnica</a>
+          </div>
+          <div class="case-proof-strip">
+            <span>Dashboard</span>
+            <span>Canvas charts</span>
+            <span>Presets</span>
+            <span>LocalStorage</span>
+            <span>CSV/TXT export</span>
+          </div>
+        </div>
+
+        <div class="case-preview">
+          <iframe
+            title="Simulador de Consumo Electrico demo"
+            src="../../../Simulador%20de%20consumo%20electrico/index.html"
+          ></iframe>
+        </div>
+      </section>
+
+      <section class="case-grid case-grid--three">
+        <article class="case-card">
+          <h2>Problema</h2>
+          <p>
+            La version anterior calculaba consumo, pero dependia de CDN, tenia textos corruptos y no comunicaba
+            jerarquia de datos ni criterio de producto.
+          </p>
+        </article>
+        <article class="case-card">
+          <h2>Decision tecnica</h2>
+          <p>
+            Rehacer la experiencia como dashboard estatico autosuficiente: estado local, presets, ranking de equipos,
+            graficos canvas y exportacion sin librerias externas.
+          </p>
+        </article>
+        <article class="case-card">
+          <h2>Resultado</h2>
+          <p>
+            Una demo portable con lectura inmediata, escenarios comparables, diagnostico automatico y una presentacion
+            visual coherente con el laboratorio.
+          </p>
+        </article>
+      </section>
+
+      <section class="case-section">
+        <div class="case-section__head">
+          <div>
+            <div class="case-kicker">Producto tecnico</div>
+            <h2>Lo que demuestra el proyecto</h2>
+          </div>
+          <span class="case-pill">Energy analytics</span>
+        </div>
+        <div class="case-architecture">
+          <div>
+            <span>01</span>
+            <strong>Modelo de consumo</strong>
+            <p>Potencia, horas por dia, dias mensuales, tarifa, umbral y costo proyectado.</p>
+          </div>
+          <div>
+            <span>02</span>
+            <strong>Visualizacion propia</strong>
+            <p>Graficos de barras y dona dibujados en Canvas 2D, sin dependencia de Chart.js.</p>
+          </div>
+          <div>
+            <span>03</span>
+            <strong>Persistencia</strong>
+            <p>Escenario activo, equipos e historico guardados en LocalStorage con migracion basica de datos viejos.</p>
+          </div>
+          <div>
+            <span>04</span>
+            <strong>Salida ejecutiva</strong>
+            <p>Resumen TXT, historial CSV y diagnostico orientado a decisiones de ahorro.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="case-grid case-grid--two">
+        <article class="case-card">
+          <h2>Mejoras destacadas</h2>
+          <ul>
+            <li>Eliminacion de Bootstrap y Chart.js por CDN.</li>
+            <li>Dashboard oscuro verde/marron alineado al portfolio.</li>
+            <li>Presets: casa eficiente, departamento, taller tecnico y setup creativo.</li>
+            <li>Metricas de consumo, costo, equipo dominante y umbral.</li>
+            <li>Ficha de caso y README tecnico nuevos.</li>
+          </ul>
+        </article>
+        <article class="case-card">
+          <h2>Como se reproduce</h2>
+          <div class="case-command-list">
+            <code>Abrir desde el portfolio publicado</code>
+            <code>Servir la raiz del paquete completo</code>
+            <code>Simulador de consumo electrico/index.html</code>
+          </div>
+        </article>
+      </section>
+
+      <section class="case-card case-wide">
+        <h2>Stack</h2>
+        <div class="case-stack">
+          <span>HTML</span>
+          <span>CSS</span>
+          <span>JavaScript</span>
+          <span>Canvas 2D</span>
+          <span>LocalStorage</span>
+          <span>CSV export</span>
+          <span>Static app</span>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

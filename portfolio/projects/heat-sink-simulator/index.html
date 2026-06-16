@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simulador de transferencia de calor | Laboratorio Megazzonia</title>
+    <meta name="description" content="Simulador React/Vite para comparar disipadores, materiales, conveccion, geometria de aletas, reportes y presets tecnicos." />
+    <meta property="og:title" content="Simulador de transferencia de calor | Laboratorio Megazzonia" />
+    <meta property="og:description" content="Caso tecnico para evaluar disipadores, conveccion, materiales, aletas, reportes y presets de ingenieria." />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="../../assets/screenshots/demos/heat-sink-simulator.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Simulador de transferencia de calor | Laboratorio Megazzonia" />
+    <meta name="twitter:description" content="Comparacion tecnica de disipadores, materiales, conveccion y reportes." />
+    <meta name="twitter:image" content="../../assets/screenshots/demos/heat-sink-simulator.png" />
+    <link rel="stylesheet" href="../../styles/case.css?v=heat-sink-20260429a" />
+  </head>
+  <body>
+    <main class="case-shell">
+      <nav class="case-topbar">
+        <a class="case-brand" href="../../../">Laboratorio Megazzonia</a>
+        <div class="case-topbar__links">
+          <a class="case-link" href="../../../index.html?portfolio=20260513a#projects">Volver al portfolio</a>
+          <a class="case-link" href="../../../Simulador%20de%20transferencia%20de%20calor%20en%20disipadores/README.md">README tecnico</a>
+        </div>
+      </nav>
+
+      <section class="case-hero">
+        <div class="case-hero__copy">
+          <div class="case-kicker">React + Vite + canvas tecnico</div>
+          <h1>Simulador termico de disipadores</h1>
+          <p class="case-lead">
+            Herramienta interactiva para comparar materiales, potencia de chip, geometria de aletas y conveccion.
+            El usuario ajusta parametros, revisa temperatura maxima, resistencia termica, masa, costo relativo y
+            exporta un reporte tecnico del diseno.
+          </p>
+          <div class="case-actions">
+            <a class="case-button" href="../../../Simulador%20de%20transferencia%20de%20calor%20en%20disipadores/dist/index.html">Abrir demo</a>
+            <a class="case-link" href="../../../Simulador%20de%20transferencia%20de%20calor%20en%20disipadores/README.md">Leer ficha tecnica</a>
+          </div>
+          <div class="case-proof-strip">
+            <span>React 18</span>
+            <span>Canvas 2D</span>
+            <span>Presets tecnicos</span>
+            <span>Reportes TXT</span>
+            <span>Build portable</span>
+          </div>
+        </div>
+
+        <div class="case-preview">
+          <iframe
+            title="Simulador de transferencia de calor"
+            src="../../../Simulador%20de%20transferencia%20de%20calor%20en%20disipadores/dist/index.html"
+          ></iframe>
+        </div>
+      </section>
+
+      <section class="case-card case-wide case-evidence">
+        <div class="case-evidence__head">
+          <div>
+            <div class="case-kicker">Proyecto insignia</div>
+            <h2>Por que se destaca</h2>
+          </div>
+          <span class="case-pill">Insignia</span>
+        </div>
+        <div class="case-evidence__grid">
+          <div>
+            <strong>Madurez</strong>
+            <p>Demo tecnica navegable con presets, calculos, canvas, guardado local y reporte exportable.</p>
+          </div>
+          <div>
+            <strong>Evidencia</strong>
+            <p>Build Vite portable, README tecnico y captura usada como miniatura del catalogo.</p>
+          </div>
+          <div>
+            <strong>Valor portfolio</strong>
+            <p>Convierte parametros fisicos en feedback visual y numerico comprensible para usuarios tecnicos.</p>
+          </div>
+          <div>
+            <strong>Siguiente mejora</strong>
+            <p>Agregar comparacion lado a lado de dos disipadores y export PDF mas formal.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="case-grid case-grid--three">
+        <article class="case-card">
+          <h2>Problema</h2>
+          <p>
+            Convertir conceptos termicos en una demo explorable: el usuario debe ver como cambian temperatura,
+            resistencia, eficiencia y costo cuando modifica el diseno fisico del disipador.
+          </p>
+        </article>
+        <article class="case-card">
+          <h2>Decision tecnica</h2>
+          <p>
+            Separar calculo, visualizacion, recomendaciones, reportes y controles React. Esto deja el motor termico
+            legible y permite mejorar cada capa sin tocar toda la aplicacion.
+          </p>
+        </article>
+        <article class="case-card">
+          <h2>Resultado</h2>
+          <p>
+            Simulador navegable con presets, canvas escalable, guardado local, recomendaciones automaticas y build
+            estatico enlazado desde el portfolio.
+          </p>
+        </article>
+      </section>
+
+      <section class="case-section">
+        <div class="case-section__head">
+          <div>
+            <div class="case-kicker">Modelo y producto</div>
+            <h2>Lo que demuestra el proyecto</h2>
+          </div>
+          <span class="case-pill">Demo tecnica interactiva</span>
+        </div>
+        <div class="case-architecture">
+          <div>
+            <span>01</span>
+            <strong>Motor termico</strong>
+            <p>Calcula conveccion, resistencia total, eficiencia de aletas, area efectiva, masa y densidad termica.</p>
+          </div>
+          <div>
+            <span>02</span>
+            <strong>Exploracion UX</strong>
+            <p>Sliders, selector de material, modo natural/forzado y presets para validar escenarios frecuentes.</p>
+          </div>
+          <div>
+            <span>03</span>
+            <strong>Visualizacion</strong>
+            <p>Canvas 2D con mapa conceptual de temperatura, flujo de aire y perfil termico opcional.</p>
+          </div>
+          <div>
+            <span>04</span>
+            <strong>Salida tecnica</strong>
+            <p>Guardado local de disenos, comparacion rapida y exportacion de reporte para documentar resultados.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="case-grid case-grid--two">
+        <article class="case-card">
+          <h2>Mejoras destacadas</h2>
+          <ul>
+            <li>Presets para IoT fanless, CPU edge y GPU compacta.</li>
+            <li>Persistencia local de hasta 8 disenos guardados.</li>
+            <li>Canvas con escala dinamica para evitar cortes en aletas grandes.</li>
+            <li>Estetica oscura con verdes tecnicos y tonos cobre.</li>
+            <li>Vite configurado con rutas relativas para `dist/` portable.</li>
+          </ul>
+        </article>
+        <article class="case-card">
+          <h2>Como se reproduce</h2>
+          <div class="case-command-list">
+            <code>cd "Simulador de transferencia de calor en disipadores"</code>
+            <code>npm install</code>
+            <code>npm run dev</code>
+            <code>npm run build</code>
+          </div>
+        </article>
+      </section>
+
+      <section class="case-card case-wide">
+        <h2>Stack</h2>
+        <div class="case-stack">
+          <span>React</span>
+          <span>Vite</span>
+          <span>JavaScript</span>
+          <span>Canvas 2D</span>
+          <span>LocalStorage</span>
+          <span>lucide-react</span>
+          <span>Build estatico</span>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
+
+

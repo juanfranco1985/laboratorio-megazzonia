@@ -1,0 +1,154 @@
+﻿<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Solar Climate Dashboard | Laboratorio Megazzonia</title>
+    <meta name="description" content="Dashboard interactivo para mapear clima al calendario solar 4x90, comparar hemisferios, explorar drift y ejecutar ML opcional." />
+    <meta property="og:title" content="Solar Climate Dashboard | Laboratorio Megazzonia" />
+    <meta property="og:description" content="Caso de analisis climatico con calendario solar 4x90, comparacion hemisferica, drift y modulo ML opcional." />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="../../assets/screenshots/cases/solar-climate-dashboard.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Solar Climate Dashboard | Laboratorio Megazzonia" />
+    <meta name="twitter:description" content="Clima historico, calendario solar 4x90, drift y analisis comparativo." />
+    <meta name="twitter:image" content="../../assets/screenshots/cases/solar-climate-dashboard.png" />
+    <link rel="stylesheet" href="../../styles/case.css?v=solar-climate-20260429b" />
+  </head>
+  <body>
+    <main class="case-shell">
+      <nav class="case-topbar">
+        <a class="case-brand" href="../../../">Laboratorio Megazzonia</a>
+        <div class="case-topbar__links">
+          <a class="case-link" href="../../../index.html?portfolio=20260513a#projects">Volver al portfolio</a>
+          <a class="case-link" href="../../../9%20-%20Solar%20Climate%20Dashboard/README.md">README tecnico</a>
+        </div>
+      </nav>
+
+      <section class="case-hero">
+        <div class="case-hero__copy">
+          <div class="case-kicker">Python + Streamlit + climate analytics</div>
+          <h1>Solar Climate Dashboard</h1>
+          <p class="case-lead">
+            Dashboard interactivo para mapear datos climaticos a un calendario solar conceptual 4x90. El proyecto
+            compara vistas solares y gregorianas, explora hemisferios, analiza drift anual y suma modulos opcionales
+            de machine learning.
+          </p>
+          <div class="case-actions">
+            <a class="case-button" href="../../../9%20-%20Solar%20Climate%20Dashboard/README.md">Leer ficha tecnica</a>
+            <a class="case-link" href="../../../9%20-%20Solar%20Climate%20Dashboard/data/madrid_climate_sample.csv">Ver dataset sample</a>
+          </div>
+          <div class="case-proof-strip">
+            <span>Streamlit app</span>
+            <span>Plotly charts</span>
+            <span>Solar 4x90 engine</span>
+            <span>CSV/XLSX upload</span>
+            <span>ML opcional</span>
+          </div>
+        </div>
+
+        <div class="case-preview case-preview--gallery">
+          <img src="../../../9%20-%20Solar%20Climate%20Dashboard/Imagen%201.jpg" alt="Solar Climate Dashboard heatmap view" />
+          <img src="../../../9%20-%20Solar%20Climate%20Dashboard/Imagen%202.jpg" alt="Solar Climate Dashboard curve comparison" />
+          <img src="../../../9%20-%20Solar%20Climate%20Dashboard/Imagen%203.jpg" alt="Solar Climate Dashboard data explorer" />
+          <img src="../../../9%20-%20Solar%20Climate%20Dashboard/Imagen%204.jpg" alt="Solar Climate Dashboard ML module" />
+        </div>
+      </section>
+
+      <section class="case-grid case-grid--three">
+        <article class="case-card">
+          <h2>Problema</h2>
+          <p>
+            Analizar clima solo por meses gregorianos puede ocultar patrones solares. El proyecto propone una
+            lectura alternativa: convertir cada dia a posicion solar y comparar ambas coordenadas.
+          </p>
+        </article>
+        <article class="case-card">
+          <h2>Decision tecnica</h2>
+          <p>
+            Separar motor solar, carga de datos, graficos y ML en modulos reutilizables para que el dashboard crezca
+            sin mezclar UI, transformacion de datos y visualizacion.
+          </p>
+        </article>
+        <article class="case-card">
+          <h2>Resultado</h2>
+          <p>
+            Workbench de analisis con dataset sample, subida de archivos, heatmaps, curvas comparativas, drift,
+            exportacion y modulos opcionales de clustering, anomalias y regresion.
+          </p>
+        </article>
+      </section>
+
+      <section class="case-section">
+        <div class="case-section__head">
+          <div>
+            <div class="case-kicker">Arquitectura</div>
+            <h2>Pipeline del dashboard</h2>
+          </div>
+          <span class="case-pill">Python modular</span>
+        </div>
+        <div class="case-architecture">
+          <div>
+            <span>01</span>
+            <strong>Data loader</strong>
+            <p>Carga CSV/XLSX, normaliza fechas, conserva columnas extra y prepara variables numericas.</p>
+          </div>
+          <div>
+            <span>02</span>
+            <strong>Solar engine</strong>
+            <p>Convierte fechas gregorianas a estacion solar, dia solar, offset y progreso normalizado.</p>
+          </div>
+          <div>
+            <span>03</span>
+            <strong>Visualization</strong>
+            <p>Genera heatmaps, curvas, comparaciones hemisfericas, scatter plots y drift anual con Plotly.</p>
+          </div>
+          <div>
+            <span>04</span>
+            <strong>ML module</strong>
+            <p>Ejecuta clustering, deteccion de anomalias y regresion usando features solares.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="case-grid case-grid--two">
+        <article class="case-card">
+          <h2>Mejoras destacadas</h2>
+          <ul>
+            <li>README reescrito y limpio para portfolio.</li>
+            <li>Ficha con capturas reales del dashboard.</li>
+            <li>Metricas iniciales de filas, variables y rango temporal en la app.</li>
+            <li>Validacion defensiva si el dataset no trae columnas numericas.</li>
+            <li>Export de graficos con MIME correcto para PNG, SVG y PDF.</li>
+          </ul>
+        </article>
+        <article class="case-card">
+          <h2>Como se reproduce</h2>
+          <div class="case-command-list">
+            <code>cd "9 - Solar Climate Dashboard"</code>
+            <code>pip install -r requirements.txt</code>
+            <code>streamlit run app.py</code>
+          </div>
+        </article>
+      </section>
+
+      <section class="case-card case-wide">
+        <h2>Stack</h2>
+        <div class="case-stack">
+          <span>Python</span>
+          <span>Streamlit</span>
+          <span>Pandas</span>
+          <span>Plotly</span>
+          <span>NumPy</span>
+          <span>Scikit-learn</span>
+          <span>Kaleido</span>
+          <span>CSV/XLSX</span>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
+
+
+
+

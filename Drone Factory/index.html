@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drone Factory</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">Autonomous Manufacturing Console</div>
+        <h1>Drone Factory</h1>
+        <p>Juego de fabrica por cartas: produce componentes, ensambla drones, completa contratos y escala produccion.</p>
+        <div class="proof-strip" aria-label="Capacidades del proyecto">
+          <span>Incremental loop</span>
+          <span>Card factory</span>
+          <span>Daily contracts</span>
+          <span>Telemetry</span>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <button id="openGuideBtn" class="ghost" type="button" title="Abre la guia inicial y objetivos recomendados (tecla G)">Guia (G)</button>
+        <button id="panelToggleBtn" class="ghost" type="button" title="Mostrar u ocultar panel secundario">Mostrar panel</button>
+        <button id="ultraModeBtn" class="ghost" type="button" title="Activa o desactiva el modo ultra limpio">Ultra limpio: ON</button>
+      </div>
+    </header>
+
+    <section class="stats">
+      <article class="card" title="Energia disponible para fabricar y mejorar.">
+        <h2>Energia</h2>
+        <div id="energyValue" class="value">0</div>
+      </article>
+      <article class="card" title="Energia por segundo total de la fabrica.">
+        <h2>EPS Total</h2>
+        <div id="epsValue" class="value">0</div>
+      </article>
+      <article class="card" title="Drones finales ensamblados (acumulado).">
+        <h2>Drones</h2>
+        <div id="droneValue" class="value">0</div>
+      </article>
+      <article class="card prestige-card" title="Moneda de prestigio para potenciar corridas.">
+        <h2>Prestigio</h2>
+        <div id="coreValue" class="value">0</div>
+        <small id="prestigeMultiplierLabel">Global x1.00</small>
+      </article>
+    </section>
+
+    <section class="factory-overview" aria-label="Estado visual de la fabrica">
+      <article class="panel factory-floor-card">
+        <div class="panel-head">
+          <div>
+            <h3>Factory Floor</h3>
+            <small id="factoryFlowSummary">Linea lista para produccion.</small>
+          </div>
+          <span class="status-pill">Live ops</span>
+        </div>
+        <canvas id="factoryCanvas" width="900" height="220" aria-label="Mapa visual de estaciones y ensamblaje"></canvas>
+      </article>
+
+      <article class="panel factory-ops-card">
+        <div class="panel-head">
+          <h3>Plan operativo</h3>
+          <span class="status-pill">Prioridad</span>
+        </div>
+        <div id="factoryOpsSummary" class="ops-summary"></div>
+      </article>
+    </section>
+
+    <section class="focus-stage">
+      <section class="primary-board">
+        <article class="panel play-panel">
+          <div class="panel-head">
+            <h3>Estaciones</h3>
+            <small id="inventorySummary">Inventario: Frame:0 | Rotor:0 | Battery:0 | Avionics:0 | Shell:0</small>
+          </div>
+          <div id="machineList" class="list list-main"></div>
+        </article>
+
+        <article class="panel play-panel">
+          <div class="panel-head">
+            <h3>Ensamblaje de Drones</h3>
+            <small id="eventStatus">Sin evento activo.</small>
+          </div>
+          <div id="upgradeList" class="list list-main"></div>
+        </article>
+      </section>
+
+      <aside id="controlPanel" class="control-panel collapsed" aria-hidden="true">
+        <article class="panel compact">
+          <h3>Misiones Diarias</h3>
+          <small id="dailyStreakLabel">Racha diaria: 0</small>
+          <div id="missionList" class="list"></div>
+        </article>
+
+        <article class="panel compact">
+          <h3>Contratos</h3>
+          <div id="contractList" class="list"></div>
+        </article>
+
+        <article class="panel compact">
+          <h3>Meta y Desbloqueos</h3>
+          <small id="milestoneText">Proximo hito: -</small>
+          <div class="unlock-progress" title="Avance hacia el siguiente desbloqueo importante.">
+            <div class="unlock-head">
+              <span id="nextUnlockLabel">Proximo desbloqueo: -</span>
+              <strong id="nextUnlockPercent">0%</strong>
+            </div>
+            <progress id="nextUnlockProgress" max="100" value="0"></progress>
+          </div>
+        </article>
+
+        <article class="panel compact multiplier-card">
+          <h3>Multiplicadores</h3>
+          <div class="mult-grid">
+            <span>Prestigio</span><strong id="multPrestige">x1.00</strong>
+            <span>Hitos</span><strong id="multMilestones">x1.00</strong>
+            <span>Upgrades</span><strong id="multUpgrades">x1.00</strong>
+            <span>Momentum</span><strong id="multMomentum">x1.00</strong>
+            <span>Progresion</span><strong id="multProgression">x1.00</strong>
+            <span>Rewarded</span><strong id="multRewarded">x1.00</strong>
+            <span>Total</span><strong id="multTotal">x1.00</strong>
+          </div>
+          <small id="adBoostTimer">Rewarded listo para activar.</small>
+        </article>
+
+        <article class="panel compact future">
+          <h3>Telemetria Local</h3>
+          <small id="telemetrySummary">Sesiones: 0</small>
+          <button id="telemetryExportBtn" class="mode-btn" type="button">Copiar telemetria JSON</button>
+        </article>
+      </aside>
+    </section>
+
+    <section class="dock">
+      <div class="dock-row dock-actions">
+        <button id="manualClickBtn" class="primary" title="Click manual para generar energia. Atajo: Espacio">Generar energia</button>
+        <div id="buyModeGroup" class="segmented" aria-label="Modo de compra">
+          <button type="button" data-buy-mode="1" class="mode-btn active" title="Compra de a una unidad. Atajo: 1">x1</button>
+          <button type="button" data-buy-mode="10" class="mode-btn" title="Compra por lote de 10. Atajo: 2">x10</button>
+          <button type="button" data-buy-mode="max" class="mode-btn" title="Compra maxima posible. Atajo: 3">MAX</button>
+        </div>
+        <button id="prestigeBtn" class="danger" title="Reinicia progreso para ganar nucleos permanentes.">Prestigio</button>
+      </div>
+      <div class="dock-row dock-info">
+        <small id="prestigeHint">Necesitas 500,000 energia para obtener 1 Nucleo.</small>
+        <small id="boostHint">Boost inactivo</small>
+        <small id="statusText"></small>
+        <small id="shortcutHint">Atajos: Espacio click | 1 x1 | 2 x10 | 3 max | G guia</small>
+      </div>
+    </section>
+
+    <section id="bonusTray" class="bonus-tray" aria-label="Acciones contextuales">
+      <button id="adBoostBtn" class="boost" title="Rewarded: x2 produccion por 120 segundos">Rewarded x2</button>
+      <button id="adBonusBtn" class="bonus" title="Rewarded con bono instantaneo">Bonus instantaneo</button>
+      <button id="drawEventBtn" class="mode-btn" type="button" title="Roba una carta de evento temporal">Carta de evento</button>
+    </section>
+  </main>
+
+  <section id="onboardingModal" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="onboardingTitle">
+    <div class="modal-card">
+      <h2 id="onboardingTitle">Guia de arranque</h2>
+      <p id="onboardingProgressTitle">Ruta recomendada para entender el loop principal.</p>
+      <ol id="onboardingSteps" class="onboarding-steps"></ol>
+      <div class="modal-actions">
+        <button id="onboardingCloseBtn" type="button" class="mode-btn">Cerrar</button>
+        <button id="onboardingDoneBtn" type="button" class="primary">Marcar como listo</button>
+      </div>
+    </div>
+  </section>
+
+  <template id="itemTemplate">
+    <div class="list-item">
+      <div>
+        <strong class="item-name"></strong>
+        <p class="item-desc"></p>
+      </div>
+      <div class="item-actions">
+        <button class="buy-btn"></button>
+        <button class="aux-btn hidden" type="button"></button>
+      </div>
+    </div>
+  </template>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>

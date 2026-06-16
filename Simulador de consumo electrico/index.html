@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Dashboard web para estimar consumo electrico mensual, costo, equipos criticos e historico de escenarios."
+    />
+    <meta name="theme-color" content="#07110e" />
+    <link rel="icon" href="data:," />
+    <title>Simulador de Consumo Electrico</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #07110e;
+        --panel: rgba(14, 27, 20, 0.94);
+        --panel-2: rgba(22, 36, 26, 0.92);
+        --line: rgba(97, 211, 148, 0.18);
+        --line-strong: rgba(97, 211, 148, 0.34);
+        --text: #ecf7ef;
+        --muted: #9eb3a6;
+        --accent: #61d394;
+        --accent-2: #b0845f;
+        --accent-3: #d98a5f;
+        --danger: #ff7b7b;
+        --warning: #d2a46b;
+        --ok: #68e0a0;
+        --shadow: rgba(0, 0, 0, 0.34);
+        font-family: "Segoe UI", Tahoma, sans-serif;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        color: var(--text);
+        background:
+          linear-gradient(rgba(97, 211, 148, 0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(97, 211, 148, 0.03) 1px, transparent 1px),
+          linear-gradient(135deg, #07110e 0%, #101b14 54%, #1b130d 100%);
+        background-size: 34px 34px, 34px 34px, auto;
+      }
+
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+
+      button {
+        min-height: 40px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        color: var(--text);
+        background: rgba(7, 17, 14, 0.88);
+        cursor: pointer;
+      }
+
+      button:hover,
+      button:focus-visible {
+        border-color: var(--line-strong);
+        box-shadow: 0 0 0 3px rgba(97, 211, 148, 0.12);
+      }
+
+      input,
+      select {
+        width: 100%;
+        min-height: 42px;
+        padding: 9px 10px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        color: var(--text);
+        background: rgba(5, 13, 10, 0.86);
+        outline: none;
+      }
+
+      input:focus,
+      select:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(97, 211, 148, 0.12);
+      }
+
+      label {
+        display: grid;
+        gap: 6px;
+        color: var(--muted);
+        font-size: 0.84rem;
+        font-weight: 700;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      .app-shell {
+        width: min(1440px, calc(100vw - 28px));
+        margin: 0 auto;
+        padding: 18px 0 42px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+
+      .brand {
+        display: grid;
+        gap: 5px;
+      }
+
+      .eyebrow {
+        color: var(--accent);
+        font-size: 0.75rem;
+        font-weight: 900;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        font-size: 3rem;
+        line-height: 0.98;
+      }
+
+      .subtitle {
+        max-width: 78ch;
+        color: var(--muted);
+        line-height: 1.45;
+      }
+
+      .top-actions,
+      .preset-grid,
+      .inline-actions,
+      .device-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .btn-primary {
+        color: #06100c;
+        border-color: rgba(236, 247, 239, 0.34);
+        background: linear-gradient(135deg, var(--accent), #45b6c9);
+        font-weight: 900;
+      }
+
+      .btn-accent {
+        border-color: rgba(217, 138, 95, 0.36);
+        background: rgba(176, 132, 95, 0.16);
+      }
+
+      .btn-danger {
+        border-color: rgba(255, 123, 123, 0.34);
+        color: #ffdada;
+        background: rgba(255, 123, 123, 0.12);
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(320px, 390px) 1fr;
+        gap: 16px;
+      }
+
+      .panel,
+      .metric,
+      .device-row,
+      .insight,
+      .chart-card {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: linear-gradient(180deg, rgba(22, 36, 26, 0.96), rgba(10, 21, 15, 0.96));
+        box-shadow: 0 18px 40px var(--shadow);
+      }
+
+      .panel {
+        padding: 14px;
+      }
+
+      .panel + .panel {
+        margin-top: 12px;
+      }
+
+      .panel-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+
+      .panel h2,
+      .panel h3 {
+        font-size: 1rem;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        min-height: 28px;
+        padding: 5px 8px;
+        border: 1px solid rgba(97, 211, 148, 0.22);
+        border-radius: 999px;
+        color: #d9ebdd;
+        background: rgba(97, 211, 148, 0.08);
+        font-size: 0.78rem;
+        font-weight: 800;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .form-grid .wide {
+        grid-column: 1 / -1;
+      }
+
+      .preset-grid button {
+        flex: 1 1 120px;
+        padding: 8px 10px;
+        color: #e8f4eb;
+      }
+
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      .metric {
+        min-height: 126px;
+        padding: 14px;
+        display: grid;
+        align-content: space-between;
+      }
+
+      .metric span {
+        color: var(--muted);
+        font-size: 0.78rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .metric strong {
+        margin-top: 12px;
+        color: var(--accent);
+        font-size: 2.45rem;
+        line-height: 0.95;
+        overflow-wrap: anywhere;
+      }
+
+      .metric em {
+        color: var(--muted);
+        font-style: normal;
+        font-size: 0.85rem;
+      }
+
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(280px, 0.72fr);
+        gap: 16px;
+      }
+
+      .chart-card {
+        min-height: 320px;
+        padding: 14px;
+      }
+
+      .chart-card canvas {
+        width: 100%;
+        height: 260px;
+        display: block;
+      }
+
+      .device-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .device-row {
+        padding: 11px;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .device-main {
+        min-width: 0;
+      }
+
+      .device-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 5px;
+        font-weight: 900;
+      }
+
+      .device-title span {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        background: var(--accent);
+      }
+
+      .device-meta,
+      .insight p,
+      .empty-state {
+        color: var(--muted);
+        font-size: 0.88rem;
+        line-height: 1.45;
+      }
+
+      .device-kwh {
+        color: var(--accent);
+        font-weight: 900;
+      }
+
+      .insights {
+        display: grid;
+        gap: 10px;
+      }
+
+      .insight {
+        padding: 12px;
+      }
+
+      .insight strong {
+        display: block;
+        margin-bottom: 6px;
+      }
+
+      .history {
+        margin-top: 16px;
+      }
+
+      .table-wrap {
+        max-height: 260px;
+        overflow: auto;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 620px;
+      }
+
+      th,
+      td {
+        padding: 10px;
+        border-bottom: 1px solid rgba(97, 211, 148, 0.1);
+        text-align: left;
+        white-space: nowrap;
+      }
+
+      th {
+        position: sticky;
+        top: 0;
+        color: var(--accent);
+        background: #0b1712;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+      }
+
+      .empty-state {
+        padding: 16px;
+        border: 1px dashed var(--line);
+        border-radius: 8px;
+        background: rgba(7, 17, 14, 0.46);
+      }
+
+      @media (max-width: 1080px) {
+        .layout,
+        .dashboard-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .metrics {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 640px) {
+        .app-shell {
+          width: min(100vw - 20px, 1440px);
+          padding-top: 12px;
+        }
+
+        .topbar,
+        .panel-head,
+        .device-row {
+          grid-template-columns: 1fr;
+          align-items: stretch;
+          flex-direction: column;
+        }
+
+        .topbar {
+          display: grid;
+        }
+
+        h1 {
+          font-size: 2rem;
+        }
+
+        .metric strong {
+          font-size: 2rem;
+        }
+
+        .metrics,
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .top-actions button,
+        .inline-actions button,
+        .device-actions button {
+          flex: 1 1 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <div class="eyebrow">Energy Analytics Lab</div>
+          <h1>Simulador de Consumo Electrico</h1>
+          <p class="subtitle">
+            Estimacion mensual, costo proyectado, equipos criticos e historico de escenarios para decisiones de ahorro.
+          </p>
+        </div>
+        <div class="top-actions">
+          <button class="btn-accent" id="saveSnapshot" type="button">Guardar lectura</button>
+          <button class="btn-primary" id="exportSummary" type="button">Exportar resumen</button>
+        </div>
+      </header>
+
+      <section class="metrics" aria-label="Resumen de consumo">
+        <article class="metric">
+          <span>Consumo mensual</span>
+          <strong id="metricKwh">0.0</strong>
+          <em>kWh estimados</em>
+        </article>
+        <article class="metric">
+          <span>Costo mensual</span>
+          <strong id="metricCost">$0</strong>
+          <em id="metricTariff">Tarifa: $0.15/kWh</em>
+        </article>
+        <article class="metric">
+          <span>Equipo dominante</span>
+          <strong id="metricTop">Sin datos</strong>
+          <em id="metricTopShare">0% del total</em>
+        </article>
+        <article class="metric">
+          <span>Estado</span>
+          <strong id="metricStatus">OK</strong>
+          <em id="metricStatusDetail">Dentro del umbral</em>
+        </article>
+      </section>
+
+      <div class="layout">
+        <aside>
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Escenarios</h2>
+              <span class="pill">Presets</span>
+            </div>
+            <div class="preset-grid" id="presetGrid"></div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Agregar equipo</h2>
+              <span class="pill" id="deviceCount">0 equipos</span>
+            </div>
+            <form class="form-grid" id="deviceForm">
+              <label class="wide">
+                Equipo
+                <input id="deviceName" name="deviceName" type="text" placeholder="Aire acondicionado" required />
+              </label>
+              <label>
+                Categoria
+                <select id="deviceCategory" name="deviceCategory">
+                  <option>Climatizacion</option>
+                  <option>Cocina</option>
+                  <option>Iluminacion</option>
+                  <option>Computo</option>
+                  <option>Lavado</option>
+                  <option>Otros</option>
+                </select>
+              </label>
+              <label>
+                Potencia W
+                <input id="devicePower" name="devicePower" type="number" min="1" step="1" value="900" required />
+              </label>
+              <label>
+                Horas/dia
+                <input id="deviceHours" name="deviceHours" type="number" min="0.1" max="24" step="0.1" value="4" required />
+              </label>
+              <label>
+                Dias/mes
+                <input id="deviceDays" name="deviceDays" type="number" min="1" max="31" step="1" value="30" required />
+              </label>
+              <button class="btn-primary wide" type="submit">Agregar al escenario</button>
+            </form>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Parametros</h2>
+              <span class="pill">Tarifa</span>
+            </div>
+            <div class="form-grid">
+              <label>
+                Tarifa $/kWh
+                <input id="tariff" type="number" min="0" step="0.01" value="0.15" />
+              </label>
+              <label>
+                Umbral kWh/mes
+                <input id="threshold" type="number" min="1" step="1" value="300" />
+              </label>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Equipos</h2>
+              <button class="btn-danger" id="clearDevices" type="button">Vaciar</button>
+            </div>
+            <div class="device-list" id="deviceList"></div>
+          </section>
+        </aside>
+
+        <section>
+          <div class="dashboard-grid">
+            <article class="chart-card">
+              <div class="panel-head">
+                <h2>Consumo por equipo</h2>
+                <span class="pill">kWh/mes</span>
+              </div>
+              <canvas id="barChart" width="800" height="360"></canvas>
+            </article>
+
+            <article class="chart-card">
+              <div class="panel-head">
+                <h2>Mix por categoria</h2>
+                <span class="pill">Distribucion</span>
+              </div>
+              <canvas id="donutChart" width="520" height="360"></canvas>
+            </article>
+          </div>
+
+          <section class="panel history">
+            <div class="panel-head">
+              <h2>Lecturas guardadas</h2>
+              <div class="inline-actions">
+                <button id="exportCsv" type="button">CSV</button>
+                <button class="btn-danger" id="clearHistory" type="button">Limpiar historial</button>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Fecha</th>
+                    <th>Escenario</th>
+                    <th>kWh</th>
+                    <th>Costo</th>
+                    <th>Top equipo</th>
+                  </tr>
+                </thead>
+                <tbody id="historyBody"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="panel history">
+            <div class="panel-head">
+              <h2>Diagnostico</h2>
+              <span class="pill" id="scenarioName">Escenario activo</span>
+            </div>
+            <div class="insights" id="insights"></div>
+          </section>
+        </section>
+      </div>
+    </main>
+
+    <script src="./simulador.js" defer></script>
+  </body>
+</html>

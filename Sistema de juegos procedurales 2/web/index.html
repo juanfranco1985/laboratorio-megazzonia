@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#111318">
+    <title>Procedural Playworks</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="styles.css?v=11">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="library">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true"></div>
+          <div>
+            <h1>Procedural Playworks</h1>
+            <p>20 juegos por semilla</p>
+          </div>
+        </div>
+
+        <div class="seed-panel">
+          <label for="seedInput">Semilla</label>
+          <div class="seed-row">
+            <input id="seedInput" type="text" autocomplete="off" spellcheck="false">
+            <button id="randomSeedBtn" class="icon-btn" type="button" aria-label="Nueva semilla">#</button>
+          </div>
+        </div>
+
+        <section class="profile-panel" aria-label="Perfil">
+          <div class="profile-head">
+            <label for="profileNameInput">Perfil</label>
+            <button id="profileSlotBtn" class="icon-btn" type="button" aria-label="Cambiar perfil">01</button>
+          </div>
+          <input id="profileNameInput" type="text" maxlength="18" autocomplete="off" spellcheck="false">
+          <div class="profile-metrics">
+            <div>
+              <span>Progreso</span>
+              <strong id="profileProgressValue">0/20</strong>
+            </div>
+            <div>
+              <span>Logros</span>
+              <strong id="profileAchievementValue">0</strong>
+            </div>
+          </div>
+          <div class="progress-track" aria-hidden="true">
+            <span id="profileProgressBar"></span>
+          </div>
+        </section>
+
+        <section class="filter-panel" aria-label="Filtros de biblioteca">
+          <div class="filter-field">
+            <label for="gameSearchInput">Buscar</label>
+            <input id="gameSearchInput" type="search" autocomplete="off" spellcheck="false" placeholder="Nombre o estilo">
+          </div>
+          <div class="filter-grid">
+            <label>
+              <span>Genero</span>
+              <select id="genreFilter"></select>
+            </label>
+            <label>
+              <span>Dificultad</span>
+              <select id="difficultyFilter"></select>
+            </label>
+            <label>
+              <span>Duracion</span>
+              <select id="durationFilter"></select>
+            </label>
+          </div>
+          <label class="favorite-toggle">
+            <input id="favoritesOnlyToggle" type="checkbox">
+            <span>Solo favoritos</span>
+          </label>
+          <div class="library-count" id="libraryCount">20 juegos visibles</div>
+        </section>
+
+        <div class="game-list-head">
+          <span>Biblioteca</span>
+          <strong>Selecciona un juego</strong>
+        </div>
+        <nav id="gameList" class="game-list" aria-label="Juegos"></nav>
+      </aside>
+
+      <main class="stage">
+        <section class="canvas-wrap" aria-label="Area de juego">
+          <canvas id="gameCanvas" width="960" height="540"></canvas>
+          <header class="topbar">
+            <div>
+              <p id="gameGenre" class="eyebrow">Arcade procedural</p>
+              <h2 id="gameTitle">Selecciona un juego</h2>
+            </div>
+            <div class="stats">
+              <div>
+                <span>Puntuacion</span>
+                <strong id="scoreValue">0</strong>
+              </div>
+              <div>
+                <span>Mejor</span>
+                <strong id="bestValue">0</strong>
+              </div>
+              <div>
+                <span>Tiempo</span>
+                <strong id="timeValue">00:00</strong>
+              </div>
+            </div>
+            <div class="actions">
+              <button id="favoriteBtn" class="tool-btn" type="button" aria-label="Favorito">*</button>
+              <button id="tutorialBtn" class="tool-btn" type="button" aria-label="Tutorial">?</button>
+              <button id="muteBtn" class="tool-btn" type="button" aria-label="Silenciar">S</button>
+              <label class="volume-control" aria-label="Volumen">
+                <span>Vol</span>
+                <input id="volumeSlider" type="range" min="0" max="100" value="65">
+              </label>
+            <button id="restartBtn" class="tool-btn" type="button" aria-label="Reiniciar">R</button>
+            <button id="pauseBtn" class="tool-btn" type="button" aria-label="Pausa">||</button>
+            <button id="playBtn" class="play-btn" type="button">PLAY</button>
+          </div>
+          </header>
+          <div id="overlay" class="overlay">
+            <div>
+              <p id="overlayKicker">Procedural Playworks</p>
+              <h3 id="overlayTitle">20 mundos listos</h3>
+              <p id="overlayText">Elige un juego de la biblioteca.</p>
+              <div id="overlayActions" class="overlay-actions"></div>
+            </div>
+          </div>
+          <div id="tutorialPanel" class="tutorial-panel hidden">
+            <div class="tutorial-card">
+              <p id="tutorialKicker">Tutorial</p>
+              <h3 id="tutorialTitle">Primeros pasos</h3>
+              <p id="tutorialText">Aprende el modo actual.</p>
+              <div id="tutorialControls" class="tutorial-controls"></div>
+              <div class="tutorial-progress">
+                <span id="tutorialProgressBar"></span>
+              </div>
+              <div class="tutorial-actions">
+                <button id="tutorialBackBtn" type="button">Atras</button>
+                <button id="tutorialSkipBtn" type="button">Omitir</button>
+                <button id="tutorialNextBtn" type="button">Siguiente</button>
+              </div>
+              <label class="tutorial-toggle">
+                <input id="tutorialAutoToggle" type="checkbox" checked>
+                <span>Mostrar tutoriales nuevos</span>
+              </label>
+            </div>
+          </div>
+          <section class="control-deck" aria-label="Controles tactiles">
+            <div class="dpad">
+              <button data-control="up" aria-label="Arriba">^</button>
+              <button data-control="left" aria-label="Izquierda">&lt;</button>
+              <button data-control="down" aria-label="Abajo">v</button>
+              <button data-control="right" aria-label="Derecha">&gt;</button>
+            </div>
+            <div class="game-objective">
+              <span id="objectiveText">Objetivo del juego</span>
+            </div>
+            <div class="face-buttons">
+              <button data-control="alt" aria-label="Accion secundaria">B</button>
+              <button data-control="action" aria-label="Accion principal">A</button>
+            </div>
+          </section>
+        </section>
+
+        <div class="stage-dock">
+          <section class="campaign-deck" aria-label="Campana">
+            <div class="mode-toggle" role="group" aria-label="Modo de juego">
+              <button id="freeModeBtn" type="button">Libre</button>
+              <button id="campaignModeBtn" type="button">Campana</button>
+            </div>
+            <div id="campaignSummary" class="campaign-summary">Campana no iniciada</div>
+            <div id="campaignLevelList" class="campaign-level-list"></div>
+          </section>
+
+          <section class="career-deck" aria-label="Progreso del perfil">
+            <div class="record-strip">
+              <span id="gameRecordText">Sin partidas registradas</span>
+            </div>
+            <div id="achievementList" class="achievement-list"></div>
+          </section>
+        </div>
+      </main>
+    </div>
+    <div id="toastStack" class="toast-stack" aria-live="polite"></div>
+
+    <script src="main.js?v=11"></script>
+  </body>
+</html>

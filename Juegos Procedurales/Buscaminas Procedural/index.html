@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="es" data-theme="light" data-theme-preference="auto">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta
+      name="description"
+      content="Buscaminas procedural, mobile-first, offline-first y listo para WebView/Android."
+    />
+    <meta name="theme-color" content="#0f172a" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./styles/themes.css" />
+    <link rel="stylesheet" href="./styles/main.css" />
+    <link rel="stylesheet" href="./styles/responsive.css" />
+    <title>Buscaminas Procedural</title>
+  </head>
+  <body>
+    <div class="app-shell" id="appRoot">
+      <aside class="shell-panel">
+        <section class="hero-card">
+          <p class="hero-card__eyebrow">Buscaminas Procedural</p>
+          <h1>Grid logic, afinado para movil y pensado para WebView.</h1>
+          <p class="hero-card__copy">
+            Una reinterpretacion clara y tactil del clasico: primer toque seguro,
+            progresion procedural, tema adaptable, guardado local y sin sprites.
+          </p>
+          <div class="hero-card__chips">
+            <span class="chip">Offline-first</span>
+            <span class="chip">Sin assets externos</span>
+            <span class="chip">Touch + mouse</span>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <p class="section-head__kicker">Preparacion</p>
+              <h2>Modo de juego</h2>
+            </div>
+            <button class="ghost-button" id="continueSessionBtn" type="button" hidden>
+              Retomar
+            </button>
+          </div>
+
+          <div class="difficulty-grid" id="difficultyOptions"></div>
+
+          <div class="custom-fields" id="customFields" hidden>
+            <label>
+              Filas
+              <input id="customRowsInput" inputmode="numeric" min="8" max="24" type="number" value="12" />
+            </label>
+            <label>
+              Columnas
+              <input id="customColsInput" inputmode="numeric" min="8" max="24" type="number" value="12" />
+            </label>
+            <label>
+              Minas
+              <input id="customMinesInput" inputmode="numeric" min="8" max="135" type="number" value="20" />
+            </label>
+          </div>
+
+          <p class="control-hint" id="controlHint">
+            El primer toque siempre despeja una zona segura.
+          </p>
+
+          <div class="panel-actions">
+            <button class="primary-button" id="startGameBtn" type="button">
+              Nueva partida
+            </button>
+            <button class="secondary-button" id="restartCurrentBtn" type="button" disabled>
+              Reiniciar actual
+            </button>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <p class="section-head__kicker">Preferencias</p>
+              <h2>Apariencia y control</h2>
+            </div>
+          </div>
+
+          <div class="control-block">
+            <span class="control-block__label">Tema</span>
+            <div class="segmented-control" id="themeOptions"></div>
+          </div>
+
+          <div class="control-block">
+            <span class="control-block__label">Modo tactil principal</span>
+            <div class="segmented-control segmented-control--wide" id="actionModeOptions"></div>
+            <p class="muted-note">
+              El gesto secundario sigue disponible: mantener presionado o click derecho
+              siempre coloca o quita bandera.
+            </p>
+          </div>
+
+          <div class="control-block">
+            <div class="toggle-row">
+              <div>
+                <span class="control-block__label">Modo zen</span>
+                <p class="muted-note">
+                  Sin cronometro ni derrota inmediata. Las minas tocadas se auto-marcan.
+                </p>
+              </div>
+              <button class="toggle-button" id="zenModeToggle" type="button" aria-pressed="false">
+                Desactivado
+              </button>
+            </div>
+          </div>
+
+          <div class="control-block">
+            <span class="control-block__label">Seed o codigo de partida</span>
+            <input
+              class="text-input"
+              id="seedInput"
+              type="text"
+              maxlength="200"
+              placeholder="Vacio = aleatorio, o pega un codigo bp1|..."
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <div class="inline-actions">
+              <button class="ghost-button" id="clearSeedBtn" type="button">
+                Limpiar seed
+              </button>
+            </div>
+            <p class="muted-note" id="seedHint">
+              Seed vacia = cada partida se genera de forma aleatoria.
+            </p>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <p class="section-head__kicker">Rendimiento</p>
+              <h2>Estadisticas</h2>
+            </div>
+            <button class="ghost-button" id="resetStatsBtn" type="button">
+              Reset
+            </button>
+          </div>
+
+          <div class="stats-grid" id="statsSummary"></div>
+          <div class="best-times" id="statsBestTimes"></div>
+        </section>
+      </aside>
+
+      <main class="shell-stage">
+        <section class="game-card">
+          <div class="empty-state" id="emptyState">
+            <div class="empty-state__badge">Listo para empezar</div>
+            <h2>Elegi una dificultad y lanza una partida nueva.</h2>
+            <p>
+              El tablero se genera en el primer toque para asegurar una apertura util.
+              Todo se guarda localmente para continuar tras recargar la pagina.
+            </p>
+          </div>
+
+          <div class="game-area" id="gameArea" hidden>
+            <header class="hud">
+              <div class="hud__metrics">
+                <article class="hud__metric">
+                  <span>Dificultad</span>
+                  <strong id="hudDifficulty">Facil</strong>
+                </article>
+                <article class="hud__metric">
+                  <span>Minas restantes</span>
+                  <strong id="hudMines">10</strong>
+                </article>
+                <article class="hud__metric">
+                  <span id="hudAuxLabel">Tiempo</span>
+                  <strong id="hudAuxValue">00:00</strong>
+                </article>
+                <article class="hud__metric">
+                  <span>Estado</span>
+                  <strong id="hudSessionState">Listo</strong>
+                </article>
+              </div>
+
+              <div class="hud__actions">
+                <button class="secondary-button" id="quickRestartBtn" type="button">
+                  Reiniciar
+                </button>
+                <button class="secondary-button" id="quickNewBtn" type="button">
+                  Nueva
+                </button>
+                <button class="primary-button primary-button--compact" id="pauseBtn" type="button">
+                  Pausa
+                </button>
+              </div>
+            </header>
+
+            <div class="action-bar">
+              <div class="action-bar__copy">
+                <p class="action-bar__eyebrow">Control rapido</p>
+                <p class="action-bar__title">Tap principal configurable.</p>
+              </div>
+              <div class="segmented-control segmented-control--wide" id="actionModeMirror"></div>
+            </div>
+
+            <div class="session-meta">
+              <article class="session-meta__card">
+                <span class="session-meta__label">Seed activa</span>
+                <strong class="session-meta__value" id="sessionSeedValue">Aleatoria</strong>
+              </article>
+              <div class="session-meta__actions">
+                <button class="secondary-button" id="copyChallengeBtn" type="button" disabled>
+                  Copiar codigo
+                </button>
+                <button class="ghost-button" id="shareChallengeBtn" type="button" disabled>
+                  Compartir
+                </button>
+              </div>
+            </div>
+
+            <div class="board-shell">
+              <p class="board-status" id="boardStatus">
+                Primer toque protegido. Mantene presionado para marcar banderas.
+              </p>
+              <div class="board-viewport">
+                <div class="board-grid" id="boardContainer" aria-label="Tablero de Buscaminas" role="grid"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="modal-root" id="modalRoot" hidden></div>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
