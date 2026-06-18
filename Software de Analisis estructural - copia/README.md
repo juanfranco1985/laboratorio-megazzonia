@@ -4,10 +4,13 @@ Herramienta web para analisis preliminar de vigas. Permite configurar geometria,
 
 ## Que demuestra
 
-- Modelado interactivo de vigas con dos apoyos configurables.
+- Modelado interactivo de vigas con dos apoyos verticales configurables y voladizos exteriores.
 - Motor de calculo separado de la interfaz.
 - Diagramas con Recharts para cortante, momento, deflexion y esfuerzo.
-- Validaciones antes del analisis.
+- Integracion numerica de la curvatura `M/EI` con condiciones de apoyo.
+- Verificacion visible de residuos de fuerza, momento y desplazamiento en apoyos.
+- Propiedades de seccion con eje neutro real para perfiles asimetricos.
+- Casos analiticos de referencia ejecutados con Vitest.
 - Exportacion JSON, reporte TXT, reporte estilo PDF y CSV de diagramas.
 - Persistencia en `localStorage` y estado compartible por URL hash.
 - Build estatico portable para integrarlo al Laboratorio Megazzonia.
@@ -41,6 +44,15 @@ npm install
 npm run dev
 ```
 
+## Verificacion
+
+```bash
+npm test
+npm run lint
+npx tsc --noEmit
+npm run build
+```
+
 ## Build
 
 ```bash
@@ -52,8 +64,8 @@ El proyecto usa `base: "./"` en Vite para que `dist/index.html` funcione desde r
 ## Presets
 
 - Simple: viga simplemente apoyada con carga puntual en el centro.
-- Voladizo: configuracion con apoyo fijo y carga uniforme.
-- 2 vanos: escenario equivalente en el solver actual de dos apoyos, con carga distribuida y puntual.
+- Uniforme: viga simplemente apoyada con carga distribuida en toda la luz.
+- Mixta: carga distribuida parcial combinada con una carga puntual.
 
 ## Atajos
 
@@ -63,14 +75,20 @@ El proyecto usa `base: "./"` en Vite para que `dist/index.html` funcione desde r
 
 ## Limitaciones
 
-- El solver actual esta enfocado en modelo de dos apoyos.
+- El solver esta enfocado en dos apoyos verticales simples; no resuelve empotramientos.
+- El pandeo de Euler y el esfuerzo cortante son estimaciones preliminares.
+- No incluye no linealidad, segundo orden, plasticidad, conexiones ni combinaciones normativas completas.
 - El reporte `.pdf` es una exportacion de texto con extension PDF; no genera un PDF tipografico real.
 - Es una herramienta de portfolio y analisis preliminar, no sustituye revision profesional certificada.
 
-## Upgrade aplicado
+## Mejoras aplicadas
 
 - Se agrego CSS propio para reemplazar la dependencia implicita de Tailwind.
 - Se preparo el build portable con rutas relativas.
 - Se limpiaron metadatos del HTML y favicon local.
 - Se corrigio el reporte para evitar imprimir valores de reaccion inexistentes.
 - Se documento el proyecto como caso tecnico de portfolio.
+- Se reemplazo la formula aproximada de deflexion por integracion numerica.
+- Se corrigieron brazos de palanca firmados y momentos concentrados.
+- Se corrigio la fibra extrema en secciones T.
+- Se retiraron presets y resultados que excedian el alcance real del solver.
