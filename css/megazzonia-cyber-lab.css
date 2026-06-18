@@ -526,6 +526,18 @@ code {
   backdrop-filter: blur(10px);
 }
 
+.modal-card__title {
+  background: rgba(0, 255, 170, 0.08) !important;
+  border-bottom: 1px solid var(--glass-border);
+  color: var(--accent) !important;
+  font-family: var(--font-tech);
+}
+
+.modal-card__actions {
+  border-top: 1px solid var(--glass-border);
+  background: rgba(0, 0, 0, 0.12);
+}
+
 a,
 .link-button {
   color: var(--accent);
