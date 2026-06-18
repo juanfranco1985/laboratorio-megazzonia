@@ -100,7 +100,7 @@ export const projectCatalog = [
     statusTone: "success",
     description: "Simulador de primera semana laboral para analisis de datos, con SQL real, misiones, correo interno y reportes.",
     tech: ["Vanilla JS", "sql.js", "Chart.js", "Android WebView"],
-    entryPath: "./simulator.html?v=dacs-20260429b#home",
+    entryPath: "./simulator.html?v=dacs-20260618a#home",
     casePath: `${WORKSPACE_ROOT_PREFIX}/portfolio/projects/data-analyst-career-simulator/`,
     screenshotPath: `${WORKSPACE_ROOT_PREFIX}/portfolio/assets/screenshots/demos/data-analyst-career-simulator.png`,
     readmePath: `${WORKSPACE_ROOT_PREFIX}/docs/ESTADO_ACTUAL_PROYECTO.md`,

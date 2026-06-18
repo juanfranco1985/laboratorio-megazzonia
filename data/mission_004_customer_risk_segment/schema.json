@@ -1,0 +1,61 @@
+{
+  "mission_id": "mission_004_customer_risk_segment",
+  "source_file": "raw/sales_dirty.csv",
+  "raw_table": {
+    "name": "sales_raw",
+    "description": "Import directo del export de pedidos.",
+    "columns": [
+      { "name": "order_id", "type": "text" },
+      { "name": "customer_id", "type": "text" },
+      { "name": "customer_name", "type": "text" },
+      { "name": "region", "type": "text" },
+      { "name": "sale_date", "type": "text" },
+      { "name": "sales_channel", "type": "text" },
+      { "name": "product_category", "type": "text" },
+      { "name": "amount", "type": "text" },
+      { "name": "salesperson", "type": "text" },
+      { "name": "status", "type": "text" }
+    ]
+  },
+  "clean_table": {
+    "name": "sales_clean",
+    "description": "Pedidos normalizados con customer_id preservado.",
+    "columns": [
+      { "name": "order_id", "type": "text" },
+      { "name": "customer_id", "type": "text" },
+      { "name": "customer_name", "type": "text" },
+      { "name": "region", "type": "text" },
+      { "name": "sale_date", "type": "text", "format": "YYYY-MM-DD" },
+      { "name": "sales_channel", "type": "text" },
+      { "name": "product_category", "type": "text" },
+      { "name": "amount", "type": "real" },
+      { "name": "salesperson", "type": "text" },
+      { "name": "status_norm", "type": "text" }
+    ]
+  },
+  "supporting_tables": [
+    {
+      "name": "customers",
+      "source_file": "raw/customers.csv",
+      "join_key": "customer_id",
+      "columns": [
+        { "name": "customer_id", "type": "text" },
+        { "name": "customer_name", "type": "text" },
+        { "name": "customer_segment", "type": "text" },
+        { "name": "account_tier", "type": "text" },
+        { "name": "signup_date", "type": "text" },
+        { "name": "owner", "type": "text" }
+      ]
+    }
+  ],
+  "quality_issues": [
+    "El export contiene una fila duplicada.",
+    "Las fechas usan formatos diferentes.",
+    "El estado refunded se normaliza como cancelled."
+  ],
+  "validation_notes": [
+    "La relacion esperada es sales_clean.customer_id = customers.customer_id.",
+    "El corte temporal correcto es 2026-04-06 a 2026-04-12 inclusive.",
+    "Mid-Market concentra 5800 de revenue en riesgo."
+  ]
+}

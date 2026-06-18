@@ -516,6 +516,27 @@ code {
   scroll-padding-bottom: 92px;
 }
 
+.view-files {
+  overflow: visible !important;
+}
+
+.files-detail-stack {
+  display: flex !important;
+  flex-direction: column;
+  align-self: start;
+  height: max-content !important;
+}
+
+.file-detail {
+  height: auto !important;
+  overflow: visible !important;
+}
+
+.file-detail .panel-card__body {
+  flex: 0 0 auto !important;
+  overflow: visible !important;
+}
+
 .toast__title {
   color: var(--accent);
   font-family: var(--font-tech);

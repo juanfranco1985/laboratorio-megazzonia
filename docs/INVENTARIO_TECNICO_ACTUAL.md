@@ -4,6 +4,7 @@
 - mission_001_sales_cleaning
 - mission_002_web_category_mix
 - mission_003_ops_risk_region
+- mission_004_customer_risk_segment
 
 ## Stakeholders
 - Carla Méndez
@@ -13,6 +14,7 @@
 
 ## Sistemas principales
 - sqlEngine
+- carga generica de tablas auxiliares CSV
 - missionRegistry
 - missionFactory
 - missionRuntime
@@ -51,4 +53,4 @@
 - decisiones de reunión
 
 ## Tests
-Existe una suite smoke/integration en `tests/phase3-smoke.test.mjs` que debe mantenerse funcional y expandirse con cada bloque nuevo.
+Existe una suite smoke/integration en `tests/phase3-smoke.test.mjs` con 41 pruebas que debe mantenerse funcional y expandirse con cada bloque nuevo.

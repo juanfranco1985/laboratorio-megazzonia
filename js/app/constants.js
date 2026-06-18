@@ -38,7 +38,8 @@ ORDER BY total_amount DESC;`;
 export const REPORT_METRICS = [
   { id: "total_amount", label: "Total vendido", description: "Suma de importes por canal" },
   { id: "orders", label: "Pedidos", description: "Cantidad de pedidos por canal" },
-  { id: "issue_orders", label: "Pedidos problemáticos", description: "Cantidad de pedidos con fricción operativa" }
+  { id: "issue_orders", label: "Pedidos problemáticos", description: "Cantidad de pedidos con fricción operativa" },
+  { id: "at_risk_revenue", label: "Revenue en riesgo", description: "Importe asociado a pedidos pendientes o cancelados" }
 ];
 
 export const CHART_TYPES = [

@@ -11,7 +11,7 @@ function getLabelColumn(result) {
   if (!result || !result.columns || !result.columns.length) {
     return null;
   }
-  const preferred = ["sales_channel", "channel", "segment", "category"];
+  const preferred = ["sales_channel", "customer_segment", "region", "product_category", "channel", "segment", "category"];
   for (const name of preferred) {
     if (result.columns.includes(name)) {
       return name;
@@ -196,8 +196,13 @@ export function renderExecutiveSummary(state) {
     return "Ejecuta una consulta SQL para generar el resumen ejecutivo.";
   }
 
-  const channel = result.rows[0].sales_channel || result.rows[0].channel || "el canal líder";
-  const amount = result.rows[0].total_amount ?? result.rows[0].sum_amount ?? null;
+  const channel = result.rows[0].sales_channel
+    || result.rows[0].customer_segment
+    || result.rows[0].region
+    || result.rows[0].product_category
+    || result.rows[0].channel
+    || "el segmento líder";
+  const amount = result.rows[0].total_amount ?? result.rows[0].at_risk_revenue ?? result.rows[0].sum_amount ?? null;
   const orders = result.rows[0].orders ?? result.rows[0].count ?? null;
   return `El canal ${escapeHtml(channel)} lidera con ${amount !== null ? formatCurrency(amount) : "-"} en ${orders !== null ? formatNumber(orders) : "-"} pedidos.`;
 }

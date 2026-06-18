@@ -361,7 +361,9 @@ async function loadMissionWorkspace(missionId) {
       };
       state.files.previewCache[missionId] = {
         rawPreview: snapshot.rawPreview,
-        cleanPreview: snapshot.cleanPreview
+        cleanPreview: snapshot.cleanPreview,
+        assetPreviews: snapshot.assetPreviews,
+        assetRowCounts: snapshot.assetRowCounts
       };
     }, { silent: true });
 

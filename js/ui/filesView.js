@@ -10,11 +10,7 @@ export function renderFilesView(state, runtime) {
   const selectedId = state.ui.selectedFileId || catalog[0]?.id || null;
   const selectedDataset = catalog.find((item) => item.id === selectedId) || catalog[0];
   const mission = getMissionOrPrimary(bundleId);
-  const previewRows = selectedDataset?.id === "sales_clean_view"
-    ? runtime?.cleanPreview
-    : selectedDataset?.id === "sales_dirty_csv"
-      ? runtime?.rawPreview
-      : [];
+  const previewRows = selectedDataset?.preview || [];
   const missionMeta = runtime?.mission || mission;
   const schemaMeta = runtime?.schema || {};
   const isReady = fileSummary.datasetStatus === "ready";
@@ -37,7 +33,7 @@ export function renderFilesView(state, runtime) {
         ${renderStatCard({ label: "Bundle", value: mission?.title || "Sin misión", note: mission?.executiveAudience || "Mesa operativa", tone: "info" })}
         ${renderStatCard({ label: "Filas crudas", value: runtime?.summary?.rawRows || 0, note: "Export original", tone: "neutral" })}
         ${renderStatCard({ label: "Filas limpias", value: runtime?.summary?.cleanRows || 0, note: "Workspace normalizado", tone: isReady ? "success" : "warning" })}
-        ${renderStatCard({ label: "Resultado esperado", value: mission?.answerKey?.primaryFinding || mission?.answerKey?.winningChannel || "-", note: "Respuesta de referencia", tone: "warning" })}
+        ${renderStatCard({ label: "Tablas SQL", value: runtime?.tables?.length || 0, note: (runtime?.tables || []).join(" · ") || "Pendientes de carga", tone: isReady ? "success" : "warning" })}
       </div>
 
       <div class="files-layout">
@@ -93,10 +89,11 @@ export function renderFilesView(state, runtime) {
                       ? renderKeyValueList([
                           { label: "Tabla raw", value: schemaMeta?.raw_table?.name || "sales_raw" },
                           { label: "Tabla limpia", value: schemaMeta?.clean_table?.name || "sales_clean" },
+                          { label: "Tablas auxiliares", value: schemaMeta?.supporting_tables?.length || 0 },
                           { label: "Problemas conocidos", value: schemaMeta?.quality_issues?.length || 0 },
                           { label: "Notas de validación", value: schemaMeta?.validation_notes?.length || 0 }
                         ])
-                      : previewRows && previewRows.length
+                      : previewRows.length
                         ? renderTable(previewRows, { limit: 6, variant: "results" })
                         : renderEmptyState("Preview bloqueado", "Acepta la misión para desbloquear el export y la vista de análisis.")
                 }

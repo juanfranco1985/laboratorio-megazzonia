@@ -2,7 +2,7 @@
   "name": "Laboratorio Megazzonia blog-portafolio",
   "version": "megazzonia-20260513a",
   "profile": "hosting",
-  "generatedAt": "2026-06-10T17:35:34.869Z",
+  "generatedAt": "2026-06-18T18:58:04.525Z",
   "root": "blog-portafolio-hosting",
   "entry": "index.html",
   "serveCommand": "python -m http.server 8092 --bind 127.0.0.1",

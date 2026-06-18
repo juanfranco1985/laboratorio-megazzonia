@@ -1,0 +1,19 @@
+order_id,customer_id,customer_name,region,sale_date,sales_channel,product_category,amount,salesperson,status
+ORD-4001,C001,Ana Perez,North,2026-04-06,Web,SaaS,1800,L. Gomez,pending
+ORD-4002,C002,Bruno Salas,South,06/04/2026,Retail,Hardware,400,C. Perez,cancelled
+ORD-4003,C003,Carla Ruiz,East,2026/04/07,website,Services,2200,M. Diaz,pending
+ORD-4004,C004,Diego Paredes,West,2026-04-07,Partner,Software,3000,A. Rojas,completed
+ORD-4005,C005,Elena Torres,North,08-04-2026,Web,SaaS,1900,L. Gomez,refunded
+ORD-4006,C006,Fabio Mora,South,2026-04-08,direct,Consulting,650,A. Rojas,pending
+ORD-4007,C007,Gabriela Soto,East,09/04/2026,eCommerce,Software,1700,M. Diaz,pending
+ORD-4008,C008,Hugo Navarro,West,2026-04-09,reseller,Hardware,1200,C. Perez,cancelled
+ORD-4009,C001,Ana Perez,North,2026-04-10,Web,Services,2450,L. Gomez,completed
+ORD-4010,C003,Carla Ruiz,East,2026-04-10,Retail,Accessories,780,C. Perez,completed
+ORD-4011,C005,Elena Torres,North,Apr 11 2026,Web,SaaS,2100,L. Gomez,completed
+ORD-4012,C007,Gabriela Soto,East,2026-04-11,Partner,Services,1350,M. Diaz,completed
+ORD-4013,C004,Diego Paredes,West,2026-04-12,direct,Consulting,950,A. Rojas,pending
+ORD-4014,C006,Fabio Mora,South,12/04/2026,Web,Software,1100,L. Gomez,completed
+ORD-4015,C008,Hugo Navarro,West,2026-04-12,Retail,Hardware,840,C. Perez,completed
+ORD-4015,C008,Hugo Navarro,West,2026-04-12,Retail,Hardware,840,C. Perez,completed
+ORD-4016,C002,Bruno Salas,South,2026-04-13,Web,SaaS,2600,L. Gomez,pending
+ORD-4017,C003,Carla Ruiz,East,2026-04-05,Partner,Services,1450,M. Diaz,cancelled

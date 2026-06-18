@@ -15,7 +15,10 @@ const SKILL_LABELS = {
   stakeholder_management: "Stakeholder Management",
   channel_segmentation: "Channel Segmentation",
   category_mix_analysis: "Category Mix Analysis",
-  marketing_reporting: "Marketing Reporting"
+  marketing_reporting: "Marketing Reporting",
+  sql_joins: "SQL Joins",
+  customer_segmentation: "Customer Segmentation",
+  risk_revenue_analysis: "Risk Revenue Analysis"
 };
 
 function getTrackedMissionCount(state) {

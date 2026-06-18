@@ -1,0 +1,59 @@
+{
+  "id": "mission_004_customer_risk_segment",
+  "slug": "customer-risk-segment",
+  "title": "Segmento con mayor revenue en riesgo",
+  "status": "locked",
+  "priority": "high",
+  "stakeholder_id": "nico_ortega",
+  "week_window": {
+    "start": "2026-04-06",
+    "end": "2026-04-12"
+  },
+  "narrative": "Marketing y operaciones necesitan priorizar una accion de retencion usando pedidos y el maestro de clientes.",
+  "business_goal": "Identificar el segmento con mayor importe pendiente o cancelado.",
+  "analytical_goal": "Relacionar sales_clean con customers por customer_id, filtrar la semana y agrupar por customer_segment.",
+  "attachments": [
+    {
+      "id": "sales_dirty_csv",
+      "name": "sales_dirty.csv",
+      "type": "csv",
+      "path": "data/mission_004_customer_risk_segment/raw/sales_dirty.csv",
+      "label": "orders export"
+    },
+    {
+      "id": "customers_csv",
+      "name": "customers.csv",
+      "type": "csv",
+      "path": "data/mission_004_customer_risk_segment/raw/customers.csv",
+      "label": "customer master"
+    },
+    {
+      "id": "schema_json",
+      "name": "schema.json",
+      "type": "json",
+      "path": "data/mission_004_customer_risk_segment/schema.json",
+      "label": "analysis schema"
+    }
+  ],
+  "skills_taught": [
+    "sql_joins",
+    "customer_segmentation",
+    "risk_revenue_analysis"
+  ],
+  "prestige_reward": 22,
+  "hints": [
+    "La clave compartida entre tablas es customer_id.",
+    "Revenue en riesgo incluye pending y cancelled.",
+    "El segmento esperado es Mid-Market cuando el JOIN y los filtros son correctos."
+  ],
+  "expected_answer": {
+    "customer_segment": "Mid-Market",
+    "metric": "at_risk_revenue",
+    "recommended_chart": "bar"
+  },
+  "success_criteria": [
+    "La consulta incorpora customers mediante JOIN.",
+    "El corte semanal y los estados de riesgo son correctos.",
+    "La conclusion recomienda priorizar Mid-Market."
+  ]
+}

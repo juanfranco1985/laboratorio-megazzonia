@@ -1,5 +1,5 @@
 .view-files {
-  overflow: hidden;
+  overflow: visible;
 }
 
 .files-overview {
@@ -10,6 +10,7 @@
 
 .file-list-panel {
   min-width: 0;
+  max-height: min(680px, calc(100vh - 250px));
 }
 
 .file-list-panel .panel-card__body {
@@ -41,7 +42,7 @@
   min-width: 0;
   min-height: 0;
   display: grid;
-  grid-template-rows: minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
   gap: 12px;
 }
 
@@ -55,8 +56,8 @@
   gap: 14px;
   flex: 1;
   min-height: 0;
-  overflow: auto;
-  padding-right: 4px;
+  overflow: visible;
+  padding-right: 0;
 }
 
 .file-detail__header {

@@ -144,6 +144,53 @@ export const mailThreads = [
         body: 'En esta segunda lectura no cambies la lógica de limpieza. Reutiliza sales_clean, mantén status completed y el mismo corte temporal. La diferencia es que ahora debes filtrar Web antes de agrupar por categoría.'
       }
     ]
+  },
+  {
+    id: 'thread_mission_004',
+    missionId: 'mission_004_customer_risk_segment',
+    threadType: 'mission',
+    senderId: 'nico_ortega',
+    senderName: 'Nicolás Ortega',
+    senderRole: 'Líder de Marketing',
+    subject: 'Cruza clientes y pedidos: necesito el segmento en riesgo',
+    preview: 'La mesa de retención quiere priorizar un segmento por importe expuesto, no solo por cantidad de incidentes.',
+    priority: 'high',
+    timestamp: 'Tue 09:20',
+    unread: true,
+    accepted: false,
+    labels: ['mission', 'join', 'retention'],
+    attachments: [
+      {
+        id: 'sales_dirty_csv',
+        name: 'sales_dirty.csv',
+        type: 'csv',
+        label: 'Export de pedidos',
+        status: 'Disponible al desbloquear',
+        path: 'data/mission_004_customer_risk_segment/raw/sales_dirty.csv'
+      },
+      {
+        id: 'customers_csv',
+        name: 'customers.csv',
+        type: 'csv',
+        label: 'Maestro de clientes',
+        status: 'Disponible al desbloquear',
+        path: 'data/mission_004_customer_risk_segment/raw/customers.csv'
+      }
+    ],
+    messages: [
+      {
+        id: 'm-1',
+        from: 'Nicolás Ortega',
+        role: 'Líder de Marketing',
+        body: 'Necesito que cruces el export de pedidos con el maestro de clientes. La pregunta ya no es qué región tiene más incidentes, sino qué segmento concentra más importe pendiente o cancelado.'
+      },
+      {
+        id: 'm-2',
+        from: 'Nicolás Ortega',
+        role: 'Líder de Marketing',
+        body: 'Usa customer_id para relacionar las tablas, mantén el corte semanal y deja una recomendación breve para la mesa de retención. No quiero una conclusión basada solo en cantidad de pedidos.'
+      }
+    ]
   }
 ];
 

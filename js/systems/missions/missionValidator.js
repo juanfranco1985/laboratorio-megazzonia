@@ -2,6 +2,7 @@ import { normalizeText } from '../../app/utils.js';
 
 export const SUPPORTED_RULE_TYPES = new Set([
   'sql_uses_table',
+  'sql_joins_table',
   'sql_has_group_by',
   'sql_uses_sum',
   'sql_filters_week_window',
@@ -51,10 +52,17 @@ function evaluateRule(rule, context) {
   switch (rule.type) {
     case 'sql_uses_table': {
       const table = rule.table || 'sales_clean';
-      const regex = new RegExp(`from\\s+${escapeRegExp(String(table).toLowerCase())}`);
+      const regex = new RegExp(`(?:from|join)\\s+["'\`\\[]?${escapeRegExp(String(table).toLowerCase())}["'\`\\]]?\\b`);
       return regex.test(sql)
         ? buildRuleResult(true, '', `La consulta usa la tabla ${table} del workspace.`, rule.severity)
         : buildRuleResult(false, `La consulta debe apoyarse en ${table}, no en el export crudo.`, '', rule.severity);
+    }
+    case 'sql_joins_table': {
+      const table = rule.table;
+      const regex = new RegExp(`join\\s+["'\`\\[]?${escapeRegExp(String(table).toLowerCase())}["'\`\\]]?\\b`);
+      return regex.test(sql)
+        ? buildRuleResult(true, '', `La consulta relaciona correctamente la tabla ${table}.`, rule.severity)
+        : buildRuleResult(false, `La consulta debe incorporar ${table} mediante JOIN para enriquecer el análisis.`, '', rule.severity);
     }
     case 'sql_has_group_by':
       return /group\s+by/.test(sql)

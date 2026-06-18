@@ -1,18 +1,23 @@
 # Hoja de ruta inmediata
 
-## Bloque siguiente recomendado
-### Choques de agenda y saturación laboral real
-Objetivo:
-- reuniones que se pisan
-- decisiones sobre qué atender y qué dejar pasar
-- costo reputacional por sobrecarga y omisiones
-- foco interrumpido por agenda densa
+## Bloques completados
+
+### Choques de agenda y saturación laboral
+- reuniones superpuestas
+- reprogramación y priorización
+- costo reputacional
+- interrupción de ventanas de foco
+
+### Primera misión multitabla
+- tabla auxiliar `customers`
+- `JOIN` por `customer_id`
+- revenue en riesgo por segmento
+- validación explícita del cruce
 
 ## Bloques siguientes
 ### 1. Mayor profundidad de validación analítica
 - aceptar múltiples enfoques correctos
 - menor dependencia de patrones rígidos
-- joins y múltiples tablas
 - análisis más interpretativos
 
 ### 2. Expansión de misiones

@@ -7,17 +7,22 @@ function resolveBundleId(state, missionId) {
   return missionId || state.files.activeBundleId || state.analysis.loadedMissionId || state.missions.activeId || getPrimaryMissionId();
 }
 
-function getAssetNotes(assetId, { unlocked, ready }) {
-  if (assetId === 'sales_dirty_csv') {
-    return unlocked ? 'Disponible para revisión' : 'Bloqueado hasta aceptar la misión';
+function getAssetNotes(asset, { unlocked, ready }) {
+  if (asset.kind === 'csv') {
+    if (!unlocked) {
+      return 'Bloqueado hasta aceptar la misión';
+    }
+    return asset.role === 'supporting'
+      ? `Tabla auxiliar disponible para JOIN${asset.tableName ? ` como ${asset.tableName}` : ''}`
+      : 'Disponible para revisión y normalización';
   }
-  if (assetId === 'mission_json') {
+  if (asset.id === 'mission_json') {
     return 'Contexto narrativo y objetivos de negocio';
   }
-  if (assetId === 'schema_json') {
+  if (asset.id === 'schema_json') {
     return 'Estructura prevista para la importación';
   }
-  if (assetId === 'sales_clean_view') {
+  if (asset.id === 'sales_clean_view') {
     return ready ? 'Vista normalizada lista para SQL' : 'Se construye al aceptar la misión';
   }
   return 'Activo interno';
@@ -37,19 +42,23 @@ export function buildFileCatalog(state, runtime = null, missionId = null) {
   const cachedPreview = state.files.previewCache[bundleId] || {};
   const rawPreview = runtime?.rawPreview || cachedPreview.rawPreview || [];
   const cleanPreview = runtime?.cleanPreview || cachedPreview.cleanPreview || [];
+  const assetPreviews = runtime?.assetPreviews || cachedPreview.assetPreviews || {};
+  const assetRowCounts = runtime?.assetRowCounts || cachedPreview.assetRowCounts || {};
 
   return listBundleAssets(bundleId).map((asset) => {
-    const isRaw = asset.id === "sales_dirty_csv";
+    const isCsv = asset.kind === "csv";
+    const isRaw = asset.role === "primary" || asset.id === "sales_dirty_csv";
     const isClean = asset.id === "sales_clean_view";
     const isMissionMeta = asset.id === "mission_json" || asset.id === "schema_json";
+    const preview = assetPreviews[asset.id] || (isRaw ? rawPreview : isClean ? cleanPreview : []);
 
     return {
       ...asset,
       status: isMissionMeta ? "available" : isClean ? (ready ? "ready" : unlocked ? "building" : "locked") : unlocked ? "unlocked" : "locked",
       ready: isMissionMeta ? true : isClean ? ready : unlocked,
-      rowCount: isRaw ? summary.rawRows || 0 : isClean ? summary.cleanRows || 0 : 1,
-      preview: isRaw ? rawPreview : isClean ? cleanPreview : [],
-      notes: getAssetNotes(asset.id, { unlocked, ready })
+      rowCount: assetRowCounts[asset.id] ?? (isRaw ? summary.rawRows || 0 : isClean ? summary.cleanRows || 0 : isCsv ? 0 : 1),
+      preview,
+      notes: getAssetNotes(asset, { unlocked, ready })
     };
   });
 }

@@ -1,0 +1,9 @@
+customer_id,customer_name,customer_segment,account_tier,signup_date,owner
+C001,Ana Perez,Enterprise,Strategic,2024-02-15,Carla Mendez
+C002,Bruno Salas,SMB,Standard,2025-08-04,Nicolas Ortega
+C003,Carla Ruiz,Mid-Market,Growth,2024-11-22,Nicolas Ortega
+C004,Diego Paredes,Enterprise,Strategic,2023-07-09,Carla Mendez
+C005,Elena Torres,Mid-Market,Growth,2025-01-18,Nicolas Ortega
+C006,Fabio Mora,SMB,Standard,2025-10-06,Nicolas Ortega
+C007,Gabriela Soto,Mid-Market,Growth,2024-06-30,Nicolas Ortega
+C008,Hugo Navarro,Enterprise,Strategic,2023-12-11,Carla Mendez

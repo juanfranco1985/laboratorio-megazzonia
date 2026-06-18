@@ -3,18 +3,22 @@ import { getMissionDefinitionById, listMissionDefinitions } from './missions/mis
 
 function buildBundleAssets(definition) {
   const attachments = definition?.context?.attachments || [];
-  const primaryDataset = definition?.datasets?.[0] || null;
+  const datasets = definition?.datasets || [];
+  const datasetAssets = datasets.map((dataset, index) => ({
+    id: dataset.id,
+    name: dataset.name,
+    kind: dataset.type,
+    label: dataset.label,
+    path: dataset.path,
+    role: dataset.role || (index === 0 ? 'primary' : 'supporting'),
+    tableName: dataset.tableName || null
+  }));
+  const datasetIds = new Set(datasetAssets.map((dataset) => dataset.id));
 
   return [
-    primaryDataset && {
-      id: primaryDataset.id,
-      name: primaryDataset.name,
-      kind: primaryDataset.type,
-      label: primaryDataset.label,
-      path: primaryDataset.path
-    },
+    ...datasetAssets,
     ...attachments
-      .filter((attachment) => attachment.id !== primaryDataset?.id)
+      .filter((attachment) => !datasetIds.has(attachment.id))
       .map((attachment) => ({
         id: attachment.id,
         name: attachment.name,
@@ -60,7 +64,8 @@ export function getAssetDefinition(missionId, assetId) {
 }
 
 export function getDefaultAssetId(missionId = getPrimaryMissionId()) {
-  return listBundleAssets(missionId)[0]?.id || null;
+  const assets = listBundleAssets(missionId);
+  return assets.find((asset) => asset.role === 'primary')?.id || assets[0]?.id || null;
 }
 
 export function buildDatasetState(state, missionId = getPrimaryMissionId()) {

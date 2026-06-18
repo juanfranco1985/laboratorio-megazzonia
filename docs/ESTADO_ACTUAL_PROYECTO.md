@@ -1,6 +1,6 @@
 # Data Analyst Career Simulator
 
-Estado actualizado: 2026-04-29
+Estado actualizado: 2026-06-18
 
 ## Resumen ejecutivo
 
@@ -11,7 +11,7 @@ El proyecto ya no es una demo lineal de una sola mision. La experiencia actual c
 ## Entrada principal
 
 ```text
-android/app/src/main/assets/simulator.html?v=dacs-20260429b#home
+android/app/src/main/assets/simulator.html?v=dacs-20260618a#home
 ```
 
 El portfolio principal usa `index.html` como hub separado. El simulador queda aislado en `simulator.html` para evitar mezclar identidad visual y estado del portfolio.
@@ -38,6 +38,14 @@ El portfolio principal usa `index.html` como hub separado. El simulador queda ai
 - Stakeholder: Lucia Ferraro, Operations Lead.
 - Objetivo: detectar que region concentra mas pedidos con friccion operativa.
 - Resultado esperado: `East`.
+
+### 4. `mission_004_customer_risk_segment`
+
+- Titulo: Segmento con mayor revenue en riesgo.
+- Stakeholder: Nicolas Ortega, Lider de Marketing.
+- Objetivo: cruzar pedidos y maestro de clientes para priorizar retencion.
+- Tecnica principal: `JOIN` entre `sales_clean` y `customers`.
+- Resultado esperado: `Mid-Market`.
 
 ## Stakeholders integrados
 
@@ -69,6 +77,7 @@ El portfolio principal usa `index.html` como hub separado. El simulador queda ai
 
 - Datasets locales por mision.
 - SQL real sobre `sql.js`.
+- Misiones con multiples tablas y `JOIN`.
 - Historial de queries.
 - Validacion de resultados.
 - Reporte con metrica, grafico y conclusion ejecutiva.
@@ -119,7 +128,7 @@ Desde `LABORATORIO MEGAZZONIA estructura blog`:
 node --test tests/*.mjs
 ```
 
-Estado actual de la suite: 38 tests.
+Estado actual de la suite: 41 tests.
 
 ## Lectura de portfolio
 
@@ -134,8 +143,8 @@ El valor principal del proyecto esta en la integracion de sistemas:
 
 ## Proximas mejoras recomendadas
 
-1. Mas misiones por area: producto, marketing, operaciones y finanzas.
-2. Capturas reales para la ficha de portfolio.
-3. Publicacion standalone separada del hub.
+1. Agregar misiones de cohortes, churn, QA de KPI y conciliacion.
+2. Aceptar enfoques SQL alternativos equivalentes mediante validacion semantica.
+3. Capturas reales de la mision multitabla para la ficha de portfolio.
 4. Mayor feedback visual en validaciones SQL y reportes.
 5. Metricas de progreso por ciclo de analisis.

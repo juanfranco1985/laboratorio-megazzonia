@@ -204,6 +204,7 @@ function buildCleanRows(records) {
 
     cleanRows.push({
       order_id: orderId,
+      customer_id: String(record.customer_id ?? "").trim() || null,
       customer_name: normalizeCustomerName(record.customer_name),
       region: normalizeRegion(record.region),
       sale_date: saleDate,
@@ -322,10 +323,23 @@ export function createSqlRuntime() {
       throw new Error(`Unknown dataset: ${missionId}`);
     }
 
-    const [mission, schema, csvText] = await Promise.all([
-      readJsonAsset(datasetDefinition.assets.find((asset) => asset.id === "mission_json")?.path || ""),
-      readJsonAsset(datasetDefinition.assets.find((asset) => asset.id === "schema_json")?.path || ""),
-      readTextAsset(datasetDefinition.assets.find((asset) => asset.id === "sales_dirty_csv")?.path || "")
+    const missionAsset = datasetDefinition.assets.find((asset) => asset.id === "mission_json");
+    const schemaAsset = datasetDefinition.assets.find((asset) => asset.id === "schema_json");
+    const csvAssets = datasetDefinition.assets.filter((asset) => asset.kind === "csv");
+    const primaryCsvAsset = csvAssets.find((asset) => asset.role === "primary")
+      || csvAssets.find((asset) => asset.id === "sales_dirty_csv")
+      || csvAssets[0];
+    const supportingCsvAssets = csvAssets.filter((asset) => asset.id !== primaryCsvAsset?.id);
+
+    if (!primaryCsvAsset?.path) {
+      throw new Error(`Mission ${missionId} does not define a primary CSV dataset.`);
+    }
+
+    const [mission, schema, csvText, ...supportingCsvTexts] = await Promise.all([
+      readJsonAsset(missionAsset?.path || ""),
+      readJsonAsset(schemaAsset?.path || ""),
+      readTextAsset(primaryCsvAsset.path),
+      ...supportingCsvAssets.map((asset) => readTextAsset(asset.path || ""))
     ]);
 
     const weekWindow = mission?.week_window || MISSION_001_WEEK_WINDOW;
@@ -347,6 +361,7 @@ export function createSqlRuntime() {
 
     createTable(db, "sales_clean", [
       { name: "order_id", type: "TEXT" },
+      { name: "customer_id", type: "TEXT" },
       { name: "customer_name", type: "TEXT" },
       { name: "region", type: "TEXT" },
       { name: "sale_date", type: "TEXT" },
@@ -360,6 +375,7 @@ export function createSqlRuntime() {
     ]);
     insertRows(db, "sales_clean", [
       "order_id",
+      "customer_id",
       "customer_name",
       "region",
       "sale_date",
@@ -371,6 +387,43 @@ export function createSqlRuntime() {
       "source_row",
       "row_quality"
     ], cleanRows);
+
+    const supportingTables = supportingCsvAssets.map((asset, index) => {
+      const parsedSupporting = parseCsv(supportingCsvTexts[index] || "");
+      const tableName = asset.tableName || asset.id.replace(/_csv$/i, "");
+      const rows = parsedSupporting.records.map((record, rowIndex) => ({
+        ...record,
+        source_row: rowIndex + 2
+      }));
+      const columns = [
+        ...parsedSupporting.headers.map((header) => ({ name: header, type: "TEXT" })),
+        { name: "source_row", type: "INTEGER" }
+      ];
+
+      createTable(db, tableName, columns);
+      insertRows(db, tableName, columns.map((column) => column.name), rows);
+
+      return {
+        assetId: asset.id,
+        tableName,
+        rowCount: rows.length,
+        preview: rows.slice(0, datasetDefinition.previewLimit || 6)
+      };
+    });
+
+    const assetPreviews = {
+      [primaryCsvAsset.id]: rawRows.slice(0, datasetDefinition.previewLimit || 6),
+      sales_clean_view: cleanRows.slice(0, datasetDefinition.previewLimit || 6)
+    };
+    const assetRowCounts = {
+      [primaryCsvAsset.id]: rawRows.length,
+      sales_clean_view: cleanRows.length
+    };
+
+    for (const supportingTable of supportingTables) {
+      assetPreviews[supportingTable.assetId] = supportingTable.preview;
+      assetRowCounts[supportingTable.assetId] = supportingTable.rowCount;
+    }
 
     runtimeSummary = {
       missionId,
@@ -385,6 +438,7 @@ export function createSqlRuntime() {
       channelTotals: weekSummary.channelTotals,
       winningChannel: weekSummary.winningChannel,
       winningTotal: weekSummary.winningTotal,
+      supportingTables: supportingTables.map(({ tableName, rowCount }) => ({ tableName, rowCount })),
       weekWindow: deepClone(weekWindow),
       qualityNotes: [
         `Removed ${summary.duplicateRowsRemoved} duplicate row(s).`,
@@ -403,6 +457,9 @@ export function createSqlRuntime() {
       summary: runtimeSummary,
       rawPreview: rawRows.slice(0, datasetDefinition.previewLimit || 6),
       cleanPreview: cleanRows.slice(0, datasetDefinition.previewLimit || 6),
+      assetPreviews,
+      assetRowCounts,
+      supportingTables,
       tables: listTables(db)
     };
     loadedMission = missionId;
