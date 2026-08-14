@@ -59,12 +59,12 @@
 	path = Juego Juan
 	url = https://github.com/juanfranco1985/megazzonia-juego-juan.git
 
-[submodule "Juegos Procedurales"]
-	path = Juegos Procedurales
+[submodule "Coleccion Juegos Clasicos Procedurales"]
+	path = Coleccion Juegos Clasicos Procedurales
 	url = https://github.com/juanfranco1985/megazzonia-juegos-procedurales.git
 
-[submodule "Sistema de juegos procedurales 2"]
-	path = Sistema de juegos procedurales 2
+[submodule "Procedural Playworks - Suite de 20 Juegos"]
+	path = Procedural Playworks - Suite de 20 Juegos
 	url = https://github.com/juanfranco1985/megazzonia-sistema-juegos-procedurales-2.git
 
 [submodule "LABORATORIO MEGAZZONIA estructura blog"]
