@@ -1,35 +1,19 @@
-const VIEW = { width: 1280, height: 720 };
-const LEVEL_LENGTH = 11200;
-const STORAGE_KEY = "megazzonia_el_cruce_progress_v1";
-const ART = Object.freeze({
-  background: "assets/art/andes_dawn_v1.png",
-  sanMartin: "assets/art/san_martin_v1.png",
-  sanMartinAtlas: "assets/art/san_martin_states_atlas_v4.png",
-  sanMartinWalkAtlas: "assets/art/san_martin_walk_atlas_v3.png",
-  expeditionAtlas: "assets/art/expedition_sprite_atlas_v1.png",
-  propsAtlas: "assets/art/mountain_props_atlas_v1.png",
-});
+import { clamp, distance, lerp } from "./core/math.js";
+import { ART, CHAPTERS, LEVEL_LENGTH, WORLD_LAYOUT } from "./data/expedition.js";
+import { chapterAt, terrainHeightAt } from "./systems/terrain.js";
 
-// Punto de contacto inferior de cada celda. Los atlas incluyen margen transparente
-// y no todos los dibujos terminan en el borde de su fotograma.
+const VIEW = { width: 1280, height: 720 };
+const STORAGE_KEY = "megazzonia_el_cruce_progress_v2";
+const LEGACY_STORAGE_KEY = "megazzonia_el_cruce_progress_v1";
+
+// Puntos de contacto medidos sobre los atlas transparentes.
 const SAN_MARTIN_FEET = Object.freeze([.994, .994, .989, .967, .972, .994, .939, .994, .928, .956, .928, .928]);
 const SAN_MARTIN_CENTER = Object.freeze([.5, .467, .459, .494, .536, .53, .494, .478, .506, .561, .514, .464]);
 const SAN_MARTIN_WALK_FEET = Object.freeze([.898, .906, .906, .91, .91, .914, .922, .922]);
 const SAN_MARTIN_WALK_CENTER = Object.freeze([.63, .529, .417, .417, .628, .43, .398, .396]);
 const EXPEDITION_FEET = Object.freeze([.945, .945, .945, .949, .883, .879, .883, .898]);
 const PROP_CONTACT = Object.freeze([.836, .832, .816, .84, .703, .754, .785, .758]);
-
-const CHAPTERS = Object.freeze([
-  { name: "El Plumerillo", short: "PLUMERILLO", start: 0, end: 1800, objective: "Organiza la columna y alcanza el primer puesto", tint: "rgba(214,164,91,0.04)", cold: 0.72 },
-  { name: "Primer ascenso", short: "EL ASCENSO", start: 1800, end: 4200, objective: "Supera las primeras quebradas sin dispersarte", tint: "rgba(86,126,159,0.05)", cold: 0.92 },
-  { name: "Noche en la cordillera", short: "LA NOCHE", start: 4200, end: 6600, objective: "Encuentra el vivac antes de perder abrigo", tint: "rgba(8,26,60,0.34)", cold: 1.2 },
-  { name: "Paso de alta montaña", short: "ALTA MONTAÑA", start: 6600, end: 9200, objective: "Resiste el viento y mantén unida la columna", tint: "rgba(207,230,241,0.13)", cold: 1.62 },
-  { name: "Descenso hacia Chile", short: "EL DESCENSO", start: 9200, end: 11200, objective: "Conduce a todos hasta el refugio final", tint: "rgba(226,174,92,0.06)", cold: 1.02 },
-]);
-
-const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
-const lerp = (from, to, amount) => from + (to - from) * amount;
-const distance = (a, b) => Math.abs(a - b);
+const LOGISTICS_CONTACT = Object.freeze([.848, .867, .863, .848, .742, .664, .734, .535]);
 
 function loadImage(src) {
   const image = new Image();
@@ -195,7 +179,24 @@ class Player {
     }
 
     this.vy += 1120 * delta;
+    const previousX = this.x;
     this.x = clamp(this.x + this.vx * delta, 40, LEVEL_LENGTH + 80);
+    if (!game.preparation.complete && this.x > WORLD_LAYOUT.preparationGate) {
+      this.x = WORLD_LAYOUT.preparationGate;
+      this.vx = Math.min(0, this.vx);
+      if (game.taskToastCooldown <= 0) {
+        game.showToast("La expedicion no parte sin viveres, equipo y materiales de puente.");
+        game.taskToastCooldown = 2.2;
+      }
+    }
+    if (!game.bridge.complete && previousX <= game.bridge.start - 22 && this.x > game.bridge.start - 22) {
+      this.x = game.bridge.start - 22;
+      this.vx = Math.min(0, this.vx);
+      if (game.taskToastCooldown <= 0) {
+        game.showToast("La quebrada no se salta: reuni a la columna y construyan el puente.");
+        game.taskToastCooldown = 2.2;
+      }
+    }
     this.y += this.vy * delta;
     this.step += Math.abs(this.vx) * delta * 0.06;
 
@@ -225,7 +226,7 @@ class Player {
       game.emit(this.x - this.facing * 12, this.y + this.height / 2, 2, "#e5ddcb");
     }
 
-    if (this.y > VIEW.height + 180) game.setback("Una grieta separó a la vanguardia de la columna.");
+    if (this.y - game.cameraY > VIEW.height + 180) game.setback("Una grieta separó a la vanguardia de la columna.");
   }
 
   getFrame() {
@@ -243,8 +244,9 @@ class Player {
     return Math.floor(this.game.elapsed * 1.25) % 2;
   }
 
-  render(ctx, cameraX) {
+  render(ctx, cameraX, cameraY) {
     const screenX = this.x - cameraX;
+    const screenY = this.y - cameraY;
     const ground = this.game.groundAt(this.x);
     const feet = this.y + this.height / 2;
     if (ground !== null) {
@@ -254,39 +256,35 @@ class Player {
       ctx.globalAlpha = .26 * shadowScale;
       ctx.fillStyle = "#050709";
       ctx.beginPath();
-      ctx.ellipse(screenX, ground + 2, 30 * shadowScale, 7 * shadowScale, 0, 0, Math.PI * 2);
+      ctx.ellipse(screenX, ground - cameraY + 2, 30 * shadowScale, 7 * shadowScale, 0, 0, Math.PI * 2);
       ctx.fill();
       ctx.restore();
     }
 
     ctx.save();
-    ctx.translate(screenX, this.y);
+    ctx.translate(screenX, screenY);
     if (this.facing < 0) ctx.scale(-1, 1);
-    if (this.invulnerable > 0 && Math.floor(this.invulnerable * 12) % 2 === 0) ctx.globalAlpha = 0.44;
-
+    if (this.invulnerable > 0 && Math.floor(this.invulnerable * 12) % 2 === 0) ctx.globalAlpha = .44;
     const atlas = this.game.assets.sanMartinAtlas;
     const walkAtlas = this.game.assets.sanMartinWalkAtlas;
-    const walking = this.onGround
-      && Math.abs(this.vx) > 35
-      && !this.actionPose
-      && this.landingTimer <= 0
-      && this.turnTimer <= 0
-      && !(this.game.command === "rest" && this.game.commandTimer > 0)
-      && this.invulnerable <= 0;
+    const walking = this.onGround && Math.abs(this.vx) > 35 && !this.actionPose
+      && this.landingTimer <= 0 && this.turnTimer <= 0
+      && !(this.game.command === "rest" && this.game.commandTimer > 0) && this.invulnerable <= 0;
     if (walking && walkAtlas.complete && walkAtlas.naturalWidth) {
       const frame = Math.floor(this.step * .62) % 8;
       const width = 110;
       const height = 146;
-      const spriteX = -width * SAN_MARTIN_WALK_CENTER[frame];
-      const spriteY = this.height / 2 - height * SAN_MARTIN_WALK_FEET[frame];
-      this.game.drawAtlasCell(ctx, walkAtlas, frame, 4, 2, spriteX, spriteY, width, height);
+      this.game.drawAtlasCell(ctx, walkAtlas, frame, 4, 2,
+        -width * SAN_MARTIN_WALK_CENTER[frame],
+        this.height / 2 - height * SAN_MARTIN_WALK_FEET[frame], width, height);
     } else if (atlas.complete && atlas.naturalWidth) {
       const frame = this.getFrame();
       const width = 146;
       const height = 146;
-      const spriteX = -width * SAN_MARTIN_CENTER[frame];
-      const spriteY = this.onGround ? this.height / 2 - height * SAN_MARTIN_FEET[frame] : -height / 2;
-      this.game.drawAtlasCell(ctx, atlas, frame, 4, 3, spriteX, spriteY, width, height);
+      this.game.drawAtlasCell(ctx, atlas, frame, 4, 3,
+        -width * SAN_MARTIN_CENTER[frame],
+        this.onGround ? this.height / 2 - height * SAN_MARTIN_FEET[frame] : -height / 2,
+        width, height);
     } else {
       const image = this.game.assets.sanMartin;
       if (image.complete && image.naturalWidth) ctx.drawImage(image, -43, -64, 86, 129);
@@ -301,18 +299,20 @@ class Game {
     this.ctx = canvas.getContext("2d");
     this.resizeCanvas();
     this.assets = {
-      background: loadImage(ART.background),
+      backgrounds: Object.fromEntries(Object.entries(ART.backgrounds).map(([key, src]) => [key, loadImage(src)])),
       sanMartin: loadImage(ART.sanMartin),
       sanMartinAtlas: loadImage(ART.sanMartinAtlas),
       sanMartinWalkAtlas: loadImage(ART.sanMartinWalkAtlas),
       expeditionAtlas: loadImage(ART.expeditionAtlas),
       propsAtlas: loadImage(ART.propsAtlas),
+      logisticsAtlas: loadImage(ART.logisticsAtlas),
     };
     this.audio = new WebAudio();
     this.input = { left: false, right: false };
     this.state = "intro";
     this.elapsed = 0;
     this.cameraX = 0;
+    this.cameraY = 0;
     this.shake = 0;
     this.flash = 0;
     this.command = "advance";
@@ -364,32 +364,45 @@ class Game {
     this.storyIndex = 0;
     this.chapterIndex = 0;
     this.chapterRevealTimer = 2.8;
-    this.breathTimer = 0.5;
+    this.breathTimer = .5;
     this.commandPulse = 0;
     this.checkpointCount = 0;
     this.runTime = 0;
-    this.windStrength = .35;
+    this.windStrength = .2;
     this.command = "advance";
     this.commandTimer = 0;
-    this.pits = [
-      { start: 1960, end: 2200 }, { start: 3760, end: 4040 }, { start: 6240, end: 6520 }, { start: 8760, end: 9050 },
-    ];
-    this.rocks = [1440, 2860, 4720, 5560, 7320, 8140, 9880].map((x, index) => ({ x, hit: false, size: 27 + (index % 3) * 8, type: "rock" }));
-    this.branches = [3480, 6020, 9380].map((x) => ({ x, hit: false, size: 30, type: "branch" }));
-    this.iceRidges = [6860, 7860, 8620].map((x) => ({ x, hit: false, size: 34, type: "ice" }));
-    this.suppliesWorld = [2500, 5860, 9400].map((x) => ({ x, taken: false }));
-    this.rescuePoints = [3300, 7040, 9720].map((x, index) => ({ x, rescued: false, label: ["Soldado exhausto", "Arriero herido", "Granadero rezagado"][index] }));
-    this.camps = [5100, 8300].map((x) => ({ x, used: false }));
-    this.checkpoints = [1760, 4160, 6560, 9160].map((x, index) => ({ x, index, activated: false }));
+    this.taskToastCooldown = 0;
+    this.preparation = { rations: false, equipment: false, bridgeKit: false, complete: false };
+    this.bridge = {
+      ...WORLD_LAYOUT.bridge,
+      stage: 0,
+      progress: 0,
+      complete: false,
+    };
+    this.pits = WORLD_LAYOUT.pits.map((pit) => ({ ...pit }));
+    this.rocks = WORLD_LAYOUT.rocks.map((x, index) => ({ x, hit: false, size: 28 + index % 3 * 7, type: "rock" }));
+    this.branches = WORLD_LAYOUT.branches.map((x) => ({ x, hit: false, size: 30, type: "branch" }));
+    this.iceRidges = WORLD_LAYOUT.iceRidges.map((x) => ({ x, hit: false, size: 34, type: "ice" }));
+    this.suppliesWorld = WORLD_LAYOUT.supplies.map((x) => ({ x, taken: false }));
+    this.rescuePoints = WORLD_LAYOUT.rescues.map((x, index) => ({ x, rescued: false, label: ["Soldado exhausto", "Arriero herido", "Granadero rezagado"][index] }));
+    this.camps = WORLD_LAYOUT.camps.map((x) => ({ x, used: false }));
+    this.checkpoints = WORLD_LAYOUT.checkpoints.map((x, index) => ({ x, index, activated: false }));
     this.storyMarkers = [
-      { x: 280, text: "TUTORIAL · Muévete con A/D o flechas. Pulsa dos veces W, ↑ o Espacio para el doble salto." },
-      { x: 720, text: "LIDERAZGO · Usa 1 para avanzar, 2 para reagrupar y 3 para descansar." },
-      { x: 1040, text: "La montaña exige ritmo, no prisa. Mantén unida la columna." },
-      { x: 4300, text: "La altura castiga el esfuerzo. Reagrupar también es avanzar." },
-      { x: 7800, text: "El viento arrecia. Busca el abrigo del próximo vivac." },
-      { x: 10400, text: "La cumbre queda atrás. Nadie se libera solo." },
+      { x: 260, text: "EL PLUMERILLO · Antes de marchar, la columna debe quedar equipada." },
+      { x: 2450, text: "LA PARTIDA · El terreno comienza a elevarse hacia la precordillera." },
+      { x: 4880, text: "INGENIERÍA · Nadie saltará esta quebrada: el paso se construye entre todos." },
+      { x: 7350, text: "ESPINACITO · La pendiente exige un ritmo sostenido y la carga bien sujeta." },
+      { x: 10120, text: "LA NOCHE · La altura castiga el esfuerzo. Busca el próximo vivac." },
+      { x: 12500, text: "ALTA MONTAÑA · Avanza en fila y protege a los animales del viento." },
+      { x: 15020, text: "EL DESCENSO · El valle de Aconcagua aparece al otro lado de la cumbre." },
     ];
-    this.followers = Array.from({ length: 8 }, (_, index) => ({ offset: 72 + index * 47, phase: index * .8, active: true, type: index % 3 === 0 ? "arriero" : "grenadier" }));
+    this.followers = Array.from({ length: 8 }, (_, index) => ({
+      offset: 72 + index * 47,
+      phase: index * .8,
+      active: true,
+      role: "march",
+      type: index % 3 === 0 ? "arriero" : "grenadier",
+    }));
     const resumed = this.progress.completed ? 0 : clamp(Number(this.progress.checkpoint) || 0, 0, this.checkpoints.length);
     for (let index = 0; index < resumed; index += 1) this.checkpoints[index].activated = true;
     this.checkpointCount = resumed;
@@ -450,13 +463,40 @@ class Game {
   }
 
   loadProgress() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}") || {}; } catch { return {}; }
+    try {
+      const current = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+      if (current) return current;
+      const legacy = JSON.parse(localStorage.getItem(LEGACY_STORAGE_KEY) || "{}");
+      return { ...legacy, checkpoint: 0, run: null, migratedFromV1: true };
+    } catch { return {}; }
   }
 
   saveProgress() {
     this.progress.soundMuted = this.soundMuted;
     this.progress.reducedMotion = this.reducedMotion;
+    this.progress.schema = 2;
+    this.progress.run = {
+      morale: this.morale, warmth: this.warmth, stamina: this.stamina, supplies: this.supplies,
+      columnSize: this.columnSize, rescues: this.rescues, cohesion: this.cohesion,
+      preparation: { ...this.preparation },
+      bridge: { stage: this.bridge.stage, progress: this.bridge.progress, complete: this.bridge.complete },
+      suppliesWorld: this.suppliesWorld.map((item) => item.taken),
+      rescuePoints: this.rescuePoints.map((item) => item.rescued),
+      camps: this.camps.map((item) => item.used),
+    };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(this.progress));
+  }
+
+  restoreRunState(run) {
+    if (!run) return;
+    for (const key of ["morale", "warmth", "stamina", "supplies", "columnSize", "rescues", "cohesion"]) {
+      if (Number.isFinite(run[key])) this[key] = run[key];
+    }
+    Object.assign(this.preparation, run.preparation || {});
+    Object.assign(this.bridge, run.bridge || {});
+    (run.suppliesWorld || []).forEach((taken, index) => { if (this.suppliesWorld[index]) this.suppliesWorld[index].taken = Boolean(taken); });
+    (run.rescuePoints || []).forEach((rescued, index) => { if (this.rescuePoints[index]) this.rescuePoints[index].rescued = Boolean(rescued); });
+    (run.camps || []).forEach((used, index) => { if (this.camps[index]) this.camps[index].used = Boolean(used); });
   }
 
   start() {
@@ -465,17 +505,23 @@ class Game {
     this.createWorld();
     const resumeIndex = this.progress.completed ? 0 : clamp(Number(this.progress.checkpoint) || 0, 0, this.checkpoints.length);
     if (resumeIndex > 0) {
+      this.restoreRunState(this.progress.run);
       this.player.x = this.checkpoints[resumeIndex - 1].x + 45;
       this.lastSafeX = this.player.x;
-      this.chapterIndex = Math.min(resumeIndex, CHAPTERS.length - 1);
+      this.chapterIndex = chapterAt(this.player.x, CHAPTERS);
     }
+    const ground = this.groundAt(this.player.x) ?? 560;
+    this.player.y = ground - this.player.height / 2;
+    this.player.onGround = true;
+    this.cameraX = clamp(this.player.x - 260, 0, Math.max(0, LEVEL_LENGTH - VIEW.width + 120));
+    this.cameraY = this.player.y - VIEW.height * .62;
     this.state = "running";
     this.ui.overlay.classList.remove("visible");
     this.ui.resultGrid.hidden = true;
-    this.ui.startBtn.textContent = "REINICIAR EL ASCENSO";
+    this.ui.startBtn.textContent = "REINICIAR LA EXPEDICIÓN";
     this.showToast(resumeIndex > 0
-      ? `Retomamos desde el puesto ${resumeIndex}. La columna vuelve a marchar.`
-      : "Orden inicial: AVANZAR. La columna seguirá tu ritmo.", 3200);
+      ? "Retomamos desde el puesto " + resumeIndex + ". La columna conserva su estado."
+      : "Primera misión: prepara la columna en El Plumerillo.", 3400);
   }
 
   togglePause() {
@@ -554,13 +600,12 @@ class Game {
   }
 
   updateChapter() {
-    const nextIndex = CHAPTERS.findIndex((chapter) => this.player.x < chapter.end);
-    const safeIndex = nextIndex < 0 ? CHAPTERS.length - 1 : nextIndex;
+    const safeIndex = chapterAt(this.player.x, CHAPTERS);
     if (safeIndex !== this.chapterIndex) {
       this.chapterIndex = safeIndex;
       this.chapterRevealTimer = 3;
       this.audio.play("command");
-      this.emit(this.player.x, this.groundAt(this.player.x) - 70, 20, "#8fd0ed");
+      this.emit(this.player.x, (this.groundAt(this.player.x) ?? this.player.y) - 70, 20, "#8fd0ed");
     }
   }
 
@@ -590,20 +635,31 @@ class Game {
     const remaining = Math.floor(seconds % 60).toString().padStart(2, "0");
     return `${minutes}:${remaining}`;
   }
+  bridgeDeckAt(x) {
+    const progress = clamp((x - this.bridge.start) / (this.bridge.end - this.bridge.start), 0, 1);
+    const left = terrainHeightAt(this.bridge.start - 2);
+    const right = terrainHeightAt(this.bridge.end + 2);
+    return lerp(left, right, progress) + Math.sin(progress * Math.PI) * 20;
+  }
+
   groundAt(x) {
     let edgeDrop = 0;
     for (const pit of this.pits) {
-      if (x > pit.start && x < pit.end) return null;
+      if (x > pit.start && x < pit.end) {
+        if (pit.kind === "bridge" && this.bridge.complete) return this.bridgeDeckAt(x);
+        return null;
+      }
       const distanceToEdge = x <= pit.start ? pit.start - x : x - pit.end;
-      if (distanceToEdge < 76) edgeDrop = Math.max(edgeDrop, (76 - distanceToEdge) * 0.46);
+      if (distanceToEdge < 76) edgeDrop = Math.max(edgeDrop, (76 - distanceToEdge) * .32);
     }
-    return VIEW.height - 172 + Math.sin(x * 0.0032) * 32 + Math.sin(x * 0.009) * 11 - clamp(x / LEVEL_LENGTH, 0, 1) * 34 + edgeDrop;
+    return terrainHeightAt(x) + edgeDrop;
   }
 
   followerPoseAt(x, index) {
     for (const pit of this.pits) {
       if (x < pit.start || x > pit.end) continue;
       const progress = clamp((x - pit.start) / (pit.end - pit.start), 0, 1);
+      if (pit.kind === "bridge" && this.bridge.complete) return { y: this.bridgeDeckAt(x), airborne: false, progress, cause: "bridge" };
       const leftGround = this.groundAt(pit.start - 2);
       const rightGround = this.groundAt(pit.end + 2);
       if (leftGround === null || rightGround === null) return null;
@@ -644,6 +700,7 @@ class Game {
     this.flash = Math.max(0, this.flash - delta);
     this.shake = Math.max(0, this.shake - 30 * delta);
     this.commandPulse = Math.max(0, this.commandPulse - delta * 1.4);
+    this.taskToastCooldown = Math.max(0, this.taskToastCooldown - delta);
     this.toastTimer = Math.max(0, this.toastTimer - delta);
     if (this.toastTimer === 0) this.ui.toast.classList.remove("visible");
 
@@ -652,6 +709,8 @@ class Game {
     const lookAhead = clamp(this.player.vx * .42, -82, 128);
     const cameraTarget = clamp(this.player.x - cameraFocus + lookAhead, 0, Math.max(0, LEVEL_LENGTH - VIEW.width + 120));
     this.cameraX = lerp(this.cameraX, cameraTarget, 1 - Math.pow(.002, delta));
+    const verticalTarget = this.player.y - VIEW.height * .62;
+    this.cameraY = lerp(this.cameraY, verticalTarget, 1 - Math.pow(.004, delta));
     if (this.player.onGround) this.lastSafeX = Math.max(this.lastSafeX, this.player.x - 20);
 
     const moving = Math.abs(this.player.vx) > 45;
@@ -680,6 +739,7 @@ class Game {
     this.stamina = clamp(this.stamina, 4, 100);
     this.cohesion = clamp(this.cohesion, 20, 100);
 
+    this.updateExpeditionTasks(delta);
     this.processWorldInteractions();
     this.updateFollowers(delta);
     this.updateParticles(delta);
@@ -688,6 +748,58 @@ class Game {
 
     if (this.morale <= 0 || this.warmth <= 0) this.fail(this.warmth <= 0 ? "El frío detuvo la expedición." : "La columna perdió la voluntad de continuar.");
     else if (this.player.x >= LEVEL_LENGTH - 130) this.complete();
+  }
+
+  updatePreparationState() {
+    this.preparation.complete = WORLD_LAYOUT.preparationStations.every((station) => this.preparation[station.id]);
+  }
+
+  assignBridgeRoles() {
+    const roles = ["anchor-left", "rope-left", "deck-left", "anchor-right", "rope-right", "deck-right", "support", "support"];
+    this.followers.forEach((follower, index) => { follower.role = roles[index] || "support"; });
+  }
+
+  clearBridgeRoles() {
+    this.followers.forEach((follower) => { follower.role = "march"; });
+  }
+
+  updateExpeditionTasks(delta) {
+    this.updatePreparationState();
+    if (this.bridge.stage !== 2 || this.bridge.complete) return;
+    if (distance(this.player.x, this.bridge.siteX) > 310 || this.command !== "regroup") return;
+    const workers = this.followers.filter((follower) => follower.active).length;
+    const rate = (.055 + this.cohesion * .00055) * (workers / 8);
+    this.bridge.progress = clamp(this.bridge.progress + delta * rate, 0, 1);
+    this.stamina = clamp(this.stamina - delta * .45, 4, 100);
+    if (this.bridge.progress >= 1) {
+      this.bridge.stage = 3;
+      this.audio.play("checkpoint");
+      this.showToast("ESTRUCTURA LISTA · Revisa y asegura el paso con E.", 3600);
+    }
+  }
+
+  missionInteraction() {
+    if (!this.preparation.complete) {
+      const station = WORLD_LAYOUT.preparationStations.find((item) => !this.preparation[item.id] && distance(this.player.x, item.x) < 92);
+      if (station) return {
+        text: station.label,
+        action: () => {
+          this.preparation[station.id] = true;
+          this.updatePreparationState();
+          this.audio.play("supply");
+          this.player.setAction("help", .65);
+          this.emit(station.x, (this.groundAt(station.x) ?? this.player.y) - 55, 15, "#f4d698");
+          this.showToast(this.preparation.complete ? "COLUMNA PREPARADA · La expedición puede partir." : "Tarea completada · Continúa preparando la columna.", 3000);
+        },
+      };
+    }
+    if (distance(this.player.x, this.bridge.siteX) < 150 && !this.bridge.complete) {
+      if (this.bridge.stage === 0) return { text: "EXAMINAR LA QUEBRADA", action: () => { this.bridge.stage = 1; this.showToast("Se necesita el puente portátil. Asigna los equipos con E.", 3200); } };
+      if (this.bridge.stage === 1) return { text: "ASIGNAR EQUIPOS DE PUENTE", action: () => { this.bridge.stage = 2; this.assignBridgeRoles(); this.issueCommand("regroup"); this.showToast("CONSTRUCCIÓN · Mantén REAGRUPAR y protege el área.", 3600); } };
+      if (this.bridge.stage === 2) return { text: "CONSTRUYENDO · " + Math.round(this.bridge.progress * 100) + "% · REAGRUPAR", action: () => {} };
+      if (this.bridge.stage === 3) return { text: "PROBAR Y ASEGURAR EL PUENTE", action: () => { this.bridge.complete = true; this.bridge.stage = 4; this.clearBridgeRoles(); this.morale = clamp(this.morale + 12, 0, 100); this.cohesion = clamp(this.cohesion + 10, 0, 100); this.audio.play("checkpoint"); this.saveProgress(); this.showToast("PUENTE ASEGURADO · La columna puede cruzar unida.", 4200); } };
+    }
+    return null;
   }
 
   processWorldInteractions() {
@@ -706,26 +818,20 @@ class Game {
         this.progress.completed = false;
         this.saveProgress();
         this.audio.play("checkpoint");
-        this.emit(checkpoint.x, this.groundAt(checkpoint.x) - 55, 24, "#8fd0ed");
-        this.showToast(`PUESTO ${checkpoint.index + 1} ASEGURADO · El progreso queda guardado`, 3600);
+        this.emit(checkpoint.x, (this.groundAt(checkpoint.x) ?? this.player.y) - 55, 24, "#8fd0ed");
+        this.showToast("PUESTO " + (checkpoint.index + 1) + " ASEGURADO · Estado completo guardado", 3600);
       }
     }
 
-    let nearby = null;
+    let nearby = this.missionInteraction();
     for (const cache of this.suppliesWorld) {
-      if (!cache.taken && distance(this.player.x, cache.x) < 72) {
-        nearby = { text: "RECOGER PROVISIONES", action: () => { cache.taken = true; this.supplies += 2; this.audio.play("supply"); this.showToast("Provisiones recuperadas · +2"); } };
-      }
+      if (!nearby && !cache.taken && distance(this.player.x, cache.x) < 72) nearby = { text: "RECOGER PROVISIONES", action: () => { cache.taken = true; this.supplies += 2; this.audio.play("supply"); this.showToast("Provisiones recuperadas · +2"); } };
     }
     for (const rescue of this.rescuePoints) {
-      if (!rescue.rescued && distance(this.player.x, rescue.x) < 78) {
-        nearby = { text: `AYUDAR · ${rescue.label.toUpperCase()}`, action: () => { rescue.rescued = true; this.rescues += 1; this.morale = clamp(this.morale + 12, 0, 100); this.cohesion = clamp(this.cohesion + 10, 0, 100); this.audio.play("help"); this.player.setAction("help", 0.82); this.emit(rescue.x, this.groundAt(rescue.x) - 45, 18, "#f4d698"); this.showToast("Nadie queda atrás · Moral recuperada"); } };
-      }
+      if (!nearby && !rescue.rescued && distance(this.player.x, rescue.x) < 78) nearby = { text: "AYUDAR · " + rescue.label.toUpperCase(), action: () => { rescue.rescued = true; this.rescues += 1; this.morale = clamp(this.morale + 12, 0, 100); this.cohesion = clamp(this.cohesion + 10, 0, 100); this.audio.play("help"); this.player.setAction("help", .82); this.emit(rescue.x, (this.groundAt(rescue.x) ?? this.player.y) - 45, 18, "#f4d698"); this.showToast("Nadie queda atrás · Moral recuperada"); } };
     }
     for (const camp of this.camps) {
-      if (!camp.used && distance(this.player.x, camp.x) < 85) {
-        nearby = { text: "ENCENDER VIVAC", action: () => { camp.used = true; this.warmth = clamp(this.warmth + 28, 0, 100); this.stamina = clamp(this.stamina + 20, 0, 100); this.audio.play("supply"); this.showToast("Vivac asegurado · La columna recupera abrigo"); } };
-      }
+      if (!nearby && !camp.used && distance(this.player.x, camp.x) < 85) nearby = { text: "ENCENDER VIVAC", action: () => { camp.used = true; this.warmth = clamp(this.warmth + 28, 0, 100); this.stamina = clamp(this.stamina + 20, 0, 100); this.audio.play("supply"); this.showToast("Vivac asegurado · La columna recupera abrigo"); } };
     }
     this.ui.interaction.hidden = !nearby;
     if (nearby) this.ui.interactionText.textContent = nearby.text;
@@ -785,7 +891,7 @@ class Game {
     if (!this.progress.bestTime || this.runTime < this.progress.bestTime) this.progress.bestTime = this.runTime;
     this.saveProgress();
     this.audio.play("finish");
-    this.showResult("TRAVESÍA COMPLETADA", "La columna alcanzó el refugio", "Liderar fue sostener el ritmo, proteger a los rezagados y atravesar juntos los cinco capítulos.", medal);
+    this.showResult("TRAVESÍA COMPLETADA", "La columna alcanzó el valle de Aconcagua", "Liderar fue sostener el ritmo, proteger a los rezagados y atravesar juntos los siete capítulos.", medal);
   }
 
   showResult(kicker, title, text, medal) {
@@ -803,7 +909,7 @@ class Game {
     if (this.ui.resultLeadership) this.ui.resultLeadership.textContent = `${leadership}/100`;
     this.ui.resultGrid.hidden = false;
     this.ui.startBtn.hidden = false;
-    this.ui.startBtn.textContent = "REINTENTAR EL ASCENSO";
+    this.ui.startBtn.textContent = "REINTENTAR LA EXPEDICIÓN";
     this.ui.resumeBtn.hidden = true;
     this.ui.overlay.classList.add("visible");
   }
@@ -825,18 +931,24 @@ class Game {
   }
 
   updateUI() {
-    const setMeter = (bar, label, value) => { bar.style.width = `${value}%`; label.textContent = String(Math.round(value)); };
+    const setMeter = (bar, label, value) => { bar.style.width = value + "%"; label.textContent = String(Math.round(value)); };
     setMeter(this.ui.moraleBar, this.ui.moraleValue, this.morale);
     setMeter(this.ui.warmthBar, this.ui.warmthValue, this.warmth);
     setMeter(this.ui.staminaBar, this.ui.staminaValue, this.stamina);
     this.ui.supplyValue.textContent = String(this.supplies);
-    this.ui.columnValue.textContent = `${this.columnSize}/8`;
-    this.ui.progressLabel.textContent = `${Math.min(100, Math.floor(this.player.x / (LEVEL_LENGTH - 130) * 100))}%`;
+    this.ui.columnValue.textContent = this.columnSize + "/8";
+    this.ui.progressLabel.textContent = Math.min(100, Math.floor(this.player.x / (LEVEL_LENGTH - 130) * 100)) + "%";
     const chapter = CHAPTERS[this.chapterIndex];
-    if (this.ui.chapterLabel) this.ui.chapterLabel.textContent = `CAPÍTULO ${this.chapterIndex + 1} · ${chapter.short}`;
-    if (this.warmth < 28) this.ui.objectiveLabel.textContent = "El frío es crítico · busca un vivac o descansa";
-    else if (this.cohesion < 45) this.ui.objectiveLabel.textContent = "La columna se dispersa · ordena REAGRUPAR";
-    else this.ui.objectiveLabel.textContent = chapter.objective;
+    if (this.ui.chapterLabel) this.ui.chapterLabel.textContent = "CAPÍTULO " + (this.chapterIndex + 1) + " · " + chapter.short;
+    let objective = chapter.objective;
+    if (!this.preparation.complete) {
+      const pending = Object.entries(this.preparation).filter(([key, value]) => key !== "complete" && !value).map(([key]) => ({ rations: "víveres", equipment: "equipo", bridgeKit: "materiales del puente" })[key]);
+      objective = "PREPARACIÓN · Reúne " + pending.join(", ");
+    } else if (!this.bridge.complete && this.player.x > this.bridge.siteX - 520) {
+      objective = this.bridge.stage < 2 ? "INGENIERÍA · Acércate y pulsa E para reunir a la columna" : "CONSTRUCCIÓN · " + Math.round(this.bridge.progress * 100) + "% · Mantén a la columna agrupada";
+    } else if (this.warmth < 28) objective = "El frío es crítico · busca un vivac o descansa";
+    else if (this.cohesion < 45) objective = "La columna se dispersa · ordena REAGRUPAR";
+    this.ui.objectiveLabel.textContent = objective;
     if (this.ui.chapterRail) {
       [...this.ui.chapterRail.children].forEach((item, index) => {
         item.classList.toggle("complete", index < this.chapterIndex);
@@ -878,18 +990,22 @@ class Game {
   }
 
   drawBackground(ctx) {
-    const image = this.assets.background;
-    if (image.complete && image.naturalWidth) {
+    const chapter = CHAPTERS[this.chapterIndex];
+    const image = this.assets.backgrounds[chapter.background] || this.assets.backgrounds.andes;
+    if (image && image.complete && image.naturalWidth) {
       const scale = Math.max(VIEW.width / image.naturalWidth, VIEW.height / image.naturalHeight);
       const width = image.naturalWidth * scale;
       const height = image.naturalHeight * scale;
-      const parallax = (this.cameraX / LEVEL_LENGTH) * Math.max(0, width - VIEW.width) * .8;
-      ctx.drawImage(image, -parallax, (VIEW.height - height) * .5, width, height);
+      const local = clamp((this.player.x - chapter.start) / Math.max(1, chapter.end - chapter.start), 0, 1);
+      const parallaxX = local * Math.max(0, width - VIEW.width) * .72;
+      const parallaxY = clamp(this.cameraY * .075, -64, 64);
+      ctx.drawImage(image, -parallaxX, (VIEW.height - height) * .5 - parallaxY, width, height);
     } else {
       const gradient = ctx.createLinearGradient(0, 0, 0, VIEW.height);
-      gradient.addColorStop(0, "#26486a"); gradient.addColorStop(1, "#d5b27a"); ctx.fillStyle = gradient; ctx.fillRect(0, 0, VIEW.width, VIEW.height);
+      gradient.addColorStop(0, "#26486a"); gradient.addColorStop(1, "#d5b27a");
+      ctx.fillStyle = gradient; ctx.fillRect(0, 0, VIEW.width, VIEW.height);
     }
-    ctx.fillStyle = `rgba(8,18,30,${.05 + this.player.x / LEVEL_LENGTH * .12})`;
+    ctx.fillStyle = "rgba(8,18,30," + (.04 + this.player.x / LEVEL_LENGTH * .12) + ")";
     ctx.fillRect(0, 0, VIEW.width, VIEW.height);
   }
 
@@ -899,138 +1015,102 @@ class Game {
     const segments = [];
     let points = [];
     for (let x = start; x <= end; x += 18) {
-      const ground = this.groundAt(x);
-      if (ground === null) {
+      const inPit = this.pits.some((pit) => x > pit.start && x < pit.end);
+      if (inPit) {
         if (points.length > 1) segments.push(points);
         points = [];
-      } else {
-        points.push({ x: x - this.cameraX, y: ground, worldX: x });
-      }
+      } else points.push({ x: x - this.cameraX, y: terrainHeightAt(x) - this.cameraY });
     }
     if (points.length > 1) segments.push(points);
-
-    const chapterColors = [
-      ["#6d5b49", "#302c2a"], ["#5b544b", "#292827"], ["#414852", "#20252c"], ["#48515a", "#22282f"], ["#695846", "#302a26"],
-    ][this.chapterIndex];
-    const gradient = ctx.createLinearGradient(0, VIEW.height - 250, 0, VIEW.height);
-    gradient.addColorStop(0, chapterColors[0]);
-    gradient.addColorStop(1, chapterColors[1]);
-
+    const terrain = CHAPTERS[this.chapterIndex].terrain;
+    const gradient = ctx.createLinearGradient(0, Math.max(0, VIEW.height - 320), 0, VIEW.height);
+    gradient.addColorStop(0, terrain[0]); gradient.addColorStop(1, terrain[1]);
     for (const segment of segments) {
-      ctx.beginPath();
-      ctx.moveTo(segment[0].x, VIEW.height + 35);
-      ctx.lineTo(segment[0].x, segment[0].y);
+      ctx.beginPath(); ctx.moveTo(segment[0].x, VIEW.height + 40); ctx.lineTo(segment[0].x, segment[0].y);
       for (const point of segment.slice(1)) ctx.lineTo(point.x, point.y);
-      ctx.lineTo(segment.at(-1).x, VIEW.height + 35);
-      ctx.closePath();
-      ctx.fillStyle = gradient;
-      ctx.fill();
-
-      ctx.beginPath();
-      ctx.moveTo(segment[0].x, segment[0].y);
+      ctx.lineTo(segment.at(-1).x, VIEW.height + 40); ctx.closePath(); ctx.fillStyle = gradient; ctx.fill();
+      ctx.beginPath(); ctx.moveTo(segment[0].x, segment[0].y);
       for (const point of segment.slice(1)) ctx.lineTo(point.x, point.y);
-      ctx.strokeStyle = this.chapterIndex >= 2 ? "rgba(239,247,250,0.74)" : "rgba(218,207,183,0.68)";
-      ctx.lineWidth = this.chapterIndex >= 2 ? 7 : 4;
-      ctx.stroke();
-      ctx.strokeStyle = "rgba(39,35,32,0.55)";
-      ctx.lineWidth = 2;
-      ctx.stroke();
+      ctx.strokeStyle = this.chapterIndex >= 3 ? "rgba(239,247,250,0.76)" : "rgba(218,207,183,0.68)";
+      ctx.lineWidth = this.chapterIndex >= 3 ? 7 : 4; ctx.stroke();
+      ctx.strokeStyle = "rgba(39,35,32,0.55)"; ctx.lineWidth = 2; ctx.stroke();
     }
-
     for (const pit of this.pits) {
-      const left = pit.start - this.cameraX;
-      const right = pit.end - this.cameraX;
+      const left = pit.start - this.cameraX; const right = pit.end - this.cameraX;
       if (right < -80 || left > VIEW.width + 80) continue;
-      const lipY = Math.min(this.groundAt(pit.start - 2) || VIEW.height - 120, this.groundAt(pit.end + 2) || VIEW.height - 120);
+      const lipY = Math.min(terrainHeightAt(pit.start - 2), terrainHeightAt(pit.end + 2)) - this.cameraY;
       const chasm = ctx.createLinearGradient(0, lipY, 0, VIEW.height);
-      chasm.addColorStop(0, "rgba(8,16,23,0.84)");
-      chasm.addColorStop(.42, "rgba(4,9,14,0.94)");
-      chasm.addColorStop(1, "rgba(1,4,7,0.99)");
-      ctx.fillStyle = chasm;
-      ctx.beginPath();
-      ctx.moveTo(left - 5, lipY - 2);
-      ctx.bezierCurveTo(left + 30, lipY + 38, right - 34, lipY + 42, right + 5, lipY - 2);
-      ctx.lineTo(right + 52, VIEW.height + 20);
-      ctx.lineTo(left - 52, VIEW.height + 20);
-      ctx.closePath();
-      ctx.fill();
-
-      ctx.fillStyle = "rgba(183,211,223,0.08)";
-      ctx.beginPath();
-      ctx.ellipse((left + right) / 2, lipY + 82, Math.max(60, (right - left) * .62), 55, 0, 0, Math.PI * 2);
-      ctx.fill();
-
-      for (const [edge, direction] of [[left, -1], [right, 1]]) {
-        ctx.strokeStyle = "rgba(220,235,240,0.38)";
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.moveTo(edge, lipY - 8);
-        ctx.lineTo(edge + direction * 17, lipY + 33);
-        ctx.lineTo(edge + direction * 8, lipY + 84);
-        ctx.stroke();
-        ctx.strokeStyle = "rgba(121,151,166,0.22)";
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        ctx.moveTo(edge + direction * 6, lipY + 4);
-        ctx.lineTo(edge + direction * 31, lipY + 56);
-        ctx.stroke();
-      }
-
-      const markerWorldX = pit.start - 66;
-      const markerGround = this.groundAt(markerWorldX);
-      if (markerGround !== null) {
-        const markerX = markerWorldX - this.cameraX;
-        ctx.strokeStyle = "rgba(74,52,35,0.9)";
-        ctx.lineWidth = 4;
-        ctx.beginPath();
-        ctx.moveTo(markerX, markerGround);
-        ctx.lineTo(markerX, markerGround - 49);
-        ctx.stroke();
-        ctx.fillStyle = "rgba(180,71,54,0.9)";
-        ctx.beginPath();
-        ctx.moveTo(markerX + 2, markerGround - 47);
-        ctx.lineTo(markerX + 27, markerGround - 38);
-        ctx.lineTo(markerX + 2, markerGround - 29);
-        ctx.closePath();
-        ctx.fill();
-      }
-
-      for (let index = 0; index < 7; index += 1) {
-        const fall = (this.elapsed * (.22 + index * .012) + index * .137) % 1;
-        ctx.globalAlpha = .34 * (1 - fall);
-        ctx.fillStyle = "#dceaf0";
-        ctx.beginPath();
-        ctx.arc(lerp(left + 18, right - 18, (index * .37) % 1), lipY + 12 + fall * 150, 1.2 + index % 2, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      ctx.globalAlpha = 1;
+      chasm.addColorStop(0, "rgba(7,18,25,.82)"); chasm.addColorStop(.48, "rgba(3,10,16,.96)"); chasm.addColorStop(1, "#010407");
+      ctx.fillStyle = chasm; ctx.beginPath(); ctx.moveTo(left - 6, lipY - 2);
+      ctx.bezierCurveTo(left + 32, lipY + 38, right - 34, lipY + 42, right + 6, lipY - 2);
+      ctx.lineTo(right + 58, VIEW.height + 30); ctx.lineTo(left - 58, VIEW.height + 30); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = "rgba(148,205,225,.62)"; ctx.lineWidth = 6; ctx.beginPath();
+      ctx.moveTo(left + 22, lipY + 118); ctx.bezierCurveTo((left + right) / 2, lipY + 95, (left + right) / 2, lipY + 145, right - 20, lipY + 116); ctx.stroke();
     }
-
     for (let x = start; x < end; x += 74) {
-      const ground = this.groundAt(x);
-      if (ground === null) continue;
-      const seed = Math.abs(Math.sin(x * 12.9898));
-      ctx.fillStyle = seed > 0.55 ? "rgba(230,237,238,0.22)" : "rgba(25,24,23,0.28)";
-      ctx.beginPath();
-      ctx.ellipse(x - this.cameraX, ground + 13 + seed * 14, 8 + seed * 15, 3 + seed * 4, seed - 0.5, 0, Math.PI * 2);
-      ctx.fill();
+      if (this.pits.some((pit) => x > pit.start && x < pit.end)) continue;
+      const ground = terrainHeightAt(x) - this.cameraY; const seed = Math.abs(Math.sin(x * 12.9898));
+      ctx.fillStyle = seed > .55 ? "rgba(230,237,238,.22)" : "rgba(25,24,23,.28)";
+      ctx.beginPath(); ctx.ellipse(x - this.cameraX, ground + 13 + seed * 14, 8 + seed * 15, 3 + seed * 4, seed - .5, 0, Math.PI * 2); ctx.fill();
     }
   }
 
   drawWorldObjects(ctx) {
+    this.drawPreparationStations(ctx);
+    this.drawBridge(ctx);
     for (const hazard of [...this.rocks, ...this.branches, ...this.iceRidges]) {
       const frame = hazard.type === "rock" ? 0 : hazard.type === "branch" ? 4 : 7;
       const dimensions = hazard.type === "branch" ? [150, 200] : hazard.type === "ice" ? [118, 157] : [112 + hazard.size, 149 + hazard.size];
-      this.drawProp(ctx, frame, hazard.x, dimensions[0], dimensions[1], 0, hazard.hit ? 0.46 : 1);
+      this.drawProp(ctx, frame, hazard.x, dimensions[0], dimensions[1], 0, hazard.hit ? .46 : 1);
     }
     for (const cache of this.suppliesWorld) if (!cache.taken) this.drawSupply(ctx, cache.x);
     for (let index = 0; index < this.rescuePoints.length; index += 1) {
-      const rescue = this.rescuePoints[index];
-      if (!rescue.rescued) this.drawRescue(ctx, rescue.x, index);
+      const rescue = this.rescuePoints[index]; if (!rescue.rescued) this.drawRescue(ctx, rescue.x, index);
     }
     for (const camp of this.camps) this.drawCamp(ctx, camp);
     for (const checkpoint of this.checkpoints) this.drawCheckpoint(ctx, checkpoint);
     this.drawGoal(ctx);
+  }
+
+  drawLogisticsProp(ctx, frame, worldX, width = 150, height = 150, alpha = 1) {
+    const x = worldX - this.cameraX; const ground = this.groundAt(worldX);
+    if (ground === null || x < -width || x > VIEW.width + width) return;
+    ctx.save(); ctx.translate(x, ground - this.cameraY); ctx.globalAlpha = alpha;
+    this.drawAtlasCell(ctx, this.assets.logisticsAtlas, frame, 4, 2, -width / 2, -height * LOGISTICS_CONTACT[frame], width, height);
+    ctx.restore();
+  }
+
+  drawPreparationStations(ctx) {
+    for (const station of WORLD_LAYOUT.preparationStations) {
+      const complete = this.preparation[station.id];
+      this.drawLogisticsProp(ctx, station.frame, station.x, station.id === "rations" ? 142 : 164, 142, complete ? .48 : 1);
+      const x = station.x - this.cameraX; const y = terrainHeightAt(station.x) - this.cameraY - 136;
+      if (x < -100 || x > VIEW.width + 100) continue;
+      ctx.save(); ctx.textAlign = "center"; ctx.font = "800 13px sans-serif";
+      ctx.fillStyle = complete ? "#98d7b4" : "#f2d18e"; ctx.fillText((complete ? "✓ " : "E · ") + station.label, x, y); ctx.restore();
+    }
+  }
+
+  drawBridge(ctx) {
+    const bridge = this.bridge; const left = bridge.start - this.cameraX; const right = bridge.end - this.cameraX;
+    if (right < -180 || left > VIEW.width + 180) return;
+    const leftY = terrainHeightAt(bridge.start) - this.cameraY; const rightY = terrainHeightAt(bridge.end) - this.cameraY;
+    if (bridge.stage < 2) this.drawLogisticsProp(ctx, 6, bridge.siteX, 162, 162, 1);
+    const progress = bridge.complete ? 1 : bridge.progress;
+    if (progress <= 0) return;
+    ctx.save(); ctx.lineCap = "round";
+    ctx.strokeStyle = "#5d3d24"; ctx.lineWidth = 8;
+    for (const [x, y] of [[left, leftY], [right, rightY]]) { ctx.beginPath(); ctx.moveTo(x, y + 3); ctx.lineTo(x, y - 70); ctx.stroke(); }
+    ctx.strokeStyle = "#b69762"; ctx.lineWidth = 4;
+    ctx.beginPath(); ctx.moveTo(left, leftY - 58); ctx.bezierCurveTo(lerp(left, right, .33), leftY + 18, lerp(left, right, .66), rightY + 18, right, rightY - 58); ctx.stroke();
+    const plankCount = Math.floor(24 * progress);
+    for (let index = 0; index < plankCount; index += 1) {
+      const t = index / 23; const x = lerp(left + 5, right - 5, t); const y = lerp(leftY, rightY, t) + Math.sin(t * Math.PI) * 20;
+      ctx.strokeStyle = index % 2 ? "#8c6538" : "#a57b45"; ctx.lineWidth = 11; ctx.beginPath(); ctx.moveTo(x - 8, y); ctx.lineTo(x + 8, y); ctx.stroke();
+    }
+    ctx.strokeStyle = "rgba(223,192,130,.8)"; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(left, leftY - 54); ctx.bezierCurveTo(lerp(left, right, .33), leftY + 10, lerp(left, right, .66), rightY + 10, right, rightY - 54); ctx.stroke();
+    ctx.restore();
   }
 
   drawSupply(ctx, worldX) {
@@ -1044,7 +1124,7 @@ class Game {
     if (ground === null) return;
     const frame = index % 2 === 0 ? 3 : 7;
     ctx.save();
-    ctx.translate(x, ground);
+    ctx.translate(x, ground - this.cameraY);
     this.drawAtlasCell(ctx, this.assets.expeditionAtlas, frame, 4, 2, -54, -144 * EXPEDITION_FEET[frame], 108, 144);
     ctx.fillStyle = "#f4d699";
     ctx.font = "900 18px sans-serif";
@@ -1066,7 +1146,7 @@ class Game {
       ctx.save();
       ctx.fillStyle = "rgba(143,208,237,0.16)";
       ctx.beginPath();
-      ctx.arc(x, y - 47, 31 + Math.sin(this.elapsed * 2) * 4, 0, Math.PI * 2);
+      ctx.arc(x, y - this.cameraY - 47, 31 + Math.sin(this.elapsed * 2) * 4, 0, Math.PI * 2);
       ctx.fill();
       ctx.restore();
     }
@@ -1079,41 +1159,37 @@ class Game {
   }
   drawFollowers(ctx) {
     const atlas = this.assets.expeditionAtlas;
+    const building = !this.bridge.complete && this.bridge.stage >= 2;
     for (let index = this.followers.length - 1; index >= 0; index -= 1) {
-      const follower = this.followers[index];
-      if (!follower.active) continue;
-      const x = this.player.x - follower.offset;
-      const pose = this.followerPoseAt(x, index);
+      const follower = this.followers[index]; if (!follower.active) continue;
+      let x; let pose;
+      if (building) {
+        const side = index % 2 === 0 ? -1 : 1;
+        x = side < 0 ? this.bridge.start - 34 - Math.floor(index / 2) * 34 : this.bridge.end + 34 + Math.floor(index / 2) * 34;
+        pose = { y: terrainHeightAt(x), airborne: false, progress: 0 };
+      } else {
+        x = this.player.x - follower.offset; pose = this.followerPoseAt(x, index);
+      }
       if (!pose) continue;
-      const screenX = x - this.cameraX;
-      const resting = this.command === "rest" && this.commandTimer > 0;
-      const fatigued = this.cohesion < 38;
+      const screenX = x - this.cameraX; const resting = this.command === "rest" && this.commandTimer > 0; const fatigued = this.cohesion < 38;
       let frame;
-      if (pose.airborne) frame = follower.type === "arriero" ? 5 : 2;
+      if (building) frame = follower.type === "arriero" ? 7 : 3;
+      else if (pose.airborne) frame = follower.type === "arriero" ? 5 : 2;
       else if (follower.type === "arriero") frame = resting || fatigued ? 7 : 4 + (Math.floor(follower.phase) % 2);
       else frame = resting || fatigued ? 3 : Math.floor(follower.phase) % 3;
-
-      ctx.save();
-      ctx.translate(screenX, pose.y);
-      ctx.globalAlpha = 0.82 + index * 0.018;
-      if (!pose.airborne) {
-        ctx.fillStyle = "rgba(0,0,0,0.2)";
-        ctx.beginPath();
-        ctx.ellipse(0, 0, 23, 6, 0, 0, Math.PI * 2);
-        ctx.fill();
-      } else {
-        ctx.rotate((.5 - pose.progress) * .1);
-      }
-      this.drawAtlasCell(ctx, atlas, frame, 4, 2, -49, -131 * EXPEDITION_FEET[frame], 98, 131);
-      ctx.restore();
+      ctx.save(); ctx.translate(screenX, pose.y - this.cameraY); ctx.globalAlpha = .82 + index * .018;
+      if (!pose.airborne) { ctx.fillStyle = "rgba(0,0,0,.2)"; ctx.beginPath(); ctx.ellipse(0, 0, 23, 6, 0, 0, Math.PI * 2); ctx.fill(); }
+      else ctx.rotate((.5 - pose.progress) * .1);
+      this.drawAtlasCell(ctx, atlas, frame, 4, 2, -49, -131 * EXPEDITION_FEET[frame], 98, 131); ctx.restore();
     }
   }
 
   drawParticles(ctx) {
     for (const particle of this.particles) {
-      ctx.globalAlpha = clamp(particle.life / particle.max,0,1); ctx.fillStyle=particle.color; ctx.beginPath(); ctx.arc(particle.x-this.cameraX,particle.y,particle.size,0,Math.PI*2); ctx.fill();
+      ctx.globalAlpha = clamp(particle.life / particle.max, 0, 1); ctx.fillStyle = particle.color; ctx.beginPath();
+      ctx.arc(particle.x - this.cameraX, particle.y - this.cameraY, particle.size, 0, Math.PI * 2); ctx.fill();
     }
-    ctx.globalAlpha=1;
+    ctx.globalAlpha = 1;
   }
 
   drawForegroundAtmosphere(ctx) {
@@ -1185,11 +1261,11 @@ class Game {
     this.drawTerrain(ctx);
     this.drawWorldObjects(ctx);
     this.drawFollowers(ctx);
-    this.player.render(ctx,this.cameraX);
+    this.player.render(ctx, this.cameraX, this.cameraY);
     this.drawParticles(ctx);
     if (this.commandPulse > 0) {
       const pulseX = this.player.x - this.cameraX;
-      const pulseY = this.player.y + 8;
+      const pulseY = this.player.y - this.cameraY + 8;
       ctx.save();
       ctx.strokeStyle = `rgba(228,193,126,${this.commandPulse * 0.55})`;
       ctx.lineWidth = 3;

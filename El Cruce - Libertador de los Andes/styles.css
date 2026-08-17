@@ -114,7 +114,7 @@ body.reduced-motion *, body.reduced-motion *::before, body.reduced-motion *::aft
   left: 50%;
   z-index: 7;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(7, 1fr);
   width: min(600px, calc(100vw - 24px));
   transform: translateX(-50%);
   pointer-events: none;
