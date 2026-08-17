@@ -1,0 +1,40 @@
+import { strict as assert } from "node:assert";
+import { existsSync, readFileSync } from "node:fs";
+
+const source = readFileSync("src/main.js", "utf8");
+const html = readFileSync("index.html", "utf8");
+for (const asset of [...source.matchAll(/"(assets\/[^"]+)"/g)].map((match) => match[1])) {
+  assert.ok(existsSync(asset), `Falta el recurso ${asset}`);
+}
+assert.match(source, /class Game/, "Debe existir el motor del juego");
+assert.match(source, /class Player/, "Debe existir San Martin como jugador");
+assert.match(source, /issueCommand/, "Deben existir ordenes de liderazgo");
+assert.match(source, /rescue/, "Debe existir la mecanica de rescate");
+assert.match(source, /WebAudio/, "Debe existir audio sintetizado local");
+assert.match(source, /localStorage/, "Debe persistirse el progreso");
+assert.match(html, /id="gameCanvas"/, "Debe existir el canvas");
+assert.match(html, /data-command="regroup"/, "Debe existir la orden reagrupar");
+assert.match(source, /const CHAPTERS = Object\.freeze\(\[/, "Deben existir cinco capitulos definidos");
+assert.match(source, /const LEVEL_LENGTH = 11200/, "La travesia debe tener duracion suficiente");
+assert.match(source, /san_martin_states_atlas_v4\.png/, "San Martin debe utilizar un atlas completo y coherente de estados");
+assert.match(source, /san_martin_walk_atlas_v3\.png/, "San Martin debe utilizar un ciclo profesional de ocho cuadros");
+assert.match(source, /followerPoseAt/, "La columna debe saltar las grietas con una trayectoria visible");
+assert.match(source, /cause: "obstacle"/, "La columna debe evitar tambien rocas, ramas y hielo");
+assert.match(source, /this\.landingTimer/, "El jugador debe tener transiciones de aterrizaje");
+assert.match(source, /stepSnow/, "Las pisadas deben responder a la superficie");
+assert.match(source, /const lookAhead/, "La camara debe anticipar la direccion de marcha");
+assert.match(source, /markerWorldX/, "Las grietas deben advertirse visualmente antes del borde");
+assert.match(source, /expedition_sprite_atlas_v1\.png/, "La columna debe utilizar sprites animados");
+assert.match(source, /mountain_props_atlas_v1\.png/, "La utileria debe usar arte propio");
+assert.match(source, /getFrame\(\)/, "El jugador debe seleccionar cuadros por estado");
+assert.match(source, /this\.jumpsUsed < 2/, "El jugador debe disponer de doble salto");
+assert.match(source, /const PROP_CONTACT/, "La utileria debe corregir el margen transparente y apoyarse en el terreno");
+assert.match(source, /ground \+ 2, 30 \* shadowScale/, "La sombra del jugador debe permanecer anclada al terreno");
+assert.match(source, /drawAtlasCell/, "El motor debe renderizar atlas de sprites");
+assert.match(source, /processHazards/, "Los peligros deben tener logica unificada");
+assert.match(source, /this\.checkpoints/, "Deben existir puestos de control persistentes");
+assert.match(source, /drawForegroundAtmosphere/, "Cada capitulo debe tener atmosfera propia");
+assert.match(source, /window\.__elCruceGame/, "Debe existir una referencia de auditoria y captura");
+assert.match(html, /id="chapterRail"/, "La interfaz debe mostrar los cinco capitulos");
+assert.match(html, /id="resultLeadership"/, "El resultado debe medir liderazgo");
+console.log("Smoke OK: pase v4 profesional, cinco capitulos y recursos disponibles.");

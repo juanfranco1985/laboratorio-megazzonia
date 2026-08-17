@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#101b29" />
+    <link rel="icon" href="data:," />
+    <title>El Cruce — Libertador de los Andes</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="game-shell">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">✦</span>
+          <span><strong>EL CRUCE</strong><small>LIBERTADOR DE LOS ANDES</small></span>
+        </div>
+        <div class="top-actions">
+          <button id="soundBtn" class="utility active" type="button" aria-label="Silenciar sonido">SONIDO</button>
+          <button id="motionBtn" class="utility active" type="button" aria-label="Reducir movimiento">MOVIMIENTO</button>
+          <button id="pauseBtn" class="utility" type="button">PAUSA</button>
+        </div>
+      </header>
+
+      <section class="hud" aria-label="Estado de la expedición">
+        <div class="meter morale"><span>MORAL</span><div><i id="moraleBar"></i></div><strong id="moraleValue">100</strong></div>
+        <div class="meter warmth"><span>ABRIGO</span><div><i id="warmthBar"></i></div><strong id="warmthValue">100</strong></div>
+        <div class="meter stamina"><span>RESISTENCIA</span><div><i id="staminaBar"></i></div><strong id="staminaValue">100</strong></div>
+        <div class="stat"><span>PROVISIONES</span><strong id="supplyValue">6</strong></div>
+        <div class="stat"><span>COLUMNA</span><strong id="columnValue">8/8</strong></div>
+      </section>
+
+      <section class="mission" aria-live="polite">
+        <span class="mission-diamond">◆</span>
+        <span><small id="chapterLabel">CAPÍTULO I · EL ASCENSO</small><strong id="objectiveLabel">Conduce la columna hasta el refugio de altura</strong></span>
+        <b id="progressLabel">0%</b>
+      </section>
+
+      <nav id="chapterRail" class="chapter-rail" aria-label="Capítulos de la travesía">
+        <span class="active"><i>1</i><b>Plumerillo</b></span>
+        <span><i>2</i><b>Ascenso</b></span>
+        <span><i>3</i><b>Noche</b></span>
+        <span><i>4</i><b>Alta montaña</b></span>
+        <span><i>5</i><b>Descenso</b></span>
+      </nav>
+
+      <canvas id="gameCanvas" aria-label="Juego El Cruce: Libertador de los Andes"></canvas>
+      <div id="toast" class="toast" aria-live="polite"></div>
+      <div id="interaction" class="interaction" hidden><kbd>E</kbd><span id="interactionText">AYUDAR</span></div>
+
+      <section id="overlay" class="overlay visible" aria-live="polite">
+        <div class="panel">
+          <p id="panelKicker" class="kicker">ENERO DE 1817 · MENDOZA</p>
+          <h1 id="panelTitle">El Cruce</h1>
+          <h2 id="panelSubtitle">Libertador de los Andes</h2>
+          <p id="panelText" class="panel-text">El Ejército de los Andes inicia una de las travesías más exigentes de la historia americana. Liderar no será llegar primero: será conseguir que la columna llegue unida.</p>
+          <blockquote id="panelQuote">«Seamos libres, lo demás no importa nada.»</blockquote>
+          <div id="resultGrid" class="result-grid" hidden>
+            <div><span>Distancia</span><strong id="resultDistance">0%</strong></div>
+            <div><span>Rescates</span><strong id="resultRescues">0/3</strong></div>
+            <div><span>Columna</span><strong id="resultColumn">8/8</strong></div>
+            <div><span>Medalla</span><strong id="resultMedal">—</strong></div>
+            <div><span>Tiempo</span><strong id="resultTime">—</strong></div>
+            <div><span>Liderazgo</span><strong id="resultLeadership">—</strong></div>
+          </div>
+          <button id="startBtn" class="primary" type="button">INICIAR EL ASCENSO</button>
+          <button id="resumeBtn" class="secondary" type="button" hidden>CONTINUAR</button>
+          <p class="controls-copy">Mover: A/D o flechas · Doble salto: W/↑/Espacio (dos veces) · Ayudar: E · Órdenes: 1 Avanzar, 2 Reagrupar, 3 Descansar</p>
+        </div>
+      </section>
+
+      <section class="orders" aria-label="Órdenes de liderazgo">
+        <button data-command="advance"><kbd>1</kbd><span>AVANZAR<small>ritmo y cohesión</small></span></button>
+        <button data-command="regroup"><kbd>2</kbd><span>REAGRUPAR<small>recupera la moral</small></span></button>
+        <button data-command="rest"><kbd>3</kbd><span>DESCANSAR<small>consume provisiones</small></span></button>
+      </section>
+
+      <section class="touch-controls" aria-label="Controles táctiles">
+        <button id="leftBtn" aria-label="Mover a la izquierda">◀</button>
+        <button id="jumpBtn" aria-label="Saltar; pulsar otra vez en el aire para doble salto">SALTAR ×2</button>
+        <button id="actionBtn" aria-label="Ayudar o interactuar">AYUDAR</button>
+        <button id="rightBtn" aria-label="Mover a la derecha">▶</button>
+      </section>
+    </main>
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
