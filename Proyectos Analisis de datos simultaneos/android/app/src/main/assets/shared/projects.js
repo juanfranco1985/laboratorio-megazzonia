@@ -550,6 +550,18 @@
     }
   ];
 
+  const fraudProject = projects.find((project) => project.id === 'fraude-rnn');
+  if (fraudProject) {
+    Object.assign(fraudProject, {
+      title: 'Deteccion de Fraude Transaccional con Baseline Interpretable',
+      status: 'desarrollo',
+      summary:
+        'La baseline validada combina datos sinteticos, separacion temporal, regresion logistica ponderada y calibracion de umbral. El roadmap propone evolucionar hacia autoencoders y modelos RNN/LSTM.',
+      metrics: ['ROC-AUC', 'Recall', 'F1 fraud', 'Alert rate'],
+      stack: ['Python', 'CSV', 'JSON', 'Regresion logistica', 'GitHub Pages'],
+    });
+  }
+
   if (typeof window !== "undefined") {
     window.DATA_PROJECTS = projects;
   }
