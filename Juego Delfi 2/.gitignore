@@ -1,0 +1,6 @@
+.edge-smoke-profile/
+.qa-edge-profile-*/
+.tmp-edge-diagnostic*/
+tmp/
+*.log
+*.err

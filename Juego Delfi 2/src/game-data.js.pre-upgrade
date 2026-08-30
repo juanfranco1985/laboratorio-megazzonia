@@ -1,0 +1,155 @@
+export const VIEW_WIDTH = 1280;
+export const VIEW_HEIGHT = 720;
+export const WORLD_WIDTH = 4600;
+export const SAVE_KEY = "juego-delfi-2-save-v2";
+
+const p = (x, y, key, width, height) => ({ x, y, key, width, height });
+const e = (type, x, y, minX, maxX) => ({ type, x, y, minX, maxX });
+
+export const worlds = [
+  {
+    id: "pradera", name: "PRADERA", tint: 0xa8e46a,
+    ground: "ground-platform", ledge: "flower-ledge", bridge: "wooden-bridge",
+    bounce: "hay-bounce-pad", hazard: "slime-slow-zone", portal: "portal-frame",
+    lesson: "Aprende a moverte, saltar y activar el primer checkpoint.", power: "fire",
+    platforms: [
+      p(280, 665, "ground-platform", 520, 120), p(830, 665, "ground-platform", 520, 120),
+      p(1290, 585, "flower-ledge", 280, 95), p(1660, 665, "ground-platform", 480, 120),
+      p(2070, 550, "wooden-bridge", 310, 90), p(2470, 665, "ground-platform", 470, 120),
+      p(2910, 565, "flower-ledge", 280, 95), p(3330, 665, "ground-platform", 480, 120),
+      p(3830, 610, "wooden-bridge", 330, 90), p(4320, 665, "ground-platform", 540, 120),
+    ],
+    bounceAt: [2720, 585], checkpointAt: [1810, 535], portalAt: [4370, 530],
+    hazards: [{ x: 3100, y: 610, kind: "slow" }],
+    crystals: [[1080, 500], [2240, 430], [3540, 510]],
+    enemies: [e("snail", 1450, 530, 1350, 1560), e("crab", 3430, 585, 3300, 3580)],
+  },
+  {
+    id: "desierto", name: "DESIERTO", tint: 0xf4c36a,
+    ground: "ground-platform", ledge: "short-ledge", bridge: "awning-bridge",
+    bounce: "palm-bounce-pad", hazard: "cactus-hazard", portal: "portal-frame",
+    lesson: "Usa las plataformas altas y evita los cactus.", power: "water",
+    platforms: [
+      p(250, 665, "ground-platform", 480, 120), p(710, 610, "awning-bridge", 300, 90),
+      p(1080, 525, "short-ledge", 250, 90), p(1450, 665, "ground-platform", 420, 120),
+      p(1840, 575, "short-ledge", 250, 90), p(2220, 490, "awning-bridge", 330, 90),
+      p(2640, 665, "ground-platform", 470, 120), p(3080, 570, "short-ledge", 260, 90),
+      p(3490, 665, "ground-platform", 460, 120), p(3950, 575, "awning-bridge", 320, 90),
+      p(4380, 665, "ground-platform", 500, 120),
+    ],
+    bounceAt: [2860, 585], checkpointAt: [2310, 405], portalAt: [4420, 530],
+    hazards: [{ x: 1570, y: 600, kind: "damage" }, { x: 3600, y: 600, kind: "damage" }],
+    crystals: [[1060, 400], [2240, 365], [3940, 455]],
+    enemies: [e("crab", 1340, 585, 1250, 1510), e("hopper", 3270, 500, 3140, 3400)],
+  },
+  {
+    id: "oceano", name: "OCÉANO", tint: 0x6ee6ed,
+    ground: "ground-platform", ledge: "shell-ledge", bridge: "dock-bridge",
+    bounce: "pearl-bounce-pad", hazard: "water-spout", portal: "portal-frame",
+    lesson: "Sincroniza los saltos con los surtidores de agua.", power: "ice",
+    platforms: [
+      p(260, 665, "ground-platform", 500, 120), p(760, 560, "shell-ledge", 280, 95),
+      p(1160, 665, "ground-platform", 430, 120), p(1540, 530, "dock-bridge", 320, 90),
+      p(1940, 665, "ground-platform", 420, 120), p(2320, 555, "shell-ledge", 260, 95),
+      p(2700, 470, "dock-bridge", 300, 90), p(3090, 665, "ground-platform", 440, 120),
+      p(3490, 545, "shell-ledge", 260, 95), p(3880, 665, "ground-platform", 440, 120),
+      p(4320, 665, "ground-platform", 520, 120),
+    ],
+    bounceAt: [2110, 585], checkpointAt: [2760, 385], portalAt: [4380, 530],
+    hazards: [{ x: 1260, y: 600, kind: "damage" }, { x: 3970, y: 600, kind: "damage" }],
+    crystals: [[760, 430], [2700, 345], [3490, 420]],
+    enemies: [e("hopper", 1750, 585, 1640, 1870), e("snail", 3700, 585, 3600, 3820)],
+  },
+  {
+    id: "fantasia", name: "FANTASÍA", tint: 0xf2d9ff,
+    ground: "ground-platform", ledge: "cloud-ledge", bridge: "magic-bridge",
+    bounce: "mushroom-bounce-pad", hazard: "rune-block", portal: "portal-frame",
+    lesson: "Combina rebotes y plataformas suspendidas.", power: "lightning",
+    platforms: [
+      p(260, 665, "ground-platform", 500, 120), p(720, 590, "cloud-ledge", 270, 90),
+      p(1080, 500, "magic-bridge", 300, 85), p(1460, 410, "cloud-ledge", 260, 90),
+      p(1840, 560, "magic-bridge", 310, 85), p(2240, 665, "ground-platform", 430, 120),
+      p(2630, 550, "cloud-ledge", 270, 90), p(3010, 460, "magic-bridge", 300, 85),
+      p(3400, 570, "cloud-ledge", 270, 90), p(3810, 665, "ground-platform", 430, 120),
+      p(4300, 665, "ground-platform", 560, 120),
+    ],
+    bounceAt: [2050, 585], checkpointAt: [2290, 535], portalAt: [4390, 530],
+    hazards: [{ x: 3180, y: 395, kind: "damage" }],
+    crystals: [[1080, 375], [1460, 285], [3010, 335]],
+    enemies: [e("hopper", 2460, 585, 2350, 2550), e("crab", 3900, 585, 3780, 4020)],
+  },
+  {
+    id: "oscuridad", name: "OSCURIDAD", tint: 0x9aa9ff,
+    ground: "ground-platform", ledge: "short-ledge", bridge: "branch-bridge",
+    bounce: "mist-bounce-pad", hazard: "false-bush", portal: "portal-frame",
+    lesson: "Reconoce trampas falsas y conserva tus corazones.", power: "fire",
+    platforms: [
+      p(280, 665, "ground-platform", 520, 120), p(790, 665, "ground-platform", 380, 120),
+      p(1130, 560, "branch-bridge", 300, 85), p(1510, 665, "ground-platform", 400, 120),
+      p(1870, 545, "short-ledge", 250, 90), p(2240, 445, "branch-bridge", 300, 85),
+      p(2620, 555, "short-ledge", 250, 90), p(3000, 665, "ground-platform", 420, 120),
+      p(3390, 540, "branch-bridge", 300, 85), p(3780, 665, "ground-platform", 420, 120),
+      p(4300, 665, "ground-platform", 570, 120),
+    ],
+    bounceAt: [2810, 585], checkpointAt: [2290, 360], portalAt: [4390, 530],
+    hazards: [{ x: 840, y: 600, kind: "damage" }, { x: 3090, y: 600, kind: "damage" }],
+    crystals: [[1130, 435], [2240, 320], [3390, 415]],
+    enemies: [e("snail", 1640, 585, 1530, 1750), e("hopper", 3650, 585, 3520, 3740)],
+  },
+  {
+    id: "lava", name: "LAVA", tint: 0xff875f,
+    ground: "ground-platform", ledge: "short-ledge", bridge: "bridge",
+    bounce: "bounce-vent", hazard: "lava-geyser", portal: "portal-frame",
+    lesson: "Avanza con precisión entre géiseres y puentes estrechos.", power: "ice",
+    platforms: [
+      p(250, 665, "ground-platform", 470, 120), p(690, 545, "bridge", 290, 85),
+      p(1060, 665, "ground-platform", 390, 120), p(1420, 555, "short-ledge", 240, 90),
+      p(1780, 460, "bridge", 300, 85), p(2160, 665, "ground-platform", 400, 120),
+      p(2540, 545, "short-ledge", 250, 90), p(2920, 455, "bridge", 300, 85),
+      p(3300, 665, "ground-platform", 400, 120), p(3680, 535, "short-ledge", 250, 90),
+      p(4070, 665, "ground-platform", 420, 120), p(4420, 665, "ground-platform", 300, 120),
+    ],
+    bounceAt: [2360, 585], checkpointAt: [2200, 535], portalAt: [4410, 530],
+    hazards: [{ x: 1130, y: 600, kind: "damage" }, { x: 3370, y: 600, kind: "damage" }],
+    crystals: [[690, 420], [1780, 335], [2920, 330]],
+    enemies: [e("crab", 2050, 585, 1940, 2150), e("hopper", 3970, 585, 3860, 4060)],
+  },
+  {
+    id: "galaxia", name: "GALAXIA", tint: 0x8ee9ff,
+    ground: "ground-platform", ledge: "short-ledge", bridge: "bridge",
+    bounce: "bounce-pad", hazard: "black-hole-hazard", portal: "portal-frame",
+    lesson: "Supera la prueba final y alcanza la baliza de reencuentro.", power: "lightning",
+    platforms: [
+      p(260, 665, "ground-platform", 500, 120), p(720, 570, "short-ledge", 250, 90),
+      p(1080, 475, "bridge", 300, 85), p(1460, 575, "short-ledge", 250, 90),
+      p(1830, 665, "ground-platform", 390, 120), p(2200, 540, "bridge", 300, 85),
+      p(2580, 435, "short-ledge", 250, 90), p(2960, 540, "bridge", 300, 85),
+      p(3340, 665, "ground-platform", 400, 120), p(3720, 525, "short-ledge", 250, 90),
+      p(4100, 665, "ground-platform", 420, 120), p(4430, 665, "ground-platform", 280, 120),
+    ],
+    bounceAt: [1990, 585], checkpointAt: [2620, 350], portalAt: [4420, 530],
+    hazards: [{ x: 1900, y: 600, kind: "damage" }, { x: 3440, y: 600, kind: "damage" }],
+    crystals: [[1080, 350], [2580, 310], [3720, 400]],
+    enemies: [e("hopper", 1550, 500, 1430, 1660), e("crab", 3200, 585, 3070, 3300), e("snail", 4000, 585, 3880, 4090)],
+  },
+];
+
+export const movementStates = ["idle", "walk-contact", "walk-passing", "run", "jump-takeoff", "jump-airborne", "fall", "reunion"];
+export const powers = ["fire", "water", "ice", "lightning"];
+
+export function freshSave() {
+  return { version: 2, worldIndex: 0, hero: "boy", unlockedPowers: ["fire"], crystals: 0, completed: false };
+}
+
+export function normalizeSave(value) {
+  const base = freshSave();
+  if (!value || typeof value !== "object") return base;
+  return {
+    ...base,
+    worldIndex: Math.max(0, Math.min(worlds.length - 1, Number(value.worldIndex) || 0)),
+    hero: value.hero === "girl" ? "girl" : "boy",
+    unlockedPowers: powers.filter((power) => Array.isArray(value.unlockedPowers) && value.unlockedPowers.includes(power)),
+    crystals: Math.max(0, Number(value.crystals) || 0),
+    completed: Boolean(value.completed),
+  };
+}

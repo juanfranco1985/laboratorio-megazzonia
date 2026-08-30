@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "project": "Juego Delfi 2",
+  "generatedAt": "2026-08-12",
+  "generator": {
+    "mode": "built-in imagegen",
+    "postprocess": "remove_chroma_key.py",
+    "reference": "Ficha de sprites de los dos hermanos aportada por el usuario"
+  },
+  "narrative": {
+    "premise": "Dos hermanos viajan por universos distintos y se reencuentran en el mundo final.",
+    "entryMechanism": "undecided",
+    "worldOrder": "undecided",
+    "reunionWorld": "undecided"
+  },
+  "gridConvention": {
+    "columns": 4,
+    "rows": 2,
+    "order": "left-to-right, top-to-bottom",
+    "individualSprites": true,
+    "alpha": "real PNG transparency"
+  },
+  "characters": [
+    {
+      "id": "boy",
+      "sheet": "assets/generated/characters/boy-movement-v1.png",
+      "spritesDir": "assets/generated/characters/boy-movement",
+      "states": ["idle", "walk-contact", "walk-passing", "run", "jump-takeoff", "jump-airborne", "fall", "reunion"]
+    },
+    {
+      "id": "girl",
+      "sheet": "assets/generated/characters/girl-movement-v1.png",
+      "spritesDir": "assets/generated/characters/girl-movement",
+      "states": ["idle", "walk-contact", "walk-passing", "run", "jump-takeoff", "jump-airborne", "fall", "reunion"]
+    }
+  ],
+  "powers": {
+    "sheet": "assets/generated/characters/siblings-powers-v1.png",
+    "spritesDir": "assets/generated/characters/powers",
+    "sprites": ["boy-fire", "boy-water", "boy-ice", "boy-lightning", "girl-fire", "girl-water", "girl-ice", "girl-lightning"]
+  },
+  "shared": {
+    "sheet": "assets/generated/shared/shared-gameplay-kit-v1.png",
+    "spritesDir": "assets/generated/shared/gameplay-objects",
+    "sprites": ["portal-dormant", "portal-active", "checkpoint", "universe-crystal", "heart", "dimensional-key", "reward-block", "reunion-beacon"]
+  },
+  "worlds": [
+    {
+      "id": "galaxia",
+      "background": "assets/generated/worlds/galaxia/galaxia-background-v1.png",
+      "sheet": "assets/generated/worlds/galaxia/galaxia-environment-kit-v1.png",
+      "spritesDir": "assets/generated/worlds/galaxia/sprites",
+      "sprites": ["ground-platform", "short-ledge", "bridge", "bounce-pad", "checkpoint", "alien-column", "black-hole-hazard", "portal-frame"],
+      "suggestedEnemies": ["alien", "meteor_fire_pair", "star_friend", "dog_balloon"]
+    },
+    {
+      "id": "lava",
+      "background": "assets/generated/worlds/lava/lava-background-v1.png",
+      "sheet": "assets/generated/worlds/lava/lava-environment-kit-v1.png",
+      "spritesDir": "assets/generated/worlds/lava/sprites",
+      "sprites": ["ground-platform", "short-ledge", "bridge", "bounce-vent", "checkpoint", "lava-stalactite", "lava-geyser", "portal-frame"],
+      "suggestedEnemies": ["lava_tear", "biter", "gray_ball"]
+    },
+    {
+      "id": "oscuridad",
+      "background": "assets/generated/worlds/oscuridad/oscuridad-background-v1.png",
+      "sheet": "assets/generated/worlds/oscuridad/oscuridad-environment-kit-v1.png",
+      "spritesDir": "assets/generated/worlds/oscuridad/sprites",
+      "sprites": ["ground-platform", "short-ledge", "branch-bridge", "mist-bounce-pad", "checkpoint", "false-bush", "breakable-block", "portal-frame"],
+      "suggestedEnemies": ["pink_egg", "fake_tree", "bush_blob", "false_cat"]
+    },
+    {
+      "id": "oceano",
+      "background": "assets/generated/worlds/oceano/oceano-background-v1.png",
+      "sheet": "assets/generated/worlds/oceano/oceano-environment-kit-v1.png",
+      "spritesDir": "assets/generated/worlds/oceano/sprites",
+      "sprites": ["ground-platform", "shell-ledge", "dock-bridge", "pearl-bounce-pad", "checkpoint", "climbable-kelp", "water-spout", "portal-frame"],
+      "suggestedEnemies": ["crab", "penguin", "seal", "jumping_dolphin"]
+    },
+    {
+      "id": "fantasia",
+      "background": "assets/generated/worlds/fantasia/fantasia-background-v1.png",
+      "sheet": "assets/generated/worlds/fantasia/fantasia-environment-kit-v1.png",
+      "spritesDir": "assets/generated/worlds/fantasia/sprites",
+      "sprites": ["ground-platform", "cloud-ledge", "magic-bridge", "mushroom-bounce-pad", "checkpoint", "climbable-vine", "rune-block", "portal-frame"],
+      "suggestedEnemies": ["cotton_cloud", "flower_trio"]
+    },
+    {
+      "id": "pradera",
+      "background": "assets/generated/worlds/pradera/pradera-background-v1.png",
+      "sheet": "assets/generated/worlds/pradera/pradera-environment-kit-v1.png",
+      "spritesDir": "assets/generated/worlds/pradera/sprites",
+      "sprites": ["ground-platform", "flower-ledge", "wooden-bridge", "hay-bounce-pad", "checkpoint", "climbable-tree", "slime-slow-zone", "portal-frame"],
+      "suggestedEnemies": ["snail", "giraffe", "monkey", "bear_group", "zebra", "swallow_frog"]
+    },
+    {
+      "id": "desierto",
+      "background": "assets/generated/worlds/desierto/desierto-background-v1.png",
+      "sheet": "assets/generated/worlds/desierto/desierto-environment-kit-v1.png",
+      "spritesDir": "assets/generated/worlds/desierto/sprites",
+      "sprites": ["ground-platform", "short-ledge", "awning-bridge", "palm-bounce-pad", "checkpoint", "cactus-hazard", "sleeping-sand-mound", "portal-frame"],
+      "suggestedEnemies": ["sodaash", "sleeping_face"]
+    }
+  ],
+  "sourcePolicy": {
+    "preserveExistingOriginals": true,
+    "generatedChromaSources": "assets/generated/sources-chroma",
+    "runtimeOptimizationPending": true
+  }
+}

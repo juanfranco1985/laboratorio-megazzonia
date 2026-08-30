@@ -1,0 +1,18 @@
+JUEGO DELFI 2 - DOCUMENTACIÓN DE DISEÑO
+
+El instructivo de enemigos fue normalizado el 12 de agosto de 2026.
+
+Documentos oficiales:
+- INSTRUCTIVO_ENEMIGOS.md: comportamiento, estados, señales, efectos y animaciones requeridas.
+- ASSET_MANIFEST.md: inventario visual, correspondencias y problemas técnicos.
+- asset-manifest.json: manifiesto estructurado para futura automatización.
+
+Decisiones pendientes:
+- Personaje protagonista y sus capacidades.
+- Valores definitivos de vida, daño, velocidad y distancias.
+- Cantidad exacta de integrantes de Flower Trio.
+- Resultado positivo de esperar diez segundos frente a Cat.
+- Probabilidades de los resultados de Jumpin Dolphin.
+- Correspondencia definitiva de Tiralava.png y de la hoja colectiva Gemini.
+
+Los PNG originales son fuentes de preproducción y no deben sobrescribirse.

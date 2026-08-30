@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "project": "Juego Delfi 2",
+  "inventoryDate": "2026-08-12",
+  "sourcePolicy": {
+    "preserveOriginals": true,
+    "productionReady": false,
+    "declaredMode": "RGBA",
+    "hasRealTransparency": false,
+    "embeddedCheckerboard": true
+  },
+  "assets": [
+    {"id":"alien_sheet","file":"Alien.png","size":[1177,912],"sha256":"4983211428F0EC02AFF59C0C60AC45E86850AE037105D8E9ACF1CCB8C6510986","mapsTo":["alien"],"confidence":"high"},
+    {"id":"biter_sheet","file":"biter.png","size":[928,1130],"sha256":"5BC8145B7EC6C3D61E5DD050C22479D8D1FBD137070A2BDEAA04136F773A5C51","mapsTo":["biter"],"confidence":"high"},
+    {"id":"crab_sheet","file":"Cangrejo.png","size":[1247,864],"sha256":"843CBD114FE00CB69BFA52BA8F4CE1277B68F6E5D7E6997F007DA644F201B44B","mapsTo":["crab"],"confidence":"high"},
+    {"id":"snail_sheet","file":"Caracol.png","size":[1395,752],"sha256":"EA6C208DC83FE131D073F1E287C7B40C785D735D864E71685E415CE67846B45C","mapsTo":["snail"],"confidence":"high"},
+    {"id":"false_cat_sheet","file":"cat.png","size":[1408,768],"sha256":"D33D087CDCD3864D66B5899542EED54EBD929730EA50B15F7B1852057C1AF2BF","mapsTo":["false_cat"],"confidence":"high"},
+    {"id":"cotton_cloud_sheet","file":"cotton cloud.png","size":[1470,704],"sha256":"3C5876921748D5CED48F08756F514865EE0C2BE8F0BCEC2256FB8083AD27C996","mapsTo":["cotton_cloud"],"confidence":"high"},
+    {"id":"dog_balloon_sheet","file":"dogballoon.png","size":[688,1529],"sha256":"5ADC7E3E8D3C99ECF3569A48405F19B092380B6F3A7CA70A031C110BFB4DCCD5","mapsTo":["dog_balloon"],"confidence":"high"},
+    {"id":"fake_tree_sheet","file":"Faketree.png","size":[1008,1067],"sha256":"D1012C13C75C395C61969ED5578FDD9CC7AC03F0C1E55A462B6B805819415645","mapsTo":["fake_tree"],"confidence":"high"},
+    {"id":"collective_sheet","file":"Gemini_Generated_Image_hdpb4fhdpb4fhdpb.png","size":[1509,688],"sha256":"B1A59BCE86AB5CC0AA4DB7C990B44188D2EFB929208D5FD2EE588D689731B60B","mapsTo":["meteor_fire_pair","star_friend","lava_tear","sleeping_face","bush_blob","flower_trio","jumping_dolphin"],"confidence":"low"},
+    {"id":"gray_ball_sheet","file":"Grayball.png","size":[1076,992],"sha256":"2DD9665482F59FDB3B25D8B3EF8242E6F35E20362BAD139C4232CE5DDFA389F7","mapsTo":["gray_ball"],"confidence":"high"},
+    {"id":"bear_group_sheet","file":"group of bears.png","size":[1055,1008],"sha256":"770E109383798C54DFFD395CED21880D9F6AC5D9FD80527AA145AF04874C1E7B","mapsTo":["bear_group"],"confidence":"high"},
+    {"id":"giraffe_sheet","file":"jirafa.png","size":[896,1195],"sha256":"0D2B5B374CE338DF818A1877225111691A148CA366A4B467673F0E50D576ECCB","mapsTo":["giraffe"],"confidence":"high"},
+    {"id":"monkey_sheet","file":"mono.png","size":[1559,672],"sha256":"4FADB17D70750C2C385284E95E74FF585453A1F000B853E87685300C788E3FD7","mapsTo":["monkey"],"confidence":"high"},
+    {"id":"penguin_seal_sheet","file":"pinguino y foca.png","size":[1456,731],"sha256":"A4BBC807892B5A653E892B053B2352414C0816BE2C1CB3186C3240F5B7E1B25B","mapsTo":["penguin","seal"],"confidence":"high"},
+    {"id":"pink_egg_sheet","file":"pinkegg.png","size":[1600,672],"sha256":"3F1E18F1E376A2D1DA1E8BE3F6C980BFBF452772D9778A361F0D0637D7465D76","mapsTo":["pink_egg"],"confidence":"high"},
+    {"id":"swallow_frog_sheet","file":"Sapo.png","size":[1150,912],"sha256":"FE5FB2537257C8A4118280000D704A3E3EF387ED3C5097CDB3DE94128D597F4C","mapsTo":["swallow_frog"],"confidence":"high"},
+    {"id":"sodaash_sheet","file":"Sodaash.png","size":[1042,1008],"sha256":"97E48B00F8A78EB37599F16BD40CC607ABBEAEAB9A622D4EC4932AE8402A8B69","mapsTo":["sodaash"],"confidence":"high"},
+    {"id":"lava_sheet","file":"Tiralava.png","size":[1408,768],"sha256":"467C006B3562202850755C2C3CA48BD1A13E87E0FCCFBDCAD238BC9DF4C34BA1","mapsTo":["lava_tear","meteor_fire_pair"],"confidence":"medium"},
+    {"id":"zebra_sheet","file":"Zebra.png","size":[992,1076],"sha256":"F897B074763BA4901F7C9ED433061145AB097041B27C0AA08649C91EA91E25C0","mapsTo":["zebra"],"confidence":"high"}
+  ],
+  "entities": ["snail","crab","giraffe","pink_egg","monkey","bear_group","sodaash","biter","cotton_cloud","alien","zebra","gray_ball","penguin","seal","fake_tree","swallow_frog","meteor_fire_pair","star_friend","lava_tear","sleeping_face","bush_blob","flower_trio","jumping_dolphin","false_cat","dog_balloon"],
+  "unresolved": [
+    "Confirmar regiones e identidades de la hoja colectiva Gemini.",
+    "Confirmar si Tiralava corresponde a lava_tear, meteor_fire_pair o ambos.",
+    "Confirmar si Flower Trio contiene dos o tres flores.",
+    "Definir el resultado positivo de esperar diez segundos frente a false_cat.",
+    "Fijar probabilidades de jumping_dolphin."
+  ]
+}

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Prototipo técnico de plataformas de Juego Delfi 2." />
+    <title>Juego Delfi 2 — Laboratorio de mundos</title>
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <span class="eyebrow">Megazzonia Lab</span>
+          <h1>Juego Delfi 2</h1>
+        </div>
+        <p>Laboratorio jugable de escala, colisiones y mundos</p>
+      </header>
+      <section class="game-frame" aria-label="Prototipo de plataformas">
+        <div id="game"></div>
+        <div class="touch-controls" aria-label="Controles táctiles">
+          <button data-control="left" aria-label="Mover a la izquierda">◀</button>
+          <button data-control="right" aria-label="Mover a la derecha">▶</button>
+          <button data-control="jump" class="jump" aria-label="Saltar">▲</button>
+        </div>
+      </section>
+      <footer>
+        <span>Flechas/WASD: mover · Espacio: saltar · C: cambiar hermano</span>
+        <span>Q/E o 1–7: cambiar mundo · R: reiniciar</span>
+      </footer>
+    </main>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

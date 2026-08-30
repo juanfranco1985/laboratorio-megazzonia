@@ -1,0 +1,261 @@
+import Phaser from "phaser";
+import "./styles.css";
+
+const asset = (path) => new URL(`../assets/runtime/${path}`, import.meta.url).href;
+
+const WORLD_WIDTH = 4600;
+const VIEW_WIDTH = 1280;
+const VIEW_HEIGHT = 720;
+
+const worlds = [
+  { id: "pradera", name: "PRADERA", tint: 0xa8e46a, ground: "ground-platform", ledge: "flower-ledge", bridge: "wooden-bridge", bounce: "hay-bounce-pad", hazard: "slime-slow-zone", portal: "portal-frame" },
+  { id: "desierto", name: "DESIERTO", tint: 0xf4c36a, ground: "ground-platform", ledge: "short-ledge", bridge: "awning-bridge", bounce: "palm-bounce-pad", hazard: "cactus-hazard", portal: "portal-frame" },
+  { id: "oceano", name: "OCÉANO", tint: 0x6ee6ed, ground: "ground-platform", ledge: "shell-ledge", bridge: "dock-bridge", bounce: "pearl-bounce-pad", hazard: "water-spout", portal: "portal-frame" },
+  { id: "fantasia", name: "FANTASÍA", tint: 0xf2d9ff, ground: "ground-platform", ledge: "cloud-ledge", bridge: "magic-bridge", bounce: "mushroom-bounce-pad", hazard: "rune-block", portal: "portal-frame" },
+  { id: "oscuridad", name: "OSCURIDAD", tint: 0x9aa9ff, ground: "ground-platform", ledge: "short-ledge", bridge: "branch-bridge", bounce: "mist-bounce-pad", hazard: "false-bush", portal: "portal-frame" },
+  { id: "lava", name: "LAVA", tint: 0xff875f, ground: "ground-platform", ledge: "short-ledge", bridge: "bridge", bounce: "bounce-vent", hazard: "lava-geyser", portal: "portal-frame" },
+  { id: "galaxia", name: "GALAXIA", tint: 0x8ee9ff, ground: "ground-platform", ledge: "short-ledge", bridge: "bridge", bounce: "bounce-pad", hazard: "black-hole-hazard", portal: "portal-frame" }
+];
+
+const movementStates = ["idle", "walk-contact", "walk-passing", "run", "jump-takeoff", "jump-airborne", "fall", "reunion"];
+
+class PrototypeScene extends Phaser.Scene {
+  constructor() {
+    super("prototype");
+    this.worldIndex = 0;
+    this.hero = "boy";
+    this.touch = { left: false, right: false, jump: false };
+  }
+
+  preload() {
+    for (const hero of ["boy", "girl"]) {
+      for (const state of movementStates) this.load.image(`${hero}-${state}`, asset(`characters/${hero}/${state}-v1.png`));
+    }
+
+    for (const world of worlds) {
+      this.load.image(`${world.id}-background`, asset(`worlds/${world.id}/background.png`));
+      for (const key of new Set([world.ground, world.ledge, world.bridge, world.bounce, world.hazard, world.portal, "checkpoint"])) {
+        this.load.image(`${world.id}-${key}`, asset(`worlds/${world.id}/sprites/${key}-v1.png`));
+      }
+    }
+  }
+
+  create() {
+    this.physics.world.setBounds(0, 0, WORLD_WIDTH, VIEW_HEIGHT);
+    this.cameras.main.setBounds(0, 0, WORLD_WIDTH, VIEW_HEIGHT);
+    this.cameras.main.setBackgroundColor("#050914");
+
+    this.keys = this.input.keyboard.addKeys({
+      left: Phaser.Input.Keyboard.KeyCodes.LEFT,
+      right: Phaser.Input.Keyboard.KeyCodes.RIGHT,
+      up: Phaser.Input.Keyboard.KeyCodes.UP,
+      a: Phaser.Input.Keyboard.KeyCodes.A,
+      d: Phaser.Input.Keyboard.KeyCodes.D,
+      w: Phaser.Input.Keyboard.KeyCodes.W,
+      space: Phaser.Input.Keyboard.KeyCodes.SPACE,
+      q: Phaser.Input.Keyboard.KeyCodes.Q,
+      e: Phaser.Input.Keyboard.KeyCodes.E,
+      c: Phaser.Input.Keyboard.KeyCodes.C,
+      r: Phaser.Input.Keyboard.KeyCodes.R
+    });
+
+    this.input.keyboard.on("keydown-ONE", () => this.loadWorld(0));
+    this.input.keyboard.on("keydown-TWO", () => this.loadWorld(1));
+    this.input.keyboard.on("keydown-THREE", () => this.loadWorld(2));
+    this.input.keyboard.on("keydown-FOUR", () => this.loadWorld(3));
+    this.input.keyboard.on("keydown-FIVE", () => this.loadWorld(4));
+    this.input.keyboard.on("keydown-SIX", () => this.loadWorld(5));
+    this.input.keyboard.on("keydown-SEVEN", () => this.loadWorld(6));
+
+    this.bindTouchControls();
+    this.loadWorld(0);
+  }
+
+  bindTouchControls() {
+    document.querySelectorAll("[data-control]").forEach((button) => {
+      const control = button.dataset.control;
+      const set = (value) => { this.touch[control] = value; };
+      button.addEventListener("pointerdown", (event) => { event.preventDefault(); set(true); });
+      for (const name of ["pointerup", "pointercancel", "pointerleave"]) button.addEventListener(name, () => set(false));
+    });
+  }
+
+  clearWorld() {
+    for (const key of ["background", "midDecor", "platforms", "bouncers", "sensors", "hazards", "portal", "player", "hud"]) {
+      this[key]?.destroy(true);
+      this[key] = null;
+    }
+  }
+
+  loadWorld(index) {
+    this.worldIndex = Phaser.Math.Wrap(index, 0, worlds.length);
+    const world = worlds[this.worldIndex];
+    this.clearWorld();
+
+    this.background = this.add.tileSprite(0, 0, VIEW_WIDTH + 500, VIEW_HEIGHT, `${world.id}-background`)
+      .setOrigin(0).setScrollFactor(0).setDepth(-20);
+    this.background.setTileScale(0.77, 0.77);
+
+    this.midDecor = this.add.tileSprite(0, 380, WORLD_WIDTH, 340, `${world.id}-background`)
+      .setOrigin(0).setScrollFactor(0.18, 1).setAlpha(0.16).setTint(world.tint).setDepth(-10);
+    this.midDecor.setTileScale(0.42, 0.42);
+
+    this.platforms = this.physics.add.staticGroup();
+    this.bouncers = this.physics.add.staticGroup();
+    this.sensors = this.physics.add.staticGroup();
+    this.hazards = this.physics.add.staticGroup();
+
+    const layout = [
+      [280, 665, world.ground, 520, 120], [830, 665, world.ground, 520, 120],
+      [1320, 560, world.ledge, 300, 105], [1710, 665, world.ground, 560, 120],
+      [2180, 505, world.bridge, 360, 120], [2610, 665, world.ground, 560, 120],
+      [3060, 540, world.ledge, 300, 105], [3450, 665, world.ground, 560, 120],
+      [4050, 665, world.ground, 600, 120]
+    ];
+    for (const [x, y, key, width, height] of layout) this.addPlatform(world, key, x, y, width, height);
+
+    const bounce = this.addStaticSprite(this.bouncers, world, world.bounce, 2860, 579, 150, 100);
+    bounce.setData("kind", "bounce");
+    const checkpoint = this.addStaticSprite(this.sensors, world, "checkpoint", 1910, 535, 92, 150);
+    checkpoint.setData("kind", "checkpoint");
+    const hazard = this.addStaticSprite(this.hazards, world, world.hazard, 3290, 592, 145, 100);
+    hazard.setData("kind", world.id === "pradera" ? "slow" : "damage");
+    this.portal = this.addStaticSprite(this.sensors, world, world.portal, 4320, 530, 150, 225);
+    this.portal.setData("kind", "portal");
+
+    this.spawnPlayer(160, 520);
+    this.createHud(world);
+
+    this.physics.add.collider(this.player, this.platforms);
+    this.physics.add.collider(this.player, this.bouncers, (player, object) => this.onInteractive(object));
+    this.physics.add.overlap(this.player, this.sensors, (player, object) => this.onInteractive(object));
+    this.physics.add.overlap(this.player, this.hazards, (player, object) => this.onHazard(object));
+    this.cameras.main.startFollow(this.player, true, 0.09, 0.09, -260, 70);
+    this.cameras.main.fadeIn(250);
+  }
+
+  addPlatform(world, key, x, y, width, height) {
+    const sprite = this.addStaticSprite(this.platforms, world, key, x, y, width, height);
+    sprite.body.setSize(sprite.width * 0.94, Math.max(8, sprite.height * 0.26));
+    sprite.body.setOffset((sprite.width - sprite.body.width) / 2, 2);
+    sprite.refreshBody();
+    return sprite;
+  }
+
+  addStaticSprite(group, world, key, x, y, width, height) {
+    const sprite = group.create(x, y, `${world.id}-${key}`).setOrigin(0.5, 1).setDisplaySize(width, height);
+    sprite.refreshBody();
+    return sprite;
+  }
+
+  spawnPlayer(x, y) {
+    this.player = this.physics.add.sprite(x, y, `${this.hero}-idle`).setOrigin(0.5, 1).setDepth(10);
+    this.player.setDisplaySize(this.hero === "boy" ? 82 : 76, 112);
+    this.player.body.setSize(this.player.width * 0.52, this.player.height * 0.78);
+    this.player.body.setOffset(this.player.width * 0.24, this.player.height * 0.18);
+    this.player.setCollideWorldBounds(true).setBounce(0.02).setDragX(1450).setMaxVelocity(360, 900);
+    this.player.body.setGravityY(1080);
+    this.player.setData({ lastCheckpointX: x, lastCheckpointY: y, health: 3, slowedUntil: 0 });
+    this.setHeroFrame("idle");
+  }
+
+  setHeroFrame(state) {
+    const width = this.hero === "boy" ? 82 : 76;
+    this.player.setTexture(`${this.hero}-${state}`).setDisplaySize(width, 112);
+  }
+
+  createHud(world) {    this.hud = this.add.container(0, 0).setScrollFactor(0).setDepth(50);
+    const panel = this.add.rectangle(20, 18, 620, 92, 0x04101d, 0.82).setOrigin(0).setStrokeStyle(1, world.tint, 0.7);
+    const title = this.add.text(42, 32, `MUNDO ${this.worldIndex + 1}/7 · ${world.name}`, { fontFamily: "Arial", fontSize: "27px", fontStyle: "bold", color: "#ffffff" });
+    const subtitle = this.add.text(42, 68, "Sala técnica · escala 112 px · física Arcade · cámara 16:9", { fontFamily: "Arial", fontSize: "15px", color: "#c6d8e7" });
+    this.statusText = this.add.text(980, 28, "❤ ❤ ❤", { fontFamily: "Arial", fontSize: "24px", color: "#ffffff" });
+    this.hud.add([panel, title, subtitle, this.statusText]);
+  }
+
+  onInteractive(object) {
+    const kind = object.getData("kind");
+    if (kind === "bounce" && this.player.body.touching.down) this.player.setVelocityY(-690);
+    if (kind === "checkpoint" && !object.getData("active")) {
+      object.setData("active", true).setTint(0xffffff);
+      this.player.setData("lastCheckpointX", object.x);
+      this.player.setData("lastCheckpointY", object.y - 150);
+      this.cameras.main.flash(180, 80, 220, 255);
+    }
+    if (kind === "portal" && !object.getData("transitioning")) {
+      object.setData("transitioning", true);
+      this.cameras.main.fadeOut(180);
+      this.time.delayedCall(190, () => this.loadWorld(this.worldIndex + 1));
+    }
+  }
+
+  onHazard(object) {
+    const now = this.time.now;
+    if (object.getData("kind") === "slow") {
+      this.player.setData("slowedUntil", now + 180);
+      return;
+    }
+    if (now < (this.player.getData("invulnerableUntil") || 0)) return;
+    const health = this.player.getData("health") - 1;
+    this.player.setData("health", health);
+    this.player.setData("invulnerableUntil", now + 900);
+    this.player.setTint(0xff8888).setVelocity(this.player.x < object.x ? -310 : 310, -380);
+    this.time.delayedCall(300, () => this.player?.clearTint());
+    if (health <= 0) this.respawn();
+  }
+
+  respawn() {
+    this.player.setPosition(this.player.getData("lastCheckpointX"), this.player.getData("lastCheckpointY"));
+    this.player.setVelocity(0, 0).setData("health", 3).setData("invulnerableUntil", this.time.now + 1000);
+    this.cameras.main.fadeIn(180);
+  }
+
+  update() {
+    if (!this.player?.body) return;
+    if (Phaser.Input.Keyboard.JustDown(this.keys.q)) this.loadWorld(this.worldIndex - 1);
+    if (Phaser.Input.Keyboard.JustDown(this.keys.e)) this.loadWorld(this.worldIndex + 1);
+    if (Phaser.Input.Keyboard.JustDown(this.keys.r)) this.respawn();
+    if (Phaser.Input.Keyboard.JustDown(this.keys.c)) {
+      this.hero = this.hero === "boy" ? "girl" : "boy";
+      this.setHeroFrame("idle");
+    }
+
+    const left = this.keys.left.isDown || this.keys.a.isDown || this.touch.left;
+    const right = this.keys.right.isDown || this.keys.d.isDown || this.touch.right;
+    const jumpPressed = Phaser.Input.Keyboard.JustDown(this.keys.space) || Phaser.Input.Keyboard.JustDown(this.keys.up) || Phaser.Input.Keyboard.JustDown(this.keys.w) || this.touch.jump;
+    const grounded = this.player.body.blocked.down || this.player.body.touching.down;
+    const slowed = this.time.now < this.player.getData("slowedUntil");
+    const speed = slowed ? 135 : 265;
+
+    if (left !== right) {
+      this.player.setAccelerationX(left ? -1100 : 1100).setFlipX(left);
+      if (grounded) this.setHeroFrame(Math.abs(this.player.body.velocity.x) > 210 ? "run" : (Math.floor(this.time.now / 150) % 2 ? "walk-contact" : "walk-passing"));
+    } else {
+      this.player.setAccelerationX(0);
+      if (grounded) this.setHeroFrame("idle");
+    }
+    this.player.setMaxVelocity(speed, 900);
+
+    if (jumpPressed && grounded) {
+      this.player.setVelocityY(-590);
+      this.touch.jump = false;
+    }
+    if (!grounded) this.setHeroFrame(this.player.body.velocity.y < 20 ? "jump-airborne" : "fall");
+    if (this.player.y > VIEW_HEIGHT + 80) this.respawn();
+
+    const health = Math.max(0, this.player.getData("health"));
+    this.statusText.setText(`${this.hero === "boy" ? "CHICO" : "CHICA"}   ${"❤ ".repeat(health)}${"· ".repeat(3 - health)}`);
+    this.background.tilePositionX = this.cameras.main.scrollX * 0.08;
+  }
+}
+
+new Phaser.Game({
+  type: Phaser.AUTO,
+  parent: "game",
+  width: VIEW_WIDTH,
+  height: VIEW_HEIGHT,
+  backgroundColor: "#050914",
+  physics: { default: "arcade", arcade: { debug: false } },
+  scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
+  render: { antialias: true, roundPixels: true },
+  scene: [PrototypeScene]
+});
